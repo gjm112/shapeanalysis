@@ -1,0 +1,158 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amssymb}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\section{Introduction}
+Consider a closed curve: 
+$$
+C: \mathbb{S} \rightarrow \mathbb{R}^2 
+$$
+
+Shapes should be invariant across several transformations including translation, scaling, rotation, and reparameterizaion.  Specifically, the shape $C$ is defined to be the equivalence class
+
+$$
+C = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathcal{R}^2, \sigma > 0\} 
+$$
+
+Consider the curve $C_j^m: \mathbb{S} \rightarrow \mathbb{R}^2, j = 1, \dots, n_m$ which is only observe on some region (don't want to use R here...) $S_j \subset \mathbb{S}$.  The goal here is to impute the missing part of each shape.  Then perform some type of complete shape analysis.  
+
+
+
+
+\section{Notation}
+% $$
+% C: [0,1] \rightarrow \mathbb{R}^2 \times \left\{0,1\right\}^2
+% $$
+$$
+C: \mathbb{S} \rightarrow \mathbb{R}^2 
+$$
+In general, we have a missingness function like this.  This allows for us to be missing the $x$ or $y$ value individually at a given point along the curve.  We aren't really going to deal with that case here so we are dealing with something a little more specific.  
+$$
+R: \mathbb{S} \rightarrow \left\{0,1\right\}^2
+$$
+We are really dealing with this:  
+$$
+R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
+$$
+This means that at any given location that we are missing a value, both the $x$ and $y$ values are missing.  
+
+
+
+Here $R$ is a missingness indicator function.  It is 1 when the value of $C$ is unobserved and 0 otherwise. \\ 
+
+The set of fully observed shapes is the set $\mathcal{C}^o$ and contains $n_o$ shapes; the set of partially observed shapes is the set $\mathcal{C}^m$ and contains $n_m$ shapes.  Together $(\mathcal{C}^o,\mathcal{C}^m) = \mathcal{C}$ \\
+
+
+Next we want to consider the joint distribution of the curves with the missingnes indicator.  
+$$
+P(C, R) = P(C_{obs}, C_{mis}, R)
+$$
+
+Bayesian approach: 
+Construct a model for 
+$$
+P(C_{obs}, C_{mis}, R | \theta, \phi)
+$$
+where $\theta$ is a vector of parameters associated with modeling the data and $\phi$ are parameters associated with the model of the missing data mechanism. 
+
+We then seek this distribution: 
+$$
+\int\int P(C_{mis}|\theta, \phi) P(\theta, \phi|C_{obs}, C_{mis}, R ) d\theta d\phi = P(C_{mis}|C_{obs},R)
+$$
+
+Random draws from the distribution $P(C_{mis}|C_{obs},R)$ can then be used to to fill in the missing part of the shape. 
+
+
+Each partially observed shape can be completed $M$ times.  This yields $M$ sets of completed shapes.  
+
+\section{Combining}
+\subsection{Shape Analysis}
+Let's say we wanted to ask a statistical question where the answer was a shape (e.g What is the average shape?).  I propose to answer this question, you first find the karcher mean within each of the $M$ completed data sets and then you find the karcher mean of the $M$ means across the completed data sets. This is analagous to Rubin's conbining rules. \\
+
+It would be nice to try to come up with something like a "95 percent shape shadow".  Like a band around the tooth showing the uncertainty around the mean shape. \\
+
+\subsection{Traditional Analysis}
+There are other types of analysis, like classification, where the results might be probabilities or other traditional statistical quantitities.  I believe that these can be combined across imputatations using Rubin's classic combining rules.  
+
+
+\section{Approximating $P(C_{mis}|C_{obs},R)$}
+
+The distribution $P(C_{mis}|C_{obs},R)$ can be approximated non-parametrically by employing a hot deck type procedure similar to the idea of predictive mean matching in traditional missing data imputation. \\
+
+We first perform a matching step.
+Consider a shape $C_{i}^m \in \mathcal{C}^m$ and a 
+
+
+
+
+
+
+
+
+
+
+What if we took all the complete shapes and aligned them 
+
+
+
+We can represent shapes using finite representations.\\
+An issue here though is that these are really just one realization from an equivalence class.   \\
+MAR here means that the proability of missingness is a function of only the observes part of the shape. This seems inrealistic in our setting.  
+
+%\cite{deRuiter2008}
+%\bibliographystyle{chicago}
+%\bibliography{shapebib}
+
+\end{document}
