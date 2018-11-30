@@ -35,6 +35,7 @@
 
 \section{Introduction}
 KAJAL's (and grady) Lit review
+\citet{AdamsConroy2005}
 
 
 \section{Notation}
@@ -143,9 +144,13 @@ What if we took all the complete shapes and aligned them
 
 We can represent shapes using finite representations.\\
 An issue here though is that these are really just one realization from an equivalence class.   \\
-MAR here means that the proability of missingness is a function of only the observes part of the shape. This seems inrealistic in our setting.  
+MAR here means that the proability of missingness is a function of only the observes part of the shape. This seems \citet{deRuiter2008} inrealistic in our setting.  
 
-\citet{deRuiter2008}
+
+
+
+
+
 \bibliographystyle{chicago}
 \bibliography{shapebib}
 
