@@ -100,12 +100,10 @@ ShiftF <- function(p, tau){
 
 
 ShiftF <- function(vec, rotations){
-  
   vec_index <- 1:ncol(vec)
   vec_index <- vec_index - rotations
   vec <- cbind(vec[,sign(vec_index) == 1], vec[,sign(vec_index) != 1])
   vec
-  
 }
 
 find_best_rotation <- function(q1, q2){

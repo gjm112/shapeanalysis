@@ -6,10 +6,10 @@ source("/Users/gregorymatthews/Dropbox/shapeanalysisgit/R/calc_shape_dist_partia
 
 
 
-complete_shape <- t(ptsTrainList[[1]][[2]])
- partial_shape <- t(ptsTrainList[[1]][[1]][11:42,])
+#complete_shape <- t(ptsTrainList[[1]][[2]])
+# partial_shape <- t(ptsTrainList[[1]][[1]][11:42,])
 
- complete_partial_shape(complete_shape,partial_shape)
+ #complete_partial_shape(complete_shape,partial_shape)
  
 complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE){
   
@@ -36,14 +36,17 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE){
   library(fdasrvf)
   #Note: resamplecurve is using splines 
   #Does this sampl ing need to 
-  partial_shape_closed <- resamplecurve(partial_shape_closed,N_complete_new)
+  #partial_shape_closed <- resamplecurve(partial_shape_closed,N_complete_new)
   
-  newpt <- which(t < olddel[N_partial])
-  newpt <- newpt[length(newpt)]
+  #newpt <- which(t < olddel[N_partial])
+  #newpt <- newpt[length(newpt)]
   
   #Resample the complete and missing parts
-  partial_shape_closed_obs <- resamplecurve(partial_shape_closed[,1:newpt],N)
-  partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,newpt:dim(partial_shape_closed)[2]],N)
+  #partial_shape_closed_obs <- resamplecurve(partial_shape_closed[,1:newpt],N)
+  #partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,newpt:dim(partial_shape_closed)[2]],N)
+  
+  partial_shape_closed_obs <- resamplecurve(partial_shape_closed[,1:(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1))],N)
+  partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1)):dim(partial_shape_closed)[2]],N)
   
   #Find the centroid of the observed part
   cent1 <- apply(partial_shape_closed_obs,1, mean)
