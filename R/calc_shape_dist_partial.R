@@ -111,7 +111,7 @@ calc_shape_dist_partial <- function(complete_shape, partial_shape){
   
   #ccompnew <- cbind(partial_shape_obs,partial_shape_mis[,2:dim(partial_shape_mis)[2]])
   
-  dist <- calc_shape_dist(complete_shape_obs,partial_shape_closed_obs, mode = "C")  
+  dist <- calc_shape_dist(complete_shape_obs,partial_shape_closed_obs, mode = "O")  
   return(dist)
 
 }
