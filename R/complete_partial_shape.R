@@ -1,11 +1,8 @@
-source("/Users/gregorymatthews/Dropbox/shapeanalysisgit/R/calc_shape_dist_partial.R")
+#source("/Users/gregorymatthews/Dropbox/shapeanalysisgit/R/calc_shape_dist_partial.R")
 ##################################################################
 #This function takes in ONE complete donors (i.e. completed shapes) and ONE partial shape.  
 #It then return the completed shape
 ##################################################################
-
-
-
 #complete_shape <- t(ptsTrainList[[1]][[2]])
 # partial_shape <- t(ptsTrainList[[1]][[1]][11:42,])
 
