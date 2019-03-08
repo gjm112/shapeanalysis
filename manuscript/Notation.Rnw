@@ -28,11 +28,14 @@
 \usepackage[table]{xcolor}
 
 
+
+
+
+
+
+
+
 \begin{document}
-
-
-
-
 \section{Introduction}
 KAJAL's (and grady) Lit review
 
@@ -49,7 +52,7 @@ $$
 C = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathcal{R}^2, \sigma > 0\} 
 $$
 
-Consider the curve $C_j^m: \mathbb{S} \rightarrow \mathbb{R}^2, j = 1, \dots, n_m$ which is only observe on some region (don't want to use R here...) $S_j \subset \mathbb{S}$.  The goal here is to impute the missing part of each shape.  Then perform some type of complete shape analysis.  
+%Consider the curve $C_j^m: \mathbb{S} \rightarrow \mathbb{R}^2, j = 1, \dots, n_m$ which is only observe on some region (don't want to use R here...) $S_j \subset \mathbb{S}$.  The goal here is to impute the missing part of each shape.  Then perform some type of complete shape analysis.  
 
 
 
@@ -58,37 +61,96 @@ Consider the curve $C_j^m: \mathbb{S} \rightarrow \mathbb{R}^2, j = 1, \dots, n_
 % $$
 % C: [0,1] \rightarrow \mathbb{R}^2 \times \left\{0,1\right\}^2
 % $$
+Consider a closed curve, $C$, in two dimensions: 
 $$
 C: \mathbb{S} \rightarrow \mathbb{R}^2 
+$$.
+
+Since, shapes should be invariant across several transformations including translation, scaling, rotation, and reparameterizaion, the shape $C$ is defined to be the equivalence class
+
 $$
-In general, we have a missingness function like this.  This allows for us to be missing the $x$ or $y$ value individually at a given point along the curve.  We aren't really going to deal with that case here so we are dealing with something a little more specific.  
+C = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathcal{R}^2, \sigma > 0\} 
+$$. 
+
+Consider a set of shapes $\mathcal{C}$, containing some fully observed shapes and some partially observed shapes.  We define the set of fully observed shapes to be called 
+$$
+\mathcal{C}^o = (C^o_1 \cdots C^o_{n_o})
+$$
+
+whereas the set of partially observed shapes is the referred to as 
+
+$$
+\mathcal{C}^m = (C^m_1 \cdots C^m_{n_m})
+$$.  
+
+Each $C^m_j$ consists of a the observed part $C^m_{j,obs}$ and the missing part $C^m_{j,mis}$ such that $C^m_j = (C^m_{j,obs},C^m_{j,mis})$.  That is 
+
+$$
+C^m_{j,mis} = C_j: [a,b] \rightarrow \mathbb{R}^2
+$$
+where
+$$
+[a,b] = {x \in \mathcal{S} | R'_j(x) = 1}
+$$.
+
+So 
+
+$$
+\mathcal{C}^m_{obs} = (C^m_{1,obs} \cdots C^m_{n_m,obs})
+$$
+
+and 
+
+$$
+\mathcal{C}^m_{mis} = (C^m_{1,mis} \cdots C^m_{n_m,mis})
+$$
+
+We then have 
+
+$$
+\mathcal{C} = (\mathcal{C}^o,\mathcal{C}^m) = (\mathcal{C}^o,\mathcal{C}^m_{mis},\mathcal{C}^m_{obs})
+$$ 
+
+and $n = n_o + n_m$. \\
+
+In traditional missing data settings, a missingness indicator is defined such that it is 1 when a data point is missing and 0 otherwise.  In this setting we define a function indicating which part of the function is observed and which is missing.  This function is called $R$ and is defined as follows: 
+
 $$
 R: \mathbb{S} \rightarrow \left\{0,1\right\}^2
 $$
-We are really dealing with this:  
+
+While this function allows for a curve to be missing the $x$ or $y$ value individually at a given point in $\mathbb{S}$, in our setting both the $x$ and $y$ values are either both observed or both missing, and the indicator function in our setting is defined as follows: 
+
 $$
-R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
+R': \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
 $$
-This means that at any given location that we are missing a value, both the $x$ and $y$ values are missing.  
 
+We will work with $R'$ as a missingness indicator function here, and it is 1 when the values of $(x(t),y(t))$ are both unobserved and 0 if both $(x(t),y(t))$ are observed where $t \in \mathbb{S}$.  The set of all missingness functions is defined to be $\mathcal{R} = (R'_1, \cdots, R'_n)$.     \\ 
 
+Next, we want to consider the joint distribution of the set of curves $\mathcal{C}$ and the set of missingness indicator functions $\mathcal{R}$.  
 
-Here $R$ is a missingness indicator function.  It is 1 when the value of $C$ is unobserved and 0 otherwise. \\ 
-
-The set of fully observed shapes is the set $\mathcal{C}^o$ and contains $n_o$ shapes; the set of partially observed shapes is the set $\mathcal{C}^m$ and contains $n_m$ shapes.  Together $(\mathcal{C}^o,\mathcal{C}^m) = \mathcal{C}$ \\
-
+%How do I say this: However, since the shape spaces that we are interested in this context are non-linear and infinite dimensional we need to take care when defining a probability density function over this space.  Specifically we are interested in defining this density function over a manifold $M = \mathbb{S}$ as opposed to the manifold that is used in traditional statistical settings: $M = \mathbb{R}^n$.  
 
 Next we want to consider the joint distribution of the curves with the missingnes indicator.  
+
 $$
-P(C, R) = P(C_{obs}, C_{mis}, R)
+P(\mathcal{C}, \mathcal{R}) = P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})
 $$
 
-Bayesian approach: 
-Construct a model for 
+In order to perform imputations we first need to define a model for the likelihood: 
+
 $$
-P(C_{obs}, C_{mis}, R | \theta, \phi)
+P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi)
 $$
-where $\theta$ is a vector of parameters associated with modeling the data and $\phi$ are parameters associated with the model of the missing data mechanism. 
+
+where $\theta$ is a vector of parameters associated with modeling the data (i.e. $\mathcal{C}$) and $\phi$ are parameters associated with the model of the missing data mechanism (i.e. $\mathcal{R}'$). 
+
+We can then place a prior distribution on the parameters $p(\theta, \phi)$ which will lead to a posterior probability: 
+
+$$
+P( \theta, \phi|\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})\propto P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi) \times p(\theta, \phi)
+$$
+
 
 We then seek this distribution: 
 $$
