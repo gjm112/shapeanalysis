@@ -50,7 +50,7 @@ impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M =
     imputed_partial_list_out[[j]] <- imputed_partial_list[[donor_indices[j]]]
   }
   
-  out <- list(imputed = imputed_partial_list_out, partial_obs = imp$partial_obs)
+  out <- list(imputed = imputed_partial_list_out, partial_obs = imp$partial_obs, dist_vec = dist_vec)
   return(out)
   
 }
