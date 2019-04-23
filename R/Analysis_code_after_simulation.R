@@ -52,7 +52,7 @@ for (i in 1:nrow(imputed_match_df)){
 }
 
 
-table(imputed_match_df$true_pred_prob, part_match_df$true_pred_prob)
+#table(imputed_match_df$true_pred_prob, part_match_df$true_pred_prob)
 
 
 logloss_imputed[k] <- mean(-log(imputed_match_df$true_pred_prob+0.0001))
@@ -70,4 +70,10 @@ points(1:20, logloss_part, type = "l", col = "blue")
 points(1:20, logloss_imputed, pch = 16, col = "red")
 points(1:20, logloss_part, pch = 16, col = "blue")
 
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
 

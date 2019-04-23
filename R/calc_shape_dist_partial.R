@@ -5,8 +5,11 @@
 #complete_shape: ONE completed shape. p x n. p = 2 in our setting. 
 #partial_shape: ONE partial shape.  p x n.
 
-source("/Users/gregorymatthews/Dropbox/shapeanalysisgit/R/utility.R")
-calc_shape_dist_partial <- function(complete_shape, partial_shape){
+#complete_shape<- beta1
+#partial_shape <- beta2[,15:45]
+
+#source("/Users/gregorymatthews/Dropbox/shapeanalysisgit/R/utility.R")
+calc_shape_dist_partial <- function(complete_shape, partial_shape, scale = FALSE){
   #Dimension
   d <- dim(complete_shape)[1]
   #Number of points for complete_shape and partial_shape
@@ -49,12 +52,14 @@ calc_shape_dist_partial <- function(complete_shape, partial_shape){
   partial_shape_closed_obs <- partial_shape_closed_obs - cent1
   partial_shape_closed_mis <- partial_shape_closed_mis - cent1
   
+  if (scale == TRUE){
   #scale factor
   sc1 <- norm(partial_shape_closed_obs, type = "F")
   
   #Scaling the shape
   partial_shape_closed_obs <- partial_shape_closed_obs/sc1
   partial_shape_closed_mis <- partial_shape_closed_mis/sc1
+  }
   
   minE <- Inf
   #I think we are looking across all strting points around the curve?
@@ -80,9 +85,11 @@ calc_shape_dist_partial <- function(complete_shape, partial_shape){
     mu1 <- mu1 - cent2
     mu2 <- mu2 - cent2
     
+    if (scale == TRUE){
     sc2=norm(mu1, type = "F")
     mu1=mu1/sc2
     mu2=mu2/sc2
+    }
     
     #Finding the best rotation
     out <- find_best_rotation(partial_shape_closed_obs,mu1)

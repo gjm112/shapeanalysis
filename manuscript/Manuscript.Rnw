@@ -35,61 +35,99 @@
 
 \section{Introduction}
 KAJAL's (and grady) Lit review
-\citet{AdamsConroy2005}
+%\citet{AdamsConroy2005}
 
 
-\section{Notation}
-Consider a closed curve: 
+Consider a closed curve, $C$, in two dimensions: 
 $$
 C: \mathbb{S} \rightarrow \mathbb{R}^2 
-$$
+$$.
 
-Shapes should be invariant across several transformations including translation, scaling, rotation, and reparameterizaion.  Specifically, the shape $C$ is defined to be the equivalence class
+Since, shapes should be invariant across several transformations including translation, scaling, rotation, and reparameterizaion, the shape $C$ is defined to be the equivalence class
 
 $$
 C = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathcal{R}^2, \sigma > 0\} 
+$$. 
+
+Consider a set of shapes $\mathcal{C}$, containing some fully observed shapes and some partially observed shapes.  We define the set of fully observed shapes to be called 
+$$
+\mathcal{C}^o = (C^o_1 \cdots C^o_{n_o})
 $$
 
-Consider the curve $C_j^m: \mathbb{S} \rightarrow \mathbb{R}^2, j = 1, \dots, n_m$ which is only observe on some region (don't want to use R here...) $S_j \subset \mathbb{S}$.  The goal here is to impute the missing part of each shape.  Then perform some type of complete shape analysis.  
+whereas the set of partially observed shapes is the referred to as 
 
-
-
-
-\section{Notation}
-% $$
-% C: [0,1] \rightarrow \mathbb{R}^2 \times \left\{0,1\right\}^2
-% $$
 $$
-C: \mathbb{S} \rightarrow \mathbb{R}^2 
+\mathcal{C}^m = (C^m_1 \cdots C^m_{n_m})
+$$.  
+
+Each $C^m_j$ consists of a the observed part $C^m_{j,obs}$ and the missing part $C^m_{j,mis}$ such that $C^m_j = (C^m_{j,obs},C^m_{j,mis})$.  That is 
+
 $$
-In general, we have a missingness function like this.  This allows for us to be missing the $x$ or $y$ value individually at a given point along the curve.  We aren't really going to deal with that case here so we are dealing with something a little more specific.  
+C^m_{j,mis} = C_j: [a,b] \rightarrow \mathbb{R}^2
+$$
+where
+$$
+[a,b] = {x \in \mathcal{S} | R'_j(x) = 1}
+$$.
+
+So 
+
+$$
+\mathcal{C}^m_{obs} = (C^m_{1,obs} \cdots C^m_{n_m,obs})
+$$
+
+and 
+
+$$
+\mathcal{C}^m_{mis} = (C^m_{1,mis} \cdots C^m_{n_m,mis})
+$$
+
+We then have 
+
+$$
+\mathcal{C} = (\mathcal{C}^o,\mathcal{C}^m) = (\mathcal{C}^o,\mathcal{C}^m_{mis},\mathcal{C}^m_{obs})
+$$ 
+
+and $n = n_o + n_m$. \\
+
+In traditional missing data settings, a missingness indicator is defined such that it is 1 when a data point is missing and 0 otherwise.  In this setting we define a function indicating which part of the function is observed and which is missing.  This function is called $R$ and is defined as follows: 
+
 $$
 R: \mathbb{S} \rightarrow \left\{0,1\right\}^2
 $$
-We are really dealing with this:  
+
+While this function allows for a curve to be missing the $x$ or $y$ value individually at a given point in $\mathbb{S}$, in our setting both the $x$ and $y$ values are either both observed or both missing, and the indicator function in our setting is defined as follows: 
+
 $$
-R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
+R': \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
 $$
-This means that at any given location that we are missing a value, both the $x$ and $y$ values are missing.  
 
+We will work with $R'$ as a missingness indicator function here, and it is 1 when the values of $(x(t),y(t))$ are both unobserved and 0 if both $(x(t),y(t))$ are observed where $t \in \mathbb{S}$.  The set of all missingness functions is defined to be $\mathcal{R} = (R'_1, \cdots, R'_n)$.     \\ 
 
+Next, we want to consider the joint distribution of the set of curves $\mathcal{C}$ and the set of missingness indicator functions $\mathcal{R}$.  
 
-Here $R$ is a missingness indicator function.  It is 1 when the value of $C$ is unobserved and 0 otherwise. \\ 
-
-The set of fully observed shapes is the set $\mathcal{C}^o$ and contains $n_o$ shapes; the set of partially observed shapes is the set $\mathcal{C}^m$ and contains $n_m$ shapes.  Together $(\mathcal{C}^o,\mathcal{C}^m) = \mathcal{C}$ \\
-
+%How do I say this: However, since the shape spaces that we are interested in this context are non-linear and infinite dimensional we need to take care when defining a probability density function over this space.  Specifically we are interested in defining this density function over a manifold $M = \mathbb{S}$ as opposed to the manifold that is used in traditional statistical settings: $M = \mathbb{R}^n$.  
 
 Next we want to consider the joint distribution of the curves with the missingnes indicator.  
+
 $$
-P(C, R) = P(C_{obs}, C_{mis}, R)
+P(\mathcal{C}, \mathcal{R}) = P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})
 $$
 
-Bayesian approach: 
-Construct a model for 
+In order to perform imputations we first need to define a model for the likelihood: 
+
 $$
-P(C_{obs}, C_{mis}, R | \theta, \phi)
+P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi)
 $$
-where $\theta$ is a vector of parameters associated with modeling the data and $\phi$ are parameters associated with the model of the missing data mechanism. 
+
+where $\theta$ is a vector of parameters associated with modeling the data (i.e. $\mathcal{C}$) and $\phi$ are parameters associated with the model of the missing data mechanism (i.e. $\mathcal{R}'$). 
+
+We can then place a prior distribution on the parameters $p(\theta, \phi)$ which will lead to a posterior probability: 
+
+$$
+P( \theta, \phi|\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})\propto P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi) \times p(\theta, \phi)
+$$
+
 
 We then seek this distribution: 
 $$
@@ -119,7 +157,23 @@ The distribution $P(C_{mis}|C_{obs},R)$ can be approximated non-parametrically b
 We first perform a matching step.
 Consider a shape $C_{i}^m \in \mathcal{C}^m$ and a 
 
+\section{Methods}
+Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
+
+A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
+
+
+Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
+
+
+Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
+
+The partial and whole shape are then compared in order to find the portion of the complete shape which the observed partial shape most adequately corresponds to. This is done by comparing a series of starting segments of the completed shape to the observed partial shape. For each of the subsets, the partial complete shape is scaled and centered, then a best rotation onto the observed partial shape is made. From this, an error term is found, and the segment with the minimum error term is selected as where the closed partial shape will then be overlaid. From here, the straight line segment from earlier is then gradually morphed so that it more and more adequately fits the curvature of the complete shape. After NUMBER iterations, a final version of the imputed partial tooth is obtained.
+
+Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
+
 \section{Simulations Study}
+
 
 \section{Results}
 

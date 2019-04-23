@@ -8,7 +8,7 @@
 
  #complete_partial_shape(complete_shape,partial_shape)
  
-complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE){
+complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, scale = FALSE){
   
   #Dimension
   d <- dim(complete_shape)[1]
@@ -30,7 +30,6 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE){
   olddel <- get_cumdel(partial_shape_closed)
   
   N <- 100
-  library(fdasrvf)
   #Note: resamplecurve is using splines 
   #Does this sampl ing need to 
   #partial_shape_closed <- resamplecurve(partial_shape_closed,N_complete_new)
@@ -52,12 +51,15 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE){
   partial_shape_closed_obs <- partial_shape_closed_obs - cent1
   partial_shape_closed_mis <- partial_shape_closed_mis - cent1
   
+  
+  if (scale == TRUE){
   #scale factor
   sc1 <- norm(partial_shape_closed_obs, type = "F")
   
   #Scaling the shape
   partial_shape_closed_obs <- partial_shape_closed_obs/sc1
   partial_shape_closed_mis <- partial_shape_closed_mis/sc1
+  }
   
   minE <- Inf
   #I think we are looking across all strting points around the curve?
@@ -83,9 +85,11 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE){
     mu1 <- mu1 - cent2
     mu2 <- mu2 - cent2
     
+    if (scale == TRUE){
     sc2=norm(mu1, type = "F")
     mu1=mu1/sc2
     mu2=mu2/sc2
+    }
     
     #Finding the best rotation
     out <- find_best_rotation(partial_shape_closed_obs,mu1)
