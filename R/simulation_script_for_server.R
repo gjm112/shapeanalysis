@@ -1,5 +1,8 @@
-###  nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script.R &
-### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script.Rout
+###  nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script2.R &
+### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script2.Rout
+
+###  nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script1.R &
+### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script1.Rout
 start_all <- Sys.time()
 library(fdasrvf)
 library(parallel)
@@ -22,18 +25,21 @@ load("./data/data_set_of_full_teeth.RData")
 load("./data/ptsTrainList.RData")
 #save(ptsTrainList, file = "/Users/gregorymatthews/Dropbox/shapeanalysisgit/data/ptsTrainList.RData")
 #i <- 1 #Whcih tooth.  DSCN number 
- 
+
 
 
 #Need a function that takes each partial tooth as an argument to get to parallel.  
 results_list <- list()
 for (d in 1:length(ptsTrainList[[tooth]])){
+  #for (d in 1:1){
   print(d)
   print(Sys.time())
   partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[d]])[[side]])
   #partial_shape <- t(ptsTrainList[[1]][[1]][11:42,])
   complete_shape_list <- lapply(ptsTrainList[[tooth]], t)
+  
   #complete_shape_list <- list(complete_shape_list[[1]],complete_shape_list[[2]],complete_shape_list[[3]],complete_shape_list[[4]],complete_shape_list[[5]])
+  #names(complete_shape_list) <- names(ptsTrainList[[tooth]])[1:5]
   
   #I can't impute the partial shape with itself!
   complete_shape_list[[d]]<-NULL
@@ -48,10 +54,12 @@ for (d in 1:length(ptsTrainList[[tooth]])){
   DSCN_target <- names(ptsTrainList[["LM1"]])[[d]]
   truth <- subset(ref_file,ref == DSCN_target)
   
+  
+  
   dist_imputed_to_whole <- function(whole,part){
     whole <- resamplecurve(whole,N = dim(part)[2], mode = "C")  
     out <- calc_shape_dist(whole,part,mode="C")
-    print("calc_dist")
+    print(Sys.time())
     return(out)
   }
   
@@ -67,13 +75,13 @@ for (d in 1:length(ptsTrainList[[tooth]])){
   }
   
   start <- Sys.time()
-  dist_list <- mclapply(imputed_partial_shape[[1]],dist_imputed_to_whole2, mc.cores = 10)
+  dist_list <- mclapply(imputed_partial_shape$imputed,dist_imputed_to_whole2, mc.cores = 10)
   end <- Sys.time()
   end-start
   
   dist <- t(do.call(rbind,lapply(dist_list,unlist)))
   
-  row.names(dist)<-names(complete_shape_list)
+  row.names(dist) <- names(complete_shape_list)
   
   dist <- as.data.frame(dist)
   dist$DSCN <- row.names(dist)
@@ -94,12 +102,17 @@ for (d in 1:length(ptsTrainList[[tooth]])){
   dist_partial <- merge(dist_partial,ref_file,by.x = "DSCN",by.y = "ref", all.x = TRUE)
   
   results_list[[DSCN_target]] <- list(dist = dist , dist_partial = dist_partial, truth = truth, imputed_partial_shape = imputed_partial_shape)
+  
+  end_all <- Sys.time()
+  end_all-start_all
+  outfile <- paste0("./results/results20190425_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+  save.image(outfile)
 }
 
-end_all <- Sys.time()
-end_all-start_all
-outfile <- paste0("./results/results20190422_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
-save.image(outfile)
+# end_all <- Sys.time()
+# end_all-start_all
+# outfile <- paste0("./results/results20190424_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+# save.image(outfile)
 #table(as.character(dist_partial$tribe[order(dist_partial$dist)][1:10]))
 
 

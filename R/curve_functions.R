@@ -5,6 +5,29 @@
 
 #This version of curve_functions.R removes scaling from the distance measures.  
 
+resamplecurve <- function (x, N = 100, mode = "O") 
+{
+  n = nrow(x)
+  T1 = ncol(x)
+  xn = matrix(0, n, N)
+  delta = rep(0, T1)
+  for (r in 2:T1) {
+    delta[r] = pvecnorm(x[, r] - x[, r - 1], 2)
+  }
+  cumdel = cumsum(delta)/sum(delta)
+  newdel = seq(0, 1, length.out = N)
+  for (r in 1:n) {
+    xn[r, ] = spline(cumdel, x[r, ], xout = newdel)$y
+  }
+  if (mode == "C") {
+    q = curve_to_q(xn)
+    qn = project_curve(q)
+    xn = q_to_curve(qn)
+  }
+  return(xn)
+}
+
+
 curve_to_q <- function (beta, scale = F) 
 {
   n = nrow(beta)
@@ -29,6 +52,31 @@ curve_to_q <- function (beta, scale = F)
   return(q)
 }
 
+find_basis_normal <- function(q){
+  n = nrow(q)
+  T1 = ncol(q)
+  
+  f1 = matrix(0,n,T1)
+  f2 = matrix(0,n,T1)
+  for (i in 1:T1){
+    f1[,i] = q[1,i]*q[,i]/pvecnorm(q[,i])+c(pvecnorm(q[,i]),0)
+    f2[,i] = q[2,i]*q[,i]/pvecnorm(q[,i])+c(0,pvecnorm(q[,i]))
+  }
+  h3 = f1
+  h4 = f2
+  integrandb3 = rep(0,T1)
+  integrandb4 = rep(0,T1)
+  for (i in 1:T1){
+    integrandb3[i] = t(q[,i])%*%h3[,i]
+    integrandb4[i] = t(q[,i])%*%h4[,i]
+  }
+  b3 = h3 - q*trapz(seq(0,1,length.out=T1),integrandb3)
+  b4 = h4 - q*trapz(seq(0,1,length.out=T1),integrandb4)
+  
+  basis = list(b3,b4)
+  
+  return(basis)
+}
 
 project_curve <- function(q, scale = F){
   T1 = ncol(q)
@@ -105,7 +153,7 @@ project_curve <- function(q, scale = F){
   return(qnew)
 }
 
-library(fdasrvf)
+#library(fdasrvf)
 # beta1 <- t(ptsTrainList[["LM1"]][[1]])
 # beta2 <- t(ptsTrainList[["LM1"]][[2]])
 # 

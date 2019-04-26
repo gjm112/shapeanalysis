@@ -30,7 +30,6 @@ calc_shape_dist_partial <- function(complete_shape, partial_shape, scale = FALSE
   olddel <- get_cumdel(partial_shape_closed)
   
   N <- 100
-  library(fdasrvf)
   #Note: resamplecurve is using splines 
   #Does this sampl ing need to 
   # partial_shape_closed <- resamplecurve(partial_shape_closed,N_complete_new)
@@ -72,7 +71,7 @@ calc_shape_dist_partial <- function(complete_shape, partial_shape, scale = FALSE
     olddel1 <- get_cumdel(mu)
     
     N <- 100
-    library(fdasrvf)
+    #library(fdasrvf)
     mu <- resamplecurve(mu,N_complete_new)
     
     newpt1 <- which(t < olddel1[N_partial])
