@@ -26,7 +26,11 @@ tooth_cutter <- function(tooth) {
   
   # Creates new data sets for the tooth in question, depending on if they are between the points in question or not
   # For the set which removes points (tooth_left in this case), the numbers are adjusted so that the closest points are included
-  tooth_left <- tooth[-c((cut_points[1] + 1) : (cut_points[2] - 1)), ]
+  #tooth_left <- tooth[-c((cut_points[1] + 1) : (cut_points[2] - 1)), ] #Grady's original code
+
+
+  
+  tooth_left <- tooth[c((cut_points[2]+1):nrow(tooth),1:(cut_points[1]-1)), ]
   tooth_right <- tooth[c(cut_points[1] : cut_points[2]), ]
   # Returns the left and right halves as a list
   list(tooth_left, tooth_right)

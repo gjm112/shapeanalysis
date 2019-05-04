@@ -32,6 +32,7 @@ impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M =
   #Randomly pick M of these with replacement
   donor_indices <- sample(potential_donor_indices, M, replace = TRUE)
   
+  
   #I only need to impute the unique indices and then i'll repeat them when the data gets output
   imputed_partial_list <- list()
   for (q in unique(donor_indices)){print(q)

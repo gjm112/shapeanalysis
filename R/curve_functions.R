@@ -19,11 +19,13 @@ resamplecurve <- function (x, N = 100, mode = "O")
   for (r in 1:n) {
     xn[r, ] = spline(cumdel, x[r, ], xout = newdel)$y
   }
-  if (mode == "C") {
-    q = curve_to_q(xn)
-    qn = project_curve(q)
-    xn = q_to_curve(qn)
-  }
+  
+  #Removed project curve.  
+  #if (mode == "C") {
+    #q = curve_to_q(xn)
+    #qn = project_curve(q)
+    #xn = q_to_curve(qn)
+  #}
   return(xn)
 }
 
@@ -180,7 +182,49 @@ calculatecentroid <- function(beta){
   return(centroid)
 }
 
-inverse_exp_coord <- function(beta1, beta2, mode="O", rotated=T){
+# #A Test
+# plot(ptsTrainList[[1]][[1]])
+# points(ptsTrainList[[1]][[2]],col = "red", type = "l")
+# points(ptsTrainList[[1]][[100]],col = "red", type = "l")
+# 
+# beta1 <- t(ptsTrainList[[1]][[1]])
+# beta2 <- t(ptsTrainList[[1]][["DSCN5586"]])
+# 
+# 
+# plot(scale(ptsTrainList[["LM1"]][["DSCN3732"]], center = TRUE, scale = FALSE), xlim = c(-500,500), asp = 1, col = "red", type = "l")
+# points(scale(ptsTrainList[["LM1"]][["DSCN2616"]], center = TRUE, scale = FALSE), col = "blue", type = "l")
+# points(t(results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]), col = "orange", type = "l")
+# 
+# part <- results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]
+# whole <- t(ptsTrainList[["LM1"]][["DSCN3732"]])
+# whole <- resamplecurve(whole, N = 199, mode = "C")
+# calc_shape_dist(part,whole,mode = "C")
+# 
+# points(t(whole), col = "red", type = "l")
+# 
+# part <- results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]
+# whole <- t(ptsTrainList[["LM1"]][["DSCN2616"]])
+# whole <- resamplecurve(whole, N = 199, mode = "C")
+# calc_shape_dist(part,whole,mode = "C")
+# 
+# points(t(whole), col = "blue", type = "l")
+# 
+# beta1 <- results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]
+# beta2 <- resamplecurve(t(ptsTrainList[["LM1"]][["DSCN2616"]]),N=199)
+# beta3 <- resamplecurve(t(ptsTrainList[["LM1"]][["DSCN3732"]]),N=199)
+# 
+# centroid2 = calculatecentroid(beta3)
+# dim(centroid2) = c(length(centroid2),1)
+# beta3 = beta3 - repmat(centroid2, 1, T1)
+# 
+# plot(t(beta1), col = "orange", xlim = c(-200,200), ylim = c(-200,200), asp = 1)
+# points(t(beta2),col = "blue")
+# points(t(beta3),col = "red")
+# points(t(beta6),col = "green")
+
+
+
+inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
   T1 = ncol(beta1)
   centroid1 = calculatecentroid(beta1)
   dim(centroid1) = c(length(centroid1),1)
@@ -197,23 +241,35 @@ inverse_exp_coord <- function(beta1, beta2, mode="O", rotated=T){
   
   # Iteratively optimize over SO(n) x Gamma using old DP
   out = reparam_curve(beta1, beta2, rotated=rotated, isclosed=isclosed, mode=mode)
-  if (mode=="C")
+  
+  if (mode=="C"){
     beta2 = shift_f(beta2, out$tau)
+  }
+  
   
   beta2 = out$R %*% beta2
   gamI = invertGamma(out$gam)
+  
+  #This line is badly screwing up the rotations.  I've removed this.  
+  #Can I justify that?  
+  #Maybe only run is mode = "O"
+  if (mode == "O"){
   beta2 = group_action_by_gamma_coord(beta2, gamI)
+  }
+  
   if (rotated){
-    out = find_rotation_seed_coord(beta1, beta2, mode)
+    out = find_rotation_seed_coord(beta1, beta2, mode = mode)
     q2n = curve_to_q(out$beta2new)
   } else {
     q2n = curve_to_q(beta2)
   }
   
   
-  if (mode=="C"){
-    q2n = project_curve(q2n)
-  }
+  #I have removed this step.  
+  #It's causing errors and I don't think it's really necessary.
+  #if (mode=="C"){
+  #  q2n = project_curve(q2n)
+  #}
   
   # Compute geodesic distance
   q1dotq2 = innerprod_q2(q1-q2n, q1-q2n)
@@ -237,6 +293,7 @@ inverse_exp_coord <- function(beta1, beta2, mode="O", rotated=T){
 }
 
 
+#Always need to speciify the mode. 
 calc_shape_dist <- function (beta1, beta2, mode = "O") 
 {
   out = inverse_exp_coord(beta1, beta2, mode)
