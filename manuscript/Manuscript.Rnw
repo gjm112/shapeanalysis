@@ -37,6 +37,33 @@
 KAJAL's (and grady) Lit review
 %\citet{AdamsConroy2005}
 
+%explain closed curves. 
+%Then shapes.  
+%Then notation for missing data in shapes. 
+%which means I now need to talk about open curves.
+\section{Notation}
+Consider a closed curve, $C$, 
+$$
+C: \mathbb{S} \rightarrow \mathbb{R}^2 
+$$, 
+where $\mathbb{S}$ is the unit sphere.  
+
+%Brian Notation
+A shape can then be defined as an equivalence class containing all possible rotations, translations, scalings, and reparameterizations of a curve $C$.  Specifically,  a shape $[\beta]$ is formally defined as 
+$$
+[\beta] = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \in \mathbb{R}^{+} \} 
+$$, where $\Gamma$ is the set of all possible warping functions and $SO(2)$ is the special orthogonal group (?) of dimension 2. 
+
+In this particular setting, the preservation of size is of interest and we can define an equivalence class defining the size and shape by simply removing scaling.  Specifically, size and shape is the equivalence class: 
+
+$$
+[\beta]_{sz} = \{ O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
+$$
+
+
+
+
+
 
 Consider a closed curve, $C$, in two dimensions: 
 $$

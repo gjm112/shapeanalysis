@@ -188,7 +188,7 @@ calculatecentroid <- function(beta){
 # points(ptsTrainList[[1]][[100]],col = "red", type = "l")
 # 
 # beta1 <- t(ptsTrainList[[1]][[1]])
-# beta2 <- t(ptsTrainList[[1]][["DSCN5586"]])
+# beta2 <- t(ptsTrainList[[1]][[2]])
 # 
 # 
 # plot(scale(ptsTrainList[["LM1"]][["DSCN3732"]], center = TRUE, scale = FALSE), xlim = c(-500,500), asp = 1, col = "red", type = "l")
@@ -224,6 +224,7 @@ calculatecentroid <- function(beta){
 
 
 
+
 inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
   T1 = ncol(beta1)
   centroid1 = calculatecentroid(beta1)
@@ -253,9 +254,8 @@ inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
   #This line is badly screwing up the rotations.  I've removed this.  
   #Can I justify that?  
   #Maybe only run is mode = "O"
-  if (mode == "O"){
   beta2 = group_action_by_gamma_coord(beta2, gamI)
-  }
+  
   
   if (rotated){
     out = find_rotation_seed_coord(beta1, beta2, mode = mode)
@@ -263,7 +263,7 @@ inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
   } else {
     q2n = curve_to_q(beta2)
   }
-  
+
   
   #I have removed this step.  
   #It's causing errors and I don't think it's really necessary.
@@ -338,6 +338,7 @@ find_rotation_seed_coord <- function(beta1, beta2, mode="O"){
   q1 = curve_to_q(beta1)
   Ltwo = rep(0,T1)
   Rlist = array(0,c(n,n,T1))
+  #I don't need these lines if mode is "O"
   for (ctr in 1:T1){
     beta2n = shift_f(beta2, ctr)
     out = find_best_rotation(beta1, beta2n)
