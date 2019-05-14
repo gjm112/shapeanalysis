@@ -42,6 +42,7 @@ KAJAL's (and grady) Lit review
 %Then notation for missing data in shapes. 
 %which means I now need to talk about open curves.
 \section{Notation}
+\subsection{Size and Shape}
 Consider a closed curve, $C$, 
 $$
 C: \mathbb{S} \rightarrow \mathbb{R}^2 
@@ -49,122 +50,184 @@ $$,
 where $\mathbb{S}$ is the unit sphere.  
 
 %Brian Notation
-A shape can then be defined as an equivalence class containing all possible rotations, translations, scalings, and reparameterizations of a curve $C$.  Specifically,  a shape $[\beta]$ is formally defined as 
+A shape can then be defined as an equivalence class containing all possible rotations, translations, scalings, and reparameterizations of a closed curve $C$.  Specifically,  a shape $[\beta]$ is formally defined as 
 $$
 [\beta] = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \in \mathbb{R}^{+} \} 
-$$, where $\Gamma$ is the set of all possible warping functions and $SO(2)$ is the special orthogonal group (?) of dimension 2. 
+$$, where $\Gamma$ is the set of all possible warping functions and $SO(2)$ is the special orthogonal group of dimension 2. 
 
-In this particular setting, the preservation of size is of interest and we can define an equivalence class defining the size and shape by simply removing scaling.  Specifically, size and shape is the equivalence class: 
-
-$$
-[\beta]_{sz} = \{ O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
-$$
-
-
-
-
-
-
-Consider a closed curve, $C$, in two dimensions: 
-$$
-C: \mathbb{S} \rightarrow \mathbb{R}^2 
-$$.
-
-Since, shapes should be invariant across several transformations including translation, scaling, rotation, and reparameterizaion, the shape $C$ is defined to be the equivalence class
+In this particular setting, the preservation of size is of interest and we can define an equivalence class defining the size and shape by removing scaling.  Specifically, size and shape is the equivalence class: 
 
 $$
-C = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathcal{R}^2, \sigma > 0\} 
-$$. 
-
-Consider a set of shapes $\mathcal{C}$, containing some fully observed shapes and some partially observed shapes.  We define the set of fully observed shapes to be called 
-$$
-\mathcal{C}^o = (C^o_1 \cdots C^o_{n_o})
+[\beta^{\star}] = \{ O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
 $$
 
-whereas the set of partially observed shapes is the referred to as 
-
+\subsection{Partial Shapes}
+Now consider a function, $R$, defined over the set $\mathbb{S}$, which returns a 1 if the shape is observed at that location and a 0 otherwise.  Specifically,   
 $$
-\mathcal{C}^m = (C^m_1 \cdots C^m_{n_m})
-$$.  
-
-Each $C^m_j$ consists of a the observed part $C^m_{j,obs}$ and the missing part $C^m_{j,mis}$ such that $C^m_j = (C^m_{j,obs},C^m_{j,mis})$.  That is 
-
-$$
-C^m_{j,mis} = C_j: [a,b] \rightarrow \mathbb{R}^2
-$$
-where
-$$
-[a,b] = {x \in \mathcal{S} | R'_j(x) = 1}
-$$.
-
-So 
-
-$$
-\mathcal{C}^m_{obs} = (C^m_{1,obs} \cdots C^m_{n_m,obs})
-$$
-
-and 
-
-$$
-\mathcal{C}^m_{mis} = (C^m_{1,mis} \cdots C^m_{n_m,mis})
-$$
-
-We then have 
-
-$$
-\mathcal{C} = (\mathcal{C}^o,\mathcal{C}^m) = (\mathcal{C}^o,\mathcal{C}^m_{mis},\mathcal{C}^m_{obs})
-$$ 
-
-and $n = n_o + n_m$. \\
-
-In traditional missing data settings, a missingness indicator is defined such that it is 1 when a data point is missing and 0 otherwise.  In this setting we define a function indicating which part of the function is observed and which is missing.  This function is called $R$ and is defined as follows: 
-
-$$
-R: \mathbb{S} \rightarrow \left\{0,1\right\}^2
+R': \mathbb{S} \rightarrow \left\{0,1\right\}^2
 $$
 
 While this function allows for a curve to be missing the $x$ or $y$ value individually at a given point in $\mathbb{S}$, in our setting both the $x$ and $y$ values are either both observed or both missing, and the indicator function in our setting is defined as follows: 
-
 $$
-R': \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
-$$
-
-We will work with $R'$ as a missingness indicator function here, and it is 1 when the values of $(x(t),y(t))$ are both unobserved and 0 if both $(x(t),y(t))$ are observed where $t \in \mathbb{S}$.  The set of all missingness functions is defined to be $\mathcal{R} = (R'_1, \cdots, R'_n)$.     \\ 
-
-Next, we want to consider the joint distribution of the set of curves $\mathcal{C}$ and the set of missingness indicator functions $\mathcal{R}$.  
-
-%How do I say this: However, since the shape spaces that we are interested in this context are non-linear and infinite dimensional we need to take care when defining a probability density function over this space.  Specifically we are interested in defining this density function over a manifold $M = \mathbb{S}$ as opposed to the manifold that is used in traditional statistical settings: $M = \mathbb{R}^n$.  
-
-Next we want to consider the joint distribution of the curves with the missingnes indicator.  
-
-$$
-P(\mathcal{C}, \mathcal{R}) = P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})
+R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
 $$
 
-In order to perform imputations we first need to define a model for the likelihood: 
+Now for a specific curve $C$ in the equivalence class $[\beta^{\star}]$, we can define the function $R$.  However, for every reparameterization of $C$ in the equivalence class $[\beta^{\star}]$, we need to reparameterize $R'$ in the same manner.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here it is required that $R^{-1}(1)$ be a connected subset of $\mathbb{S}$.  This prevents us from considering shapes with multiple ``gaps".  
 
+
+Now this allows us the ability to define the (joint?) equivalence class. 
+%Do I need the concept of "jooint equivalence class"?  
 $$
-P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi)
-$$
-
-where $\theta$ is a vector of parameters associated with modeling the data (i.e. $\mathcal{C}$) and $\phi$ are parameters associated with the model of the missing data mechanism (i.e. $\mathcal{R}'$). 
-
-We can then place a prior distribution on the parameters $p(\theta, \phi)$ which will lead to a posterior probability: 
-
-$$
-P( \theta, \phi|\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})\propto P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi) \times p(\theta, \phi)
+[\beta^{\star}] = \{ OC(\gamma(t)) + a, R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 )\} 
 $$
 
-
-We then seek this distribution: 
 $$
-\int\int P(C_{mis}|\theta, \phi) P(\theta, \phi|C_{obs}, C_{mis}, R ) d\theta d\phi = P(C_{mis}|C_{obs},R)
+[\beta^{\star}_{obs}] = \{ OC(\gamma(t)) + a, R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 ) | t \in R^{-1}(1) \subset \mathbb{S}\} 
 $$
 
-Random draws from the distribution $P(C_{mis}|C_{obs},R)$ can then be used to to fill in the missing part of the shape. 
+$$
+[\beta^{\star}_{mis}] = \{ OC(\gamma(t)) + a, R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 ) | t \notin R^{-1}(1) \subset \mathbb{S}\} 
+$$
+
+%I think $R$ needs to be able to handle re-parameterizations but none of the other transformations.  
+$$
+[\beta^{\star}, \varrho] = ([\beta^{\star}, \varrho]_{obs} \cup [\beta^{\star}, \varrho]_{mis})
+$$
+
+\section{Imputation}
+Assuming ignorability of the missingness mechanism: 
+Draw imputations from: $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$.
 
 
-Each partially observed shape can be completed $M$ times.  This yields $M$ sets of completed shapes.  
+How do we approximate this: $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$
+
+Let $[\beta^{\star}]_i$ be the $i$-th observation for $i = 1 \cdots n$ where $n$ is the number of fully observed and an observation is the equivalence class containg shape and size information (no scaling allowed).  Additionally, let $[\beta^{\star}_{obs}]_j$ and $[\beta^{\star}_{obs}]_j$ be the observed and missing parts of the $j$-th observation where $j = 1 \cdots n_m$.   
+
+In order to empirically approximate $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$, we must first compute the distance between $dist([\beta^{\star}_{obs}]_j, [\beta^{\star}]_i$ for all $i$.  
+
+%How do I say "shape without scaling" sucinctly?  Can I say rigis shape?  Meanng that it doesn't scale? 
+
+%Algorithm Steps
+\begin{itemize}
+\item Calculate the distance between a the partial observed shape and each closed curve.  
+\end{itemize}
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Old work
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% $u$ is a connected subset of $\mathbb{S}$
+% 
+% 
+% Partial shape observed over the set $u$.  
+% $[\beta^{\star}|_{u}] = \{\beta\circ\gamma | \gamma \in C(\mathbb{S},\mathbb{S}) \}$
+% 
+% 
+% 
+% 
+% 
+% Consider a closed curve, $C$, in two dimensions: 
+% $$
+% C: \mathbb{S} \rightarrow \mathbb{R}^2 
+% $$.
+% 
+% Since, shapes should be invariant across several transformations including translation, scaling, rotation, and reparameterizaion, the shape $C$ is defined to be the equivalence class
+% 
+% $$
+% C = \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathcal{R}^2, \sigma > 0\} 
+% $$. 
+% 
+% Consider a set of shapes $\mathcal{C}$, containing some fully observed shapes and some partially observed shapes.  We define the set of fully observed shapes to be called 
+% $$
+% \mathcal{C}^o = (C^o_1 \cdots C^o_{n_o})
+% $$
+% 
+% whereas the set of partially observed shapes is the referred to as 
+% 
+% $$
+% \mathcal{C}^m = (C^m_1 \cdots C^m_{n_m})
+% $$.  
+% 
+% Each $C^m_j$ consists of a the observed part $C^m_{j,obs}$ and the missing part $C^m_{j,mis}$ such that $C^m_j = (C^m_{j,obs},C^m_{j,mis})$.  That is 
+% 
+% $$
+% C^m_{j,mis} = C_j: [a,b] \rightarrow \mathbb{R}^2
+% $$
+% where
+% $$
+% [a,b] = {x \in \mathcal{S} | R'_j(x) = 1}
+% $$.
+% 
+% So 
+% 
+% $$
+% \mathcal{C}^m_{obs} = (C^m_{1,obs} \cdots C^m_{n_m,obs})
+% $$
+% 
+% and 
+% 
+% $$
+% \mathcal{C}^m_{mis} = (C^m_{1,mis} \cdots C^m_{n_m,mis})
+% $$
+% 
+% We then have 
+% 
+% $$
+% \mathcal{C} = (\mathcal{C}^o,\mathcal{C}^m) = (\mathcal{C}^o,\mathcal{C}^m_{mis},\mathcal{C}^m_{obs})
+% $$ 
+% 
+% and $n = n_o + n_m$. \\
+% 
+% In traditional missing data settings, a missingness indicator is defined such that it is 1 when a data point is missing and 0 otherwise.  In this setting we define a function indicating which part of the function is observed and which is missing.  This function is called $R$ and is defined as follows: 
+% 
+% $$
+% R: \mathbb{S} \rightarrow \left\{0,1\right\}^2
+% $$
+% 
+% While this function allows for a curve to be missing the $x$ or $y$ value individually at a given point in $\mathbb{S}$, in our setting both the $x$ and $y$ values are either both observed or both missing, and the indicator function in our setting is defined as follows: 
+% 
+% $$
+% R': \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
+% $$
+% 
+% We will work with $R'$ as a missingness indicator function here, and it is 1 when the values of $(x(t),y(t))$ are both unobserved and 0 if both $(x(t),y(t))$ are observed where $t \in \mathbb{S}$.  The set of all missingness functions is defined to be $\mathcal{R} = (R'_1, \cdots, R'_n)$.     \\ 
+% 
+% Next, we want to consider the joint distribution of the set of curves $\mathcal{C}$ and the set of missingness indicator functions $\mathcal{R}$.  
+% 
+% %How do I say this: However, since the shape spaces that we are interested in this context are non-linear and infinite dimensional we need to take care when defining a probability density function over this space.  Specifically we are interested in defining this density function over a manifold $M = \mathbb{S}$ as opposed to the manifold that is used in traditional statistical settings: $M = \mathbb{R}^n$.  
+% 
+% Next we want to consider the joint distribution of the curves with the missingnes indicator.  
+% 
+% $$
+% P(\mathcal{C}, \mathcal{R}) = P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})
+% $$
+% 
+% In order to perform imputations we first need to define a model for the likelihood: 
+% 
+% $$
+% P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi)
+% $$
+% 
+% where $\theta$ is a vector of parameters associated with modeling the data (i.e. $\mathcal{C}$) and $\phi$ are parameters associated with the model of the missing data mechanism (i.e. $\mathcal{R}'$). 
+% 
+% We can then place a prior distribution on the parameters $p(\theta, \phi)$ which will lead to a posterior probability: 
+% 
+% $$
+% P( \theta, \phi|\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R})\propto P(\mathcal{C}^o, \mathcal{C}^m_{mis}, \mathcal{C}^m_{obs}, \mathcal{R}| \theta, \phi) \times p(\theta, \phi)
+% $$
+% 
+% 
+% We then seek this distribution: 
+% $$
+% \int\int P(C_{mis}|\theta, \phi) P(\theta, \phi|C_{obs}, C_{mis}, R ) d\theta d\phi = P(C_{mis}|C_{obs},R)
+% $$
+% 
+% Random draws from the distribution $P(C_{mis}|C_{obs},R)$ can then be used to to fill in the missing part of the shape. 
+% 
+% 
+% Each partially observed shape can be completed $M$ times.  This yields $M$ sets of completed shapes.  
 
 \section{Combining}
 \subsection{Shape Analysis}
