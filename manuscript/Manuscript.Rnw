@@ -103,13 +103,16 @@ How do we approximate this: $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$
 
 Let $[\beta^{\star}]_i$ be the $i$-th observation for $i = 1 \cdots n$ where $n$ is the number of fully observed and an observation is the equivalence class containg shape and size information (no scaling allowed).  Additionally, let $[\beta^{\star}_{obs}]_j$ and $[\beta^{\star}_{obs}]_j$ be the observed and missing parts of the $j$-th observation where $j = 1 \cdots n_m$.   
 
-In order to empirically approximate $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$, we must first compute the distance between $dist([\beta^{\star}_{obs}]_j, [\beta^{\star}]_i$ for all $i$.  
+In order to empirically approximate $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$, we must first compute the distance between $dist([\beta^{\star}_{obs}]_j, [\beta^{\star}]_i)$ for all $i$.  
 
 %How do I say "shape without scaling" sucinctly?  Can I say rigis shape?  Meanng that it doesn't scale? 
 
 %Algorithm Steps
+Given a partial shape of fixed size (i.e one open curve) $[\beta^{\star}_{obs}]_j$ and a collection of complete shapes (i.e. closed curves) [\beta^{\star}]_i, i = 1, \cdots, n$, we complete the partial shape using the following algorithm: 
 \begin{itemize}
-\item Calculate the distance between a the partial observed shape and each closed curve.  
+\item Calculate the distance between the partial observed shape of fixed size and each closed curve. That is compute $d_{ij} = 
+dist($[\beta^{\star}_{obs}]_j$, $[\beta^{\star}]_i$) across all $i$.  
+\item C
 \end{itemize}
 
 
@@ -248,13 +251,217 @@ We first perform a matching step.
 Consider a shape $C_{i}^m \in \mathcal{C}^m$ and a 
 
 \section{Methods}
+
+\begin{figure}
+<<echo = FALSE, message = FALSE>>=
+setwd("/Users/gregorymatthews/Dropbox/shapeanalysisgit/")
+source("./R/utility.R")
+source("./R/curve_functions.R")
+source("./R/calc_shape_dist_partial.R")
+source("./R/complete_partial_shape.R")
+source("./R/impute_partial_shape.R")
+source("./R/tooth_cutter.R")
+
+load("./data/data_set_of_full_teeth.RData")
+load("./data/ptsTrainList.RData")
+
+tooth <- "LM1"
+side <- 1
+partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[1]])[[side]])
+complete_shape <- t(ptsTrainList[[1]][[2]])
+
+scale <- FALSE
+plot <- TRUE
+ #complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, scale = FALSE){
+  
+  #Dimension
+  d <- dim(complete_shape)[1]
+  #Number of points for complete_shape and partial_shape
+  N_complete <- dim(complete_shape)[2]
+  N_partial <- dim(partial_shape)[2]
+  
+  t <- seq(0,1,length = 100)
+  x0 <- matrix(NA,ncol = 100,nrow = 2)
+  for (j in 1:d){
+    x0[j,] <- (1-t)*partial_shape[j,N_partial] + t*partial_shape[j,1]
+  }
+  
+  partial_shape_closed <- cbind(partial_shape,x0[,2:100])
+  
+  N_complete_new <- 500
+  t <- seq(0,1,length = N_complete_new)
+  
+  olddel <- get_cumdel(partial_shape_closed)
+  
+  N <- 100
+  
+  
+  partial_shape_closed_obs <- resamplecurve(partial_shape_closed[,1:(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1))],N)
+  partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1)):dim(partial_shape_closed)[2]],N)
+  
+  #Find the centroid of the observed part
+  cent1 <- apply(partial_shape_closed_obs,1, mean)
+  
+  #Centering
+  partial_shape_closed_obs <- partial_shape_closed_obs - cent1
+  partial_shape_closed_mis <- partial_shape_closed_mis - cent1
+  
+  
+  if (scale == TRUE){
+  #scale factor
+  sc1 <- norm(partial_shape_closed_obs, type = "F")
+  
+  #Scaling the shape
+  partial_shape_closed_obs <- partial_shape_closed_obs/sc1
+  partial_shape_closed_mis <- partial_shape_closed_mis/sc1
+  }
+  
+  # plot(t(partial_shape_closed_obs))
+  # points(t(partial_shape_closed_mis), col = "red")
+  # 
+  # plot(t(complete_shape))
+  
+  
+  minE <- Inf
+  jbest <- NA
+  #I think we are looking across all strting points around the curve?
+  for (j in 0:(N_complete-1)){
+    #What does shiftF do??
+    #Why N_complete - 1 and not just N_complete??????
+    mu <- ShiftF(complete_shape[,1:(N_complete-1)],j) 
+    mu <- cbind(mu,mu[,1])
+    
+    olddel1 <- get_cumdel(mu)
+    
+    N <- 100
+    library(fdasrvf)
+    mu <- resamplecurve(mu,N_complete_new)
+    
+    newpt1 <- which(t < olddel1[N_partial])
+    newpt1 <- newpt1[length(newpt1)]
+    
+    mu1 <- resamplecurve(mu[,1:newpt1],N) 
+    mu2 <- resamplecurve(mu[,newpt1:dim(mu)[2]],N) 
+    
+    cent2 <- apply(mu1,1,mean)
+    mu1 <- mu1 - cent2
+    mu2 <- mu2 - cent2
+    
+    if (scale == TRUE){
+    sc2=norm(mu1, type = "F")
+    mu1=mu1/sc2
+    mu2=mu2/sc2
+    }
+    
+    #Finding the best rotation
+    out <- find_best_rotation(partial_shape_closed_obs,mu1)
+    R <- out$R
+    q2new <- out$q2new
+    
+    mu1n <- R%*%mu1
+    
+    Ec <- InnerProd_Q(partial_shape_closed_obs-mu1n,partial_shape_closed_obs-mu1n)
+    if (Ec < minE){
+      jbest <- j
+      Rbest <- R
+      complete_shape_obs <- Rbest%*%mu1
+      complete_shape_mis <- Rbest%*%mu2
+      minE <- Ec
+    }
+    
+  }
+  
+  
+donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[2]])
+  
+  partial_shape_closed_new <- cbind(partial_shape_closed_obs,partial_shape_closed_mis[,2:dim(partial_shape_closed_mis)[2]])
+  
+  
+  
+  
+  n <- 40
+  tn <- seq(0,1, length = N)
+  
+  #Why minus 1 in cos?  
+  #Defining basic functions
+  b <- matrix(NA, nrow = 2*n, ncol = length(tn))
+  for (j in 1:n){
+    b[j,] <- sin(2*pi*j*tn)/(sqrt(2)*pi*j)
+    b[j+n,] <- (cos(2*pi*j*tn)-1)/(sqrt(2)*pi*j)
+  }
+  
+  
+  
+  #Plot
+  par(mfcol = c(5,2))
+  par(mar = c(0,0,0,0))
+  iter <- 0
+  plot(t(donor), type = "l", xlim = c(-100,550), xlab = "", ylab = "", xaxt = 'n', yaxt = 'n', lwd = 3)
+  text(375,-150,paste0("Interation: ", iter))
+  points(t(partial_shape_closed_new), type = "l" , col= "red", lwd = 3)
+  points(t(partial_shape_closed_mis), type = "l" , col= "blue", lwd = 3)
+  
+  
+  n <- dim(b)[1]
+  iter <- 1
+  eps <- 15
+  
+  for (iter in 0:500){
+    
+    v <- partial_shape_closed_mis - complete_shape_mis
+    
+    #Computing each basis component and then adding them.  
+    gradE <- matrix(0,nrow = 2,ncol = N)
+    for (j in 1:n){
+      for (k in 1:d){
+        val <- trapz(tn,v[k,]*b[j,])*b[j,]
+        gradE[k,] <- gradE[k,]+val
+      }}
+    
+    ngE <- trapz(tn,apply(gradE*gradE,2,sum))
+    
+    partial_shape_closed_mis <- partial_shape_closed_mis-eps*gradE
+    
+    partial_shape_closed_new <- cbind(partial_shape_closed_obs,partial_shape_closed_mis[,2:dim(partial_shape_closed_mis)[2]])
+    
+    ngE
+    
+    
+    iter=iter+1
+  
+    
+    if (plot == TRUE & iter%in% c(1,2,3,4,100,200,300,400,500)){
+    #plot(t(partial_shape_closed_new), type = "l")
+    #points(t(donor), type = "l" , col= "red")
+    plot(t(donor), type = "l", xlim = c(-100,550), xlab = "", ylab = "", xaxt = 'n', yaxt = 'n', lwd = 3)
+      text(375,-150,paste0("Interation: ",iter))
+  points(t(partial_shape_closed_new), type = "l" , col= "red", lwd = 3)
+  points(t(partial_shape_closed_mis), type = "l" , col= "blue", lwd = 3)
+    }
+    
+    
+  }
+  
+  
+  
+  
+  #out <- list(partial_shape_imputed = partial_shape_closed_new, partial_obs = partial_shape_closed_obs,  donor = donor)
+  #return(out)
+  
+  
+
+
+@
+\caption{Test}
+
+\end{figure}
+
+
 Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
 
 A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
 
-
 Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
-
 
 Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
 
