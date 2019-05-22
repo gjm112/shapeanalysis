@@ -1,9 +1,41 @@
 #load("/home/gmatthews1/shapeAnalysis/results/results20190220.RData")
-load("./results20190220.RData")
+#load("./results20190220.RData")
+load("./results20190503_side=1_k=5_M=5_tooth=LM1.RData")
+
+# for (i in 1:length(results_list)){
+# results_list[[i]]$dist <- results_list[[i]]$dist[-grep("Error",results_list[[i]]$dist$V1),]
+# results_list[[i]]$dist$V1 <- as.numeric(as.character(results_list[[i]]$dist$V1))
+# results_list[[i]]$dist$V2 <- as.numeric(as.character(results_list[[i]]$dist$V2))
+# results_list[[i]]$dist$V3 <- as.numeric(as.character(results_list[[i]]$dist$V3))
+# results_list[[i]]$dist$V4 <- as.numeric(as.character(results_list[[i]]$dist$V4))
+# results_list[[i]]$dist$V5 <- as.numeric(as.character(results_list[[i]]$dist$V5))
+# }
+
+
+DSCN3732 
+DSCN2616 
+plot(scale(ptsTrainList[["LM1"]][["DSCN3732"]], center = TRUE, scale = FALSE), xlim = c(-500,500), asp = 1, col = "red", type = "l")
+points(scale(ptsTrainList[["LM1"]][["DSCN2616"]], center = TRUE, scale = FALSE), col = "blue", type = "l")
+points(t(results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]), col = "orange", type = "l")
+
+part <- results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]
+whole <- t(ptsTrainList[["LM1"]][["DSCN3732"]])
+whole <- resamplecurve(whole, N = 199, mode = "C")
+calc_shape_dist(part,whole,mode = "C")
+
+points((scale(t(whole),center = TRUE, scale = FALSE)), type = "l", col = "red")
+
+part <- results_list[["DSCN2871"]]$imputed_partial_shape[[1]][[1]]
+whole <- t(ptsTrainList[["LM1"]][["DSCN2616"]])
+whole <- resamplecurve(whole, N = 199, mode = "C")
+calc_shape_dist(part,whole,mode = "C")
+
+points((scale(t(whole),center = TRUE, scale = FALSE)), type = "l", col = "blue")
+
 
 logloss_imputed <- c() 
 logloss_part <- c()
-for (k in 1:20){print(k)
+for (knn in 1:20){print(knn)
 
 ids <- names(results_list)
 DSCN <- ids[1]
@@ -11,13 +43,12 @@ DSCN <- ids[1]
 knn_partial_matching <- function(DSCN){
 temp <- results_list[[DSCN]]$dist_partial
 
-dat <- data.frame(t(data.frame(c(table(temp$tribe[order(temp$dist)][1:k])/k))))
+dat <- data.frame(t(data.frame(c(table(temp$tribe[order(temp$dist)][1:knn])/knn))))
 row.names(dat) <- NULL
 dat$true <- results_list[[DSCN]]$truth$tribe[1]
 return(dat)
 }
 
-#Check DSCN3361
 part_match <- lapply(ids, knn_partial_matching)
 part_match_df <- do.call(rbind,part_match)
 
@@ -26,13 +57,23 @@ for (i in 1:nrow(part_match_df)){
 part_match_df$true_pred_prob[i] <- part_match_df[i,as.character(part_match_df$true[i])] 
 }
 
+#plot(ptsTrainList[[1]][["DSCN2879"]])
+#plot(t(results_list[[DSCN]]$imputed_partial_shape$imputed[[1]]))
+
+#DSCN <- "DSCN2871"
+#temp <- results_list[[DSCN]]$dist
+#temp[order(temp[[paste0("V",i)]]),]
+
+#full <- resamplecurve(t(ptsTrainList[[1]][["DSCN3753"]]),199)
+#calc_shape_dist(full,(results_list[[DSCN]]$imputed_partial_shape$imputed[[4]]))
+#1199.961
 
 #Now for the imputed teeth
 knn_imputed <- function(DSCN){
   temp <- results_list[[DSCN]]$dist
   dat_list <- list()
-  for (i in 1:5){
-  pro <- data.frame(t(data.frame(c(table(temp$tribe[order(temp[[paste0("V",i)]])][1:k])/k))))
+  for (i in 1:M){
+  pro <- data.frame(t(data.frame(c(table(temp$tribe[order(temp[[paste0("V",i)]])][1:knn])/knn))))
   row.names(pro) <- NULL
   dat_list[[i]] <- pro
   }
@@ -55,8 +96,8 @@ for (i in 1:nrow(imputed_match_df)){
 #table(imputed_match_df$true_pred_prob, part_match_df$true_pred_prob)
 
 
-logloss_imputed[k] <- mean(-log(imputed_match_df$true_pred_prob+0.0001))
-logloss_part[k] <- mean(-log(part_match_df$true_pred_prob+0.0001))
+logloss_imputed[knn] <- mean(-log(imputed_match_df$true_pred_prob+0.0001))
+logloss_part[knn] <- mean(-log(part_match_df$true_pred_prob+0.0001))
 
 }
 
