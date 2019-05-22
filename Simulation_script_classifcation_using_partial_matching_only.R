@@ -26,8 +26,8 @@ load("./data/data_set_of_full_teeth.RData")
 load("./data/ptsTrainList.RData")
 
 
-results_list <- list()
-for (d in 1:length(ptsTrainList[[tooth]])){
+#results_list <- list()
+for (d in 98:length(ptsTrainList[[tooth]])){
   print(d)
   print(Sys.time())
   partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[d]])[[side]])
