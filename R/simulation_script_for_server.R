@@ -4,13 +4,16 @@
 ### nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script1.R &
 ### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script1.Rout
 
+### nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server.R &
+### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server.Rout
+
 start_all <- Sys.time()
 library(fdasrvf)
 library(parallel)
 
 M <- 5
 k <- 5
-side <- 1 #could be 1 or 2.
+side <- 2 #could be 1 or 2.
 tooth <- "LM1"
 #/home/gmatthews1/shapeAnalysis
 
