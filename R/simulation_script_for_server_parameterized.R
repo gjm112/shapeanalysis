@@ -1,3 +1,22 @@
+# Login with 
+# gmatthew
+# PIN + PASSWORD
+# 
+# Log in to cooley. 
+# gmatthew@cooley.alcf.anl.gov
+# 
+# SE_HPC is the group on the cluster 
+# 
+# 
+# qsub -A SE_HPC -t 30 -n 1 -q pubnet --interactive
+# 
+# -t is time
+# -n how many nodes
+# 
+# Cd /projects/SE_HPC
+
+
+
 ###  nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script2.R &
 ### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script2.Rout
 
@@ -5,7 +24,10 @@
 ### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script1.Rout
 
 ###Rscript --verbose /Users/gregorymatthews/Dropbox/shapeanalysisgit/R/simulation_script_for_server_parameterized.R 1 > /Users/gregorymatthews/Dropbox/shapeanalysisgit/check.Rout
-###R CMD BATCH '--args d=2' /Users/gregorymatthews/Dropbox/shapeanalysisgit/R/simulation_script_for_server_parameterized.R & 
+###R CMD BATCH '--args d=1' R/simulation_script_for_server_parameterized.R & 
+
+
+
 
 ##First read in the arguments listed at the command line
 args=(commandArgs(TRUE))
@@ -39,7 +61,7 @@ date <- 20190522 #d is the number of tooth
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
-setwd("/Users/gregorymatthews/Dropbox/shapeanalysisgit/")
+#setwd("/Users/gregorymatthews/Dropbox/shapeanalysisgit/")
 source("./R/utility.R")
 source("./R/curve_functions.R")
 source("./R/calc_shape_dist_partial.R")
@@ -116,8 +138,8 @@ results_list <- list()
   #greg <- lapply(doesitwork, dist_imputed_to_whole, part = imputed_partial_shape[[1]][[m]])
   
   dist_imputed_to_whole2 <- function(part){
-    out <- lapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
-    #out <- mclapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
+    #out <- lapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
+    out <- mclapply(complete_shape_list, dist_imputed_to_whole, part = part, mc.cores = 12) #takes about 3 minutes.  2.11 minutes with mclapply
     return(out)
   }
   
