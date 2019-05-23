@@ -14,7 +14,7 @@ side <- 1 #could be 1 or 2.
 tooth <- "LM1"
 #/home/gmatthews1/shapeAnalysis
 
-setwd("/home/gmatthews1/shapeAnalysis")
+#setwd("/home/gmatthews1/shapeAnalysis")
 source("./R/utility.R")
 source("./R/curve_functions.R")
 source("./R/calc_shape_dist_partial.R")
@@ -92,8 +92,8 @@ for (d in 1:length(ptsTrainList[[tooth]])){
   #greg <- lapply(doesitwork, dist_imputed_to_whole, part = imputed_partial_shape[[1]][[m]])
   
   dist_imputed_to_whole2 <- function(part){
-    out <- lapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
-    #out <- mclapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
+    #out <- lapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
+    out <- mclapply(complete_shape_list, dist_imputed_to_whole, part = part, mc.cores = 12) #takes about 3 minutes.  2.11 minutes with mclapply
     return(out)
   }
   
