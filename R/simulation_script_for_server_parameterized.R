@@ -24,13 +24,17 @@
 ### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script1.Rout
 
 ###Rscript --verbose /Users/gregorymatthews/Dropbox/shapeanalysisgit/R/simulation_script_for_server_parameterized.R 1 > /Users/gregorymatthews/Dropbox/shapeanalysisgit/check.Rout
-###R CMD BATCH '--args d=3' R/simulation_script_for_server_parameterized.R & 
+###R CMD BATCH '--args d=4' R/simulation_script_for_server_parameterized.R   & 
 
 
 #Something like this????
-# for ((d = 4; d <= 5; d++));
-# do R CMD BATCH '--args d=${d}' R/simulation_script_for_server_parameterized.R ;
-# done;
+#!/bin/sh
+#This doesn't work becaue R can't parse the $d for some reason. 
+# for d in {1..1}
+# do
+#   echo $d
+#   R CMD BATCH '--args d=$d' R/simulation_script_for_server_parameterized.R simulation_script_for_server_parameterized_$d.Rout
+# done
 
 
 
