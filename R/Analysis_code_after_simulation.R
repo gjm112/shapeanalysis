@@ -1,6 +1,17 @@
+
+#Read in the reference file.
+library(googlesheets)
+library(dplyr)
+greg <- gs_ls()
+bovids <- gs_url("https://docs.google.com/spreadsheets/d/1KGkTVz5IVuBdtQie0QBdeHwyHVH41MjFdbpluFsDX6k/edit#gid=963640939")
+bovids.df <- bovids %>% gs_read(ws = 1)
+subset(bovids.df, `Tooth Type` == "LM1")
+
+
 #load("/home/gmatthews1/shapeAnalysis/results/results20190220.RData")
 #load("./results20190220.RData")
 load("./results20190503_side=1_k=5_M=5_tooth=LM1.RData")
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190503_side=1_k=5_M=5_tooth=LM1.RData")
 
 # for (i in 1:length(results_list)){
 # results_list[[i]]$dist <- results_list[[i]]$dist[-grep("Error",results_list[[i]]$dist$V1),]
