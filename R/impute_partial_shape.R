@@ -29,6 +29,7 @@ impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M =
   # stopCluster(cl)
   
   potential_donor_indices <- c(1:length(dist_vec))[order(dist_vec)][1:k]
+  #subset(ref_file, ref %in% names(dist_vec)[potential_donor_indices])
   #Randomly pick M of these with replacement
   donor_indices <- sample(potential_donor_indices, M, replace = TRUE)
   
