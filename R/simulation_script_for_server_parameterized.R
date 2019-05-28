@@ -8,12 +8,13 @@
 # SE_HPC is the group on the cluster 
 # 
 # 
-# qsub -A SE_HPC -t 30 -n 1 -q pubnet --interactive
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet --interactive
 # 
 # -t is time
 # -n how many nodes
 # 
 # Cd /projects/SE_HPC
+# qsub /home/gmatthew/Work/shapeanalysis/shape_script.sh -A SE_HPC -t 720 -n 1 -q pubnet --interactive
 
 
 

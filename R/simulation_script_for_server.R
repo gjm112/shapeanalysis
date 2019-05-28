@@ -4,8 +4,12 @@
 ### nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script1.R &
 ### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script1.Rout
 
-### nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server.R &
-### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server.Rout
+### nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side1.Rout &
+### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side2.Rout
+
+### nohup R CMD BATCH --vanilla R/simulation_script_for_server.R simulation_script_for_server_side1.Rout &
+### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side2.Rout
+
 
 start_all <- Sys.time()
 library(fdasrvf)
@@ -153,7 +157,7 @@ for (d in 1:length(ptsTrainList[[tooth]])){
   
   end_all <- Sys.time()
   end_all-start_all
-  outfile <- paste0("./results/results20190503_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+  outfile <- paste0("./results/results20190525_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
   save.image(outfile)
 }
 

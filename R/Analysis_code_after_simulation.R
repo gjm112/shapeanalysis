@@ -13,6 +13,13 @@ subset(bovids.df, `Tooth Type` == "LM1")
 load("./results20190503_side=1_k=5_M=5_tooth=LM1.RData")
 load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190503_side=1_k=5_M=5_tooth=LM1.RData")
 
+part <- results_list[[1]]$imputed_partial_shape$imputed[[1]]
+whole <- resamplecurve(t(ptsTrainList[[tooth]][[d]]),199)
+calc_shape_dist(part,whole)
+results_list[[1]]$dist[1,]
+
+results_list[[1]]$dist[order(results_list[[1]]$dist$V4),][1:10,]
+
 # for (i in 1:length(results_list)){
 # results_list[[i]]$dist <- results_list[[i]]$dist[-grep("Error",results_list[[i]]$dist$V1),]
 # results_list[[i]]$dist$V1 <- as.numeric(as.character(results_list[[i]]$dist$V1))
