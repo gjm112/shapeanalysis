@@ -10,6 +10,9 @@
 ### nohup R CMD BATCH --vanilla R/simulation_script_for_server.R simulation_script_for_server_side2.Rout &
 ### tail -f simulation_script_for_server_side2.Rout
 
+# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script.sh
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script.sh
+
 
 start_all <- Sys.time()
 library(fdasrvf)
@@ -17,7 +20,7 @@ library(parallel)
 
 M <- 5
 k <- 5
-side <- 1 #could be 1 or 2.
+side <- 2 #could be 1 or 2.
 tooth <- "LM3"
 #/home/gmatthews1/shapeAnalysis
 
