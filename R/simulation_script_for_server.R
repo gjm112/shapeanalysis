@@ -7,8 +7,8 @@
 ### nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side1.Rout &
 ### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side2.Rout
 
-### nohup R CMD BATCH --vanilla R/simulation_script_for_server.R simulation_script_for_server_side1.Rout &
-### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side2.Rout
+### nohup R CMD BATCH --vanilla R/simulation_script_for_server.R simulation_script_for_server_side2.Rout &
+### tail -f simulation_script_for_server_side2.Rout
 
 
 start_all <- Sys.time()
@@ -18,7 +18,7 @@ library(parallel)
 M <- 5
 k <- 5
 side <- 2 #could be 1 or 2.
-tooth <- "LM1"
+tooth <- "LM2"
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
@@ -38,6 +38,7 @@ load("./data/ptsTrainList.RData")
 #Need a function that takes each partial tooth as an argument to get to parallel.  
 results_list <- list()
 for (d in 1:length(ptsTrainList[[tooth]])){
+  #for (d in 276:length(ptsTrainList[[tooth]])){
   #for (d in 1:1){
   print(d)
   print(Sys.time())
