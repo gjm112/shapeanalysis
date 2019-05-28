@@ -17,8 +17,8 @@ library(parallel)
 
 M <- 5
 k <- 5
-side <- 2 #could be 1 or 2.
-tooth <- "LM2"
+side <- 1 #could be 1 or 2.
+tooth <- "LM3"
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
