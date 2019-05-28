@@ -20,7 +20,7 @@ library(parallel)
 
 M <- 5
 k <- 5
-side <- 1 #could be 1 or 2.
+side <- 2 #could be 1 or 2.
 tooth <- "UM1"
 #/home/gmatthews1/shapeAnalysis
 
