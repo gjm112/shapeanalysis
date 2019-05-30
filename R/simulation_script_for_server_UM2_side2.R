@@ -14,6 +14,7 @@
 # qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script.sh
 
 
+
 start_all <- Sys.time()
 library(fdasrvf)
 library(parallel)
@@ -22,6 +23,9 @@ M <- 5
 k <- 5
 side <- 2 #could be 1 or 2.
 tooth <- "UM2"
+
+file <- paste0("./results/results20190525_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+load(file)
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
@@ -39,9 +43,9 @@ load("./data/ptsTrainList.RData")
 #i <- 1 #Whcih tooth.  DSCN number 
 
 #Need a function that takes each partial tooth as an argument to get to parallel.  
-results_list <- list()
-for (d in 1:length(ptsTrainList[[tooth]])){
-  #for (d in 276:length(ptsTrainList[[tooth]])){
+#results_list <- list()
+#for (d in 1:length(ptsTrainList[[tooth]])){
+for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   #for (d in 1:1){
   print(d)
   print(Sys.time())
@@ -80,7 +84,7 @@ for (d in 1:length(ptsTrainList[[tooth]])){
   
   #Now do classification on the completed shapes just using closest 
   ref_file <- read.csv("./data/refFile.csv")
-  DSCN_target <- names(ptsTrainList[["LM1"]])[[d]]
+  DSCN_target <- names(ptsTrainList[[tooth]])[[d]]
   truth <- subset(ref_file,ref == DSCN_target)
   
   # ref_file[ref_file$tooth == "LM1",]
@@ -200,7 +204,6 @@ for (d in 1:length(ptsTrainList[[tooth]])){
 # 
 # mn_shape <- apply(arr,c(1,2),mean)
 # points(t(mn_shape), type = "l", col = rgb(0.1,0.2,0.7), lwd = 2)
-# 
 # 
 # imputed<-test
 # out<-list(complete_shape_list,imputed)
