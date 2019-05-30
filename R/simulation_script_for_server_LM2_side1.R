@@ -84,7 +84,7 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   
   #Now do classification on the completed shapes just using closest 
   ref_file <- read.csv("./data/refFile.csv")
-  DSCN_target <- names(ptsTrainList[["LM1"]])[[d]]
+  DSCN_target <- names(ptsTrainList[[tooth]])[[d]]
   truth <- subset(ref_file,ref == DSCN_target)
   
   # ref_file[ref_file$tooth == "LM1",]
@@ -204,7 +204,6 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
 # 
 # mn_shape <- apply(arr,c(1,2),mean)
 # points(t(mn_shape), type = "l", col = rgb(0.1,0.2,0.7), lwd = 2)
-# 
 # 
 # imputed<-test
 # out<-list(complete_shape_list,imputed)

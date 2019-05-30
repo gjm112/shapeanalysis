@@ -205,7 +205,6 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
 # mn_shape <- apply(arr,c(1,2),mean)
 # points(t(mn_shape), type = "l", col = rgb(0.1,0.2,0.7), lwd = 2)
 # 
-# 
 # imputed<-test
 # out<-list(complete_shape_list,imputed)
 # save(out,file = "/Users/gregorymatthews/Dropbox/shapeanalysisgit/data/example_data_for_sebastian.RData")
