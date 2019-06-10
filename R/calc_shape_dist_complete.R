@@ -31,7 +31,7 @@ if (scale == TRUE){
 
 minE <- Inf
 #I think we are looking across all strting points around the curve?
-for (j in 0:(N_complete-1)){print(j)
+for (j in 0:(N_complete-1)){
   #What does shiftF do??
   #Why N_complete - 1 and not just N_complete??????
   mu <- ShiftF(complete_shape[,1:(N_complete-1)],j) 
