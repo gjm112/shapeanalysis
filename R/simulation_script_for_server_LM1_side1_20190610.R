@@ -45,9 +45,9 @@ load("./data/ptsTrainList.RData")
 
 #Need a function that takes each partial tooth as an argument to get to parallel.  
 results_list <- list()
-#for (d in 1:length(ptsTrainList[[tooth]])){
+for (d in 1:length(ptsTrainList[[tooth]])){
 #for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
-  for (d in 1:1){
+  #for (d in 1:1){
   print(d)
   print(Sys.time())
   partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[d]])[[side]])
