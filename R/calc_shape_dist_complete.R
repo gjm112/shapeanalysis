@@ -1,7 +1,7 @@
 #complete_shape and partial shape are both completed shapes.  
 #partial shape should be in the imputed shape.  
 #This function is no symmetric.  
-calc_shape_dist_complete(complete_shape,partial_shape,scale = FALSE){
+calc_shape_dist_complete <- function(complete_shape,partial_shape,scale = FALSE){
 
 #Dimension
 d <- dim(complete_shape)[1]
