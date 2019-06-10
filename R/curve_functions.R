@@ -251,9 +251,9 @@ inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
   beta2 = out$R %*% beta2
   gamI = invertGamma(out$gam)
   
-  #This line is badly screwing up the rotations.  I've removed this.  
-  #Can I justify that?  
-  #Maybe only run is mode = "O"
+  
+  
+  #This absolutely needs to only be run for open curves.
   if (mode == "O") {
   beta2 = group_action_by_gamma_coord(beta2, gamI)
   }
@@ -406,3 +406,7 @@ innerprod_q2 <- function(q1, q2){
   
   return(val)
 }
+
+
+
+
