@@ -21,8 +21,8 @@ library(parallel)
 
 M <- 5
 k <- 5
-side <- 1 #could be 1 or 2.
-tooth <- "LM2"
+side <- 2 #could be 1 or 2.
+tooth <- "UM1"
 
 file <- paste0("./results/results20190525_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
 load(file)
@@ -32,11 +32,12 @@ load(file)
 source("./R/utility.R")
 source("./R/curve_functions.R")
 source("./R/calc_shape_dist_partial.R")
+source("./R/calc_shape_dist_complete.R")
 source("./R/complete_partial_shape.R")
 source("./R/impute_partial_shape.R")
 source("./R/tooth_cutter.R")
 
-ref_file <- read.csv("./data/refFile.csv")
+ref_file <- read.csv("./data/reference_db.csv")
 load("./data/data_set_of_full_teeth.RData")
 load("./data/ptsTrainList.RData")
 #save(ptsTrainList, file = "/Users/gregorymatthews/Dropbox/shapeanalysisgit/data/ptsTrainList.RData")
@@ -83,9 +84,9 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   
   
   #Now do classification on the completed shapes just using closest 
-  ref_file <- read.csv("./data/refFile.csv")
+  ref_file <- read.csv("./data/reference_db.csv")
   DSCN_target <- names(ptsTrainList[[tooth]])[[d]]
-  truth <- subset(ref_file,ref == DSCN_target)
+  truth <- subset(ref_file,Image.Name == DSCN_target)
   
   # ref_file[ref_file$tooth == "LM1",]
   # whole <- complete_shape_list[["DSCN2879"]]
@@ -96,7 +97,7 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   dist_imputed_to_whole <- function(whole,part){
     whole <- resamplecurve(whole,N = dim(part)[2], mode = "C") 
     print(Sys.time())
-    out <- calc_shape_dist(whole,part,mode="C")
+    out <- calc_shape_dist_complete(whole,part,mode="C")
     return(out)
   }
   
@@ -143,7 +144,7 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   # points(t(part+c(150,-100)))
   ################################################################################################################################
   
-  dist <- merge(dist, ref_file, by.x = "DSCN", by.y = "ref", all.x = TRUE)
+  dist <- merge(dist, ref_file, by.x = "DSCN", by.y = "Image.Name", all.x = TRUE)
   
   #Smallest to largest
   #knn <- 5
@@ -158,14 +159,14 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   #dist_partial <- data.frame(DSCN = names(unlist(fret)), dist = unlist(fret))
   dist_partial <- data.frame(DSCN = names(unlist(imputed_partial_shape$dist_vec)), dist = unlist(imputed_partial_shape$dist_vec))
   
-  dist_partial <- merge(dist_partial,ref_file,by.x = "DSCN",by.y = "ref", all.x = TRUE)
+  dist_partial <- merge(dist_partial,ref_file,by.x = "DSCN",by.y = "Image.Name", all.x = TRUE)
   
   results_list[[DSCN_target]] <- list(dist = dist , dist_partial = dist_partial, truth = truth, imputed_partial_shape = imputed_partial_shape)
   print(dist)
   
   end_all <- Sys.time()
   end_all-start_all
-  outfile <- paste0("./results/results20190525_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+  outfile <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
   save.image(outfile)
 }
 
