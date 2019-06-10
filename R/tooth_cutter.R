@@ -19,7 +19,7 @@ tooth_cutter <- function(tooth) {
   suitable_points <- which(tooth_distance == min(lowest_distance(tooth_distance), na.rm = 1), arr.ind = 1)
   
   cut_points <- suitable_points[which(diff(t(suitable_points)) >= 20 & diff(t(suitable_points)) <= 40),]
-  if (nrow(cut_points) >1){
+  if (length(cut_points) > 2){
     cut_points <- cut_points[1,]
   }
   # Creates new data sets for the tooth in question, depending on if they are between the points in question or not
