@@ -24,8 +24,8 @@ k <- 5
 side <- 1 #could be 1 or 2..
 tooth <- "LM3"
 
-#file <- paste0("./results/results20190525_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
-#load(file)
+file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+load(file)
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
@@ -44,9 +44,9 @@ load("./data/ptsTrainList.RData")
 #i <- 1 #Whcih tooth.  DSCN number 
 
 #Need a function that takes each partial tooth as an argument to get to parallel.  
-results_list <- list()
-for (d in 1:length(ptsTrainList[[tooth]])){
-#for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
+#results_list <- list()
+#for (d in 1:length(ptsTrainList[[tooth]])){
+for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   #for (d in 1:1){
   print(d)
   print(Sys.time())
