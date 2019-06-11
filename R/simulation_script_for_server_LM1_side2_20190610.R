@@ -21,8 +21,8 @@ library(parallel)
 
 M <- 5
 k <- 5
-side <- 2 #could be 1 or 2..
-tooth <- "LM1"
+side <- 1 #could be 1 or 2..
+tooth <- "LM2"
 
 #file <- paste0("./results/results20190525_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
 #load(file)
