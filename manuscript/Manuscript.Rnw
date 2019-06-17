@@ -30,10 +30,72 @@
 
 \begin{document}
 
-
-
-
 \section{Introduction}
+Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
+
+\subsection{Statistical Shape Analysis}
+Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.
+
+Later, \citet{Bookstein1997} defined the concept of slidibng landmarks.   WHAT ARE THESE......explain.  
+
+
+
+%Statistical shape analysis is interested in studying a wide variety of questions about shapes from statistical view such as, for example, how different are two shapes, what is the mean / variability of a collection of shapes, and, of particular interest in this manuscipt, shape classification.  In order to work with shapes statistically, a framework needs to be defined for representing shapes, and there are many different idea for doing this.  For instance, shapes can be represented by landmarks \citep{Kendall1984,LeAndKendall1993,MardiaAndDryden1989}. A landmark is a point on a shape that corresponds to a point on another shape across and within populations.  
+
+Sliding landmarks by Bookstein.  
+
+Section 1.2.4 in FSU disserttion is a good description of this.  
+
+Shape analysis in general. 
+
+
+
+
+Partial Shape matching. 
+http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
+
+
+\section{2.1 - Landmarks}
+{\bf A landmark if a point of correspondence on each object that matches between and within populations}
+
+\begin{itemize}
+\item scientific landmark (also called anatomical landmarks): Assigned by an expert and meaningful (i.e. corner of the eye)
+\item Mathmetical landmarks: Locations for some mathematically relevant reason.  (i.e. high curvature points or extreme points)
+\item pseudo-landmarks: Exampel evenly spaced points between two landmarks.  
+\end{itemize}
+
+\section{Chapter 2}
+ratios of distances between landmarks: "Multivariate morphometrics" Rao 1948
+Reyment et al 1984, p120 
+Pearson 1926 \
+
+Geometric morhometrics or geometric shape analysis uses the actual points or coordinates.
+
+<<>>=
+# library(shapes)
+# data(apes)
+# size<-centroid.size(apes$x)
+# plot(apes$group,size)
+@
+
+\section{\texttt{shapes} package in R}  
+  
+\section{Missing Data}
+EM algorithm (Depster Laird and Rubin.  )
+Multiple Imputation (Rubin and Little)
+
+\subsection{13.1 - Incomplete Data}
+Papers mentioned: 
+\begin{itemize}
+\item Albers and Gower (2010) - Missing data in procrustes
+\item Mitchelson (2013) - handling occluded landmarks. 
+\item Gunz et. al. (2009) - missing data in studies of biological evolution of bone surfaces
+
+\end{itemize}
+
+
+
+
 KAJAL's (and grady) Lit review
 %\citet{AdamsConroy2005}
 
@@ -49,6 +111,8 @@ C: \mathbb{S} \rightarrow \mathbb{R}^2
 $$, 
 where $\mathbb{S}$ is the unit sphere.  
 
+
+
 %Brian Notation
 A shape can then be defined as an equivalence class containing all possible rotations, translations, scalings, and reparameterizations of a closed curve $C$.  Specifically,  a shape $[\beta]$ is formally defined as 
 $$
@@ -61,8 +125,10 @@ $$
 [\beta^{\star}] = \{ O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
 $$
 
-\subsection{Partial Shapes}
-Now consider a function, $R$, defined over the set $\mathbb{S}$, which returns a 1 if the shape is observed at that location and a 0 otherwise.  Specifically,   
+
+
+\subsection{Missingness Function}
+Now consider a function, $R'$, defined over the set $\mathbb{S}$, which returns a 1 if the shape is observed at that location and a 0 otherwise.  Specifically,   
 $$
 R': \mathbb{S} \rightarrow \left\{0,1\right\}^2
 $$
@@ -72,11 +138,43 @@ $$
 R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
 $$
 
-Now for a specific curve $C$ in the equivalence class $[\beta^{\star}]$, we can define the function $R$.  However, for every reparameterization of $C$ in the equivalence class $[\beta^{\star}]$, we need to reparameterize $R'$ in the same manner.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here it is required that $R^{-1}(1)$ be a connected subset of $\mathbb{S}$.  This prevents us from considering shapes with multiple ``gaps".  
+Now for a specific curve $C$ in the equivalence class $[\beta^{\star}]$, we can define the function $R$.  However, for every reparameterization of $C$ in the equivalence class $[\beta^{\star}]$, there is a corresponding reparameterization of $R$  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here it is required that $R^{-1}(1)$ be a connected subset of $\mathbb{S}$.  This prevents us from considering shapes with multiple ``gaps". 
+
+For a given shape, there are many possible reparameterizations of the missingness function, and an equivalence class can be defined for the missingness function across reparametertizations as follows:  
+
+%I think I only need reparameterizations for R?.  
+$$
+[\rho] = \{ R(\gamma(t)) , \gamma \in \Gamma \} 
+$$
+
+Next, we define an equivalence class by combining both size-shape and missingness functions as follows:  
+$$
+[\beta^{\star}, \rho] = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \}
+$$ \
+
+
+Given this we can break up 
+$$
+[\beta^{\star}_{obs}, \rho] = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 1  \}
+$$
+
+%Could also say where $t \in \gamma^{-1}(R^{-1}(1))$
+
+$$
+[\beta^{\star}_{mis}, \rho] = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 0  \}
+$$
+
+We somehow want to get something like this:  
+$$
+P(\beta^{\star}_{mis} | \beta^{\star}_{obs}, R)
+$$
+
+
+ 
 
 
 Now this allows us the ability to define the (joint?) equivalence class. 
-%Do I need the concept of "jooint equivalence class"?  
+%Do I need the concept of "joint equivalence class"?  
 $$
 [\beta^{\star}] = \{ OC(\gamma(t)) + a, R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 )\} 
 $$
@@ -94,6 +192,8 @@ $$
 [\beta^{\star}, \varrho] = ([\beta^{\star}, \varrho]_{obs} \cup [\beta^{\star}, \varrho]_{mis})
 $$
 
+
+
 \section{Imputation}
 Assuming ignorability of the missingness mechanism: 
 Draw imputations from: $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$.
@@ -101,22 +201,26 @@ Draw imputations from: $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$.
 
 How do we approximate this: $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$
 
-Let $[\beta^{\star}]_i$ be the $i$-th observation for $i = 1 \cdots n$ where $n$ is the number of fully observed and an observation is the equivalence class containg shape and size information (no scaling allowed).  Additionally, let $[\beta^{\star}_{obs}]_j$ and $[\beta^{\star}_{obs}]_j$ be the observed and missing parts of the $j$-th observation where $j = 1 \cdots n_m$.   
+Let $[\beta^{\star}]_i$ be the $i$-th observation for $i = 1 \cdots n$ where $n$ is the number of fully observed and an observation is the equivalence class containg shape and size information (no scaling allowed).  Additionally, let $[\beta^{\star}_{obs}]_j$ and $[\beta^{\star}_{obs}]_j$ be the observed and missing parts of the $j$-th observation where $j = 1 \cdots n_m$.  
+
+
 
 In order to empirically approximate $P([\beta^{\star}_{mis}] | [\beta^{\star}_{obs}])$, we must first compute the distance between $dist([\beta^{\star}_{obs}]_j, [\beta^{\star}]_i)$ for all $i$.  
 
 %How do I say "shape without scaling" sucinctly?  Can I say rigis shape?  Meanng that it doesn't scale? 
 
+
 %Algorithm Steps
-Given a partial shape of fixed size (i.e one open curve) $[\beta^{\star}_{obs}]_j$ and a collection of complete shapes (i.e. closed curves) [\beta^{\star}]_i, i = 1, \cdots, n$, we complete the partial shape using the following algorithm: 
+Given a partial shape of fixed size (i.e one open curve) $[\beta^{\star}_{obs}]_j$ and a collection of complete shapes (i.e. closed curves) $[\beta^{\star}]_i$, $i = 1, \cdots, n$, we complete the partial shape using the following algorithm: 
 \begin{itemize}
-\item Calculate the distance between the partial observed shape of fixed size and each closed curve. That is compute $d_{ij} = 
+\item Calculate the distance between the partial observed shape of fixed size and each closed curve. That is compute $d_{ij}$ = 
 dist($[\beta^{\star}_{obs}]_j$, $[\beta^{\star}]_i$) across all $i$.  
 \item C
 \end{itemize}
 
 
- 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Old work
@@ -452,6 +556,7 @@ donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[
 
 
 @
+
 \caption{Test}
 
 \end{figure}
