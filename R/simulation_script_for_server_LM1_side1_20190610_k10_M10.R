@@ -1,4 +1,4 @@
-y###  nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script2.R &
+###  nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script2.R &
 ### tail -f /home/gmatthews1/shapeAnalysis/R/simulation_script2.Rout
 
 ### nohup R CMD BATCH --vanilla /home/gmatthews1/shapeAnalysis/R/simulation_script1.R &
