@@ -7,8 +7,8 @@
 ### nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side1.Rout &
 ### tail -f /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_side2.Rout
 
-### nohup R CMD BATCH --vanilla R/simulation_script_for_server.R simulation_script_for_server_side2.Rout &
-### tail -f simulation_script_for_server_side2.Rout
+# nohup R CMD BATCH --vanilla R/simulation_script_for_server.R simulation_script_for_server_side2.Rout &
+# tail -f simulation_script_for_server_side2.Rout
 
 # chmod +x /home/gmatthew/Work/shapeanalysis/shape_script.sh
 # qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script.sh
