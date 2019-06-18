@@ -21,7 +21,7 @@ library(parallel)
 
 M <- 10
 k <- 10
-side <- 1 #could be 1 or 2
+side <- 1 #could be 1 or 2.
 tooth <- "UM3"
 
 #file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
