@@ -31,14 +31,41 @@
 \begin{document}
 
 \section{Introduction}
-Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
+%Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
 
 \subsection{Statistical Shape Analysis}
 \subsection{Landmarks}
-Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.  Later,the concept of sliding landmarks \citet{Green1996, Bookstein1997} was proposed.  Sliding landmarks are the same as landmarks except that they are allowed to ``slide" along the contour of the curve when being aligned with a reference set of landmarks.  
+%Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.  Later,the concept of sliding landmarks \citet{Green1996, Bookstein1997} was proposed.  Sliding landmarks are the same as landmarks except that they are allowed to ``slide" along the contour of the curve when being aligned with a reference set of landmarks.  
 
 \subsection{Continuous Curves}
-Rather than 
+Rather than describing a closed shape with a discrete set of points, a function can be used: 
+$$
+\beta:  \mathbb{S} \rightarrow \mathbb{R}^n 
+$$
+where $\mathbb{S}$ is the unit sphere and guarantees that the function has the same start and end point (i.e. is a closed curve).  The function $\beta$ is a closed curve but scalings, translations, rotations and reparameterizations of this function will usually result in different functions, which means that this framework does not offer invariance across these transformations.  Rather than using this function directly, the first derivative could be used, which results in a translation invariant representation.  
+
+This representation is the foundation of the square root velocity function (SRVF) (CITE) framework, which allows invariance across tranlsation, rotation, (optional) scaling, and reparameterization.  Frameworks for representing shapes that have invariance over reparameterization are said to be {\em elastic}. 
+
+To define the SRVF start by considering an absolutely continuous function $\beta:  \mathbb{S} \rightarrow \mathbb{R}^n$.  The SRVF of this function $q:  \mathbb{S} \rightarrow \mathbb{R}^n$ is defined as the following: 
+
+$$
+q(t) = \left\{ \begin{array}{ll}
+         \frac{\dot{\beta(t)}}{\sqrt{||\beta(t)||}} & \mbox{If \dot{\beta(t)} exist and is nonzero};\\
+        0 & otherwise \end{array} \right 
+$$
+
+where $\dot{\beta(t)}$ is the first derivative of the function $\beta(t)$.  
+
+
+
+
+
+
+
+
+
+
+A full review of other methods for shape analysis can be found in \cite{FSDA}.  
 
 
 %Statistical shape analysis is interested in studying a wide variety of questions about shapes from statistical view such as, for example, how different are two shapes, what is the mean / variability of a collection of shapes, and, of particular interest in this manuscipt, shape classification.  In order to work with shapes statistically, a framework needs to be defined for representing shapes, and there are many different idea for doing this.  For instance, shapes can be represented by landmarks \citep{Kendall1984,LeAndKendall1993,MardiaAndDryden1989}. A landmark is a point on a shape that corresponds to a point on another shape across and within populations.  
@@ -55,36 +82,17 @@ Shape analysis in general.
 Partial Shape matching. 
 http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
 
-
-\section{2.1 - Landmarks}
-{\bf A landmark if a point of correspondence on each object that matches between and within populations}
-
-\begin{itemize}
-\item scientific landmark (also called anatomical landmarks): Assigned by an expert and meaningful (i.e. corner of the eye)
-\item Mathmetical landmarks: Locations for some mathematically relevant reason.  (i.e. high curvature points or extreme points)
-\item pseudo-landmarks: Exampel evenly spaced points between two landmarks.  
-\end{itemize}
-
-\section{Chapter 2}
-ratios of distances between landmarks: "Multivariate morphometrics" Rao 1948
-Reyment et al 1984, p120 
-Pearson 1926 \
-
-Geometric morhometrics or geometric shape analysis uses the actual points or coordinates.
-
-<<>>=
-# library(shapes)
-# data(apes)
-# size<-centroid.size(apes$x)
-# plot(apes$group,size)
-@
-
-\section{\texttt{shapes} package in R}  
-  
 \section{Missing Data}
-EM algorithm (Depster Laird and Rubin.  )
+Missing data problems arise in many statistical settings due to survey non-response, designed missingness in surveys (CITE), measurement error, and latent classes, to name a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, (Demspter Laird and Rubin) describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation (CITE Rubin and Little, Schafer).  The idea behind multiple imputation is to blah blah blah.......
+
+
+EM algorithm (Depster Laird and Rubin)
 Multiple Imputation (Rubin and Little)
 
+For a more thorough review of the missing data literature, see \cite{HortonAndKleinman2007} (Add more).  
+
+
+\section{Missing Data and Shapes}
 \subsection{13.1 - Incomplete Data}
 Papers mentioned: 
 \begin{itemize}
@@ -93,6 +101,7 @@ Papers mentioned:
 \item Gunz et. al. (2009) - missing data in studies of biological evolution of bone surfaces
 
 \end{itemize}
+
 
 
 
