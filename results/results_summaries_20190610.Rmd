@@ -1,0 +1,717 @@
+---
+title: "Shape Imputation Results"
+author: "Gregory J. Matthews, Ph.D."
+date: "6/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+LM1, side 1
+===
+
+```{r echo = FALSE}
+library(dplyr)
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=1_k=5_M=5_tooth=LM1_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=1_k=5_M=5_tooth=LM1_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_spec <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_spec, alpha = 0)
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+
+LM1, side 2
+===
+
+
+```{r echo = FALSE}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=LM1_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=LM1_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+LM3, side 1
+===
+
+```{r echo = FALSE}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=1_k=5_M=5_tooth=LM3_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=1_k=5_M=5_tooth=LM3_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+LM3, side 2
+===
+
+```{r echo = FALSE}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=LM3_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=LM3_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+UM2, side 1
+===
+
+```{r echo = FALSE}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=1_k=5_M=5_tooth=UM2_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=1_k=5_M=5_tooth=UM2_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+UM2, side 2
+===
+
+```{r echo = FALSE}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=UM2_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=UM2_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+
+
+
+
+UM3, side 2
+===
+
+```{r echo = FALSE}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=UM3_summaries.RData")
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+
+fret <- data.frame(true_pred_prob_imputed = imputed_match_df$true_pred_prob, true_pred_prob_part = part_match_df$true_pred_prob, true = imputed_match_df$true)
+
+hull_tribe <- fret %>%
+  group_by(true) %>%
+  slice(chull(true_pred_prob_imputed, true_pred_prob_part))
+
+# Update the plot with a fill group, and overlay the new hulls
+#p + aes(fill = factor(cyl)) + geom_polygon(data = hull_cyl, alpha = 0.5)
+
+ggplot(aes(x = true_pred_prob_imputed, y = true_pred_prob_part, col = true), data = fret) +  geom_point() + geom_polygon(data = hull_tribe, alpha = 0)
+```
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+imputed_match_df$pred <- names(imputed_match_df[,1:7])[apply(imputed_match_df[,1:7],1,which.max)]
+table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+```
+
+ROC Analysis - One class at a time
+Imputed - Blue, No Imputation - Red
+```{r}
+#ROC analysis 
+
+for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+
+temp <- imputed_match_df
+tribe <- q
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="blue", main = tribe)
+
+temp <- part_match_df
+temp$true <- as.character(temp$true)
+temp$true[(temp$true) != tribe] <- 0
+temp$true[(temp$true) == tribe] <- 1
+
+library(ROCR)
+pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+plot(perf, col="red", add = TRUE, lty = 3)
+
+}
+
+```
+
+Predicting Species
+```{r}
+load("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=2_k=5_M=5_tooth=UM3_summaries_species.RData")
+
+
+fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+library(ggplot2)
+ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+```
+
+
+Confusion matrix - Imputed Shapes
+```{r}
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+
+table(factor(imputed_match_df$true,levels = spec),factor(imputed_match_df$pred, levels = spec))
+```
+
+Confusion matrix - No Imputation 
+```{r}
+
+#Predict the class
+spec <- c("buselaphus","dorcas","gnou","taurinus", "marsupialis","oryx","scriptus","strepsiceros", "campestris","capreolus","oreotragus","ourebi","caffer", "arundinum","ellipsiprymnus","fulvorufulva","leche", "equinus","gazella","niger")
+
+part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:20],1,which.max)]
+table(factor(part_match_df$true,levels = spec),factor(part_match_df$pred, levels = spec))
+```
+
+
+
