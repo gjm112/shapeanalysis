@@ -13,6 +13,14 @@
 # chmod +x /home/gmatthew/Work/shapeanalysis/shape_script.sh
 # qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script.sh
 
+#!/usr/bin/bash
+
+# nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_LM3_side2_20190610_k5_M5.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_LM3_side2_20190610_k5_M5.Rout
+# 
+# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_UM1_1_k10_M10.sh
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_UM1_1_k10_M10.sh
+
+
 
 
 start_all <- Sys.time()
