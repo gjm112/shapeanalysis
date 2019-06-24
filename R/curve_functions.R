@@ -225,7 +225,7 @@ calculatecentroid <- function(beta){
 
 
 
-inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
+inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T, scale = FALSE){
   T1 = ncol(beta1)
   centroid1 = calculatecentroid(beta1)
   dim(centroid1) = c(length(centroid1),1)
@@ -273,13 +273,21 @@ inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
   # }
   
   # Compute geodesic distance
-  q1dotq2 = innerprod_q2(q1-q2n, q1-q2n)
-  #if (q1dotq2>1){
-  #  q1dotq2 = 1.
-  #}
+  if (scale == FALSE){
+    dist  = innerprod_q2(q1-q2n, q1-q2n)
+  }
   
-  #dist = acos(q1dotq2)
-  dist <- q1dotq2
+  if (scale == TRUE){
+    q1dotq2 = innerprod_q2(q1, q2n)
+    if (q1dotq2>1){
+    q1dotq2 = 1.
+  }
+    dist = acos(q1dotq2)
+  }
+  
+   
+  
+  
   
   # u = q2n - q1dotq2 * q1
   # normu = sqrt(innerprod_q2(u,u))
@@ -295,9 +303,9 @@ inverse_exp_coord <- function(beta1, beta2, mode = "O", rotated = T){
 
 
 #Always need to speciify the mode. 
-calc_shape_dist <- function (beta1, beta2, mode = "O") 
+calc_shape_dist <- function (beta1, beta2, mode = "O", scale = FALSE) 
 {
-  out = inverse_exp_coord(beta1, beta2, mode)
+  out = inverse_exp_coord(beta1, beta2, mode, scale = scale)
   return(out)
 }
 

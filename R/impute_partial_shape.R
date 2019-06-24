@@ -4,14 +4,14 @@
 #It then returns M completed shapes
 ######################################
 
-impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M = 5){
+impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M = 5, scale = FALSE){
   
   # dist_vec <- c(NA, length(complete_shape_list))
   # for (i in 1:length(complete_shape_list)){print(i)
   #   dist_vec[i] <- calc_shape_dist_partial(complete_shape_list[[i]],partial_shape)
   # }
   
-  dist_vec <- unlist(mclapply(complete_shape_list,calc_shape_dist_partial,partial_shape = partial_shape, scale = FALSE, mc.cores = 20))
+  dist_vec <- unlist(mclapply(complete_shape_list,calc_shape_dist_partial,partial_shape = partial_shape, scale = scale, mc.cores = 20))
 
   
   # library(foreach)
