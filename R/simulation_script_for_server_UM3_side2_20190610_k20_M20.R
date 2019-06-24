@@ -17,8 +17,8 @@
 
 #nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k20_M20.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_LM3_side1_20190610_k20_M20.Rout
 
-# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_UM2_1_k10_M10.sh
-# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_UM2_1_k10_M10.sh
+# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k20_M20.sh
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k20_M20.sh
 
 
 
