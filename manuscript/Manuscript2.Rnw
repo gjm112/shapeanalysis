@@ -20,7 +20,7 @@
 \begin{document}
 \title{Classification of shapes}
 %\author{Gregory J. Matthews, Kartik Barath, Sebastian Kurtek, Juliet Brophy, George Thiruvathukal, Ofer Harel, Grady Flanary}
-\author{Gregory J. Matthews}
+\author{Gregory J. Matthews et. al. }
 \date{\today}
 
 \maketitle
