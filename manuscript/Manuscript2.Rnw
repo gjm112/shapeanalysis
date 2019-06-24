@@ -1,0 +1,532 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,graphicx,color,setspace,enumerate,natbib}
+\newcommand{\subscript}[2]{$#1#2$}
+\newcommand{\Eyx}{\mathbb{E}_{Y|X}}
+\newcommand{\Ex}{\mathbb{E}_X}
+\newcommand{\sm}{\sup_{x \in M_c}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\C}{C}
+\newcommand{\X}{X}
+\newcommand{\CX}{\C^m \circ \X}
+\newcommand{\Rtwo}{\mathbb{R}^2}
+\newcommand{\ltwo}{\mathbb{L}^2}
+\newcommand{\uc}{\mathbb{S}}
+\DeclareMathOperator*{\argmin}{argmin}
+%\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}
+%\newtheorem*{proof}{Proof}
+\begin{document}
+\title{Classification of shapes}
+%\author{Gregory J. Matthews, Kartik Barath, Sebastian Kurtek, Juliet Brophy, George Thiruvathukal, Ofer Harel, Grady Flanary}
+\author{Gregory J. Matthews}
+\date{\today}
+
+\maketitle
+\section{Introduction}
+%Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
+
+\subsection{Statistical Shape Analysis}
+\subsection{Landmarks}
+%Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.  Later,the concept of sliding landmarks \citet{Green1996, Bookstein1997} was proposed.  Sliding landmarks are the same as landmarks except that they are allowed to ``slide" along the contour of the curve when being aligned with a reference set of landmarks.  
+
+\subsection{Continuous Curves}
+Rather than describing a closed shape with a discrete set of points, a function can be used: 
+$$
+\beta:  \mathbb{S} \rightarrow \mathbb{R}^n 
+$$
+where $\mathbb{S}$ is the unit sphere and guarantees that the function has the same start and end point (i.e. is a closed curve).  The function $\beta$ is a closed curve but scalings, translations, rotations and reparameterizations of this function will usually result in different functions, which means that this framework does not offer invariance across these transformations.  Rather than using this function directly, the first derivative could be used, which results in a translation invariant representation.  
+
+This representation is the foundation of the square root velocity function (SRVF) (CITE) framework, which allows invariance across tranlsation, rotation, (optional) scaling, and reparameterization.  Frameworks for representing shapes that have invariance over reparameterization are said to be {\em elastic}. 
+
+To define the SRVF start by considering an absolutely continuous function $\beta:  \mathbb{S} \rightarrow \mathbb{R}^n$.  The SRVF of this function $q:  \mathbb{S} \rightarrow \mathbb{R}^n$ is defined as the following: 
+
+%Need to add a dot here.  
+% $$
+% q(t) = \left{ \begin{array}{ll}
+%         \frac{\beta(t)}{\sqrt{||\beta(t)||}} & \mbox{If \beta(t) exist and is nonzero;}\\
+%         0 & otherwise \end{array} \right
+% $$
+
+where $\dot{\beta(t)}$ is the first derivative of the function $\beta(t)$.  
+
+
+
+
+
+
+
+
+
+
+A full review of other methods for shape analysis can be found in CITE(FSDA)
+
+
+%Statistical shape analysis is interested in studying a wide variety of questions about shapes from statistical view such as, for example, how different are two shapes, what is the mean / variability of a collection of shapes, and, of particular interest in this manuscipt, shape classification.  In order to work with shapes statistically, a framework needs to be defined for representing shapes, and there are many different idea for doing this.  For instance, shapes can be represented by landmarks \citep{Kendall1984,LeAndKendall1993,MardiaAndDryden1989}. A landmark is a point on a shape that corresponds to a point on another shape across and within populations.  
+
+Sliding landmarks by Bookstein.  
+
+Section 1.2.4 in FSU disserttion is a good description of this.  
+
+Shape analysis in general. 
+
+
+
+
+Partial Shape matching. 
+%http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
+
+\section{Missing Data}
+Missing data problems arise in many statistical settings due to survey non-response, designed missingness in surveys (CITE), measurement error, and latent classes, to name a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, (Demspter Laird and Rubin) describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation (CITE Rubin and Little, Schafer).  The idea behind multiple imputation is to blah blah blah.......
+
+
+EM algorithm (Depster Laird and Rubin)
+Multiple Imputation (Rubin and Little)
+
+For a more thorough review of the missing data literature, see cite(HortonAndKleinman2007) (Add more).  
+
+
+\section{Missing Data and Shapes}
+
+\subsection{13.1 - Incomplete Data}
+Papers mentioned: 
+\begin{itemize}
+\item Albers and Gower (2010) - Missing data in procrustes
+\item Mitchelson (2013) - handling occluded landmarks. 
+\item Gunz et. al. (2009) - missing data in studies of biological evolution of bone surfaces
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+\section{Shapes of closed curves}
+Our interest is in the completion of shapes of partially observed closed curves, and their classification. This first requires us to adopt a suitable representation for the shape of a fully observed curve. We adopt a parametric representation of a closed curve by representing as an absolutely continuous function\footnote{Upon identification of $\uc$ with $[0,1] \cong \mathbb{R}/2\pi\mathbb{Z}$, a curve $\C:[0,1] \to \mathbb{R}^2$ is absolutely continuous if and only if there exists an integrable function $g:[0,1]\to \Rtwo$ such that $\C(t)-\C(0)=\int_0^tg(u)du, \forall t \in [0,1]$.} $\C: \uc \to \Rtwo$, thus automatically ensuring that the curve is closed. The notion of a shape of such a curve requires invariances to transformations that represent nuisance information. Specifically, if $\Gamma:=\{\gamma:S \to S \text{ is an orientation-preserving diffeomorphism}\}$ and $SO(2)$ is the rotation group in $\mathbb{R}^3$, the shape of a parameterized curve $\C:D \to \Rtwo$ is defined to be the equivalence class 
+\[
+[\C]:=\Big\{\sigma O \C(\gamma(t))+a, \gamma \in \Gamma, O \in SO(2), a \in \Rtwo, \sigma >0\Big\}.
+\]
+Thus $[\C]$ is the set of all possible curves that can be obtained through a translation ($\C+a$), rotation ($O\C$), scale change $(\sigma \C)$, a reparametrization ($C(\gamma)$), or a combination of the transformations, of the curve $C$. In words, the shape of a curve $C$ is what is left once variations due scale, translation, rotation and reparametrisation has been accounted for. 
+
+
+A key ingredient in several classification methods (e.g. linear/quadratic discriminant analysis; kernel-based methods) for functional data is the notion of similarity or distance between curves. A popular choice is the distance induced by the $\mathbb{L}^2$ norm of a Hilbert space of square-integrable functions. However, it is well known that the $\mathbb{L}^2$ is unsuitable for comparing curves in the presence of parameterisation variability \citep{KurtekJASA, AK}. To this end we employ a suitable representation (transformation) of a curve $\C$ that allows us to compute distances easily while accounting for the necessary invariances. 
+
+\subsection{Notation}
+A closed planar curve $C$ is always an absolutely continuous mapping $C:\uc \to \Rtwo$, and the set of planar closed curves will be denoted by $\mathcal{C}$. The set $\mathcal{C}$ is equipped with the norm $\|x\|_{\ltwo}:=[\int_\uc \|x(t)\|_2dt]^{1/2}$ where $\|\cdot\|_2$ is the Euclidean norm in $\Rtwo$. $SO(2)$ is the special orthogonal group of rotation matrices of $\Rtwo$, and $\Gamma$ is group of orientation-preserving diffeomorphisms of $\uc$. The set $\Gamma_I$ will denote the group $\{\gamma:[0,1]\to[0,1], \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$. 
+\subsection{Square-root velocity transform}
+For a detailed introduction to the transform, its properties and advantages we refer to the reader to Chapter 6 of the book by \cite{AK}. Here we briefly outline the important concepts required for our purposes. 
+For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
+$$\C \mapsto \frac{C'}{\|C'\|_{\ltwo}}=:Q_\C,$$ 
+where $\C'$ is the (vector) derivative of $\C(t)$ with respect to $t$, and $\|\cdot\|$ is the usual Euclidean norm in $\Rtwo$. 
+
+The unique (up to translations) inverse of a square-root transformed curve $Q_C$ is $\int_o^t Q_C(s)\|Q_C(s)\|_2ds$. To ensure that the curves are closed we need to impose an additional constraint: $\int_\uc \|C'(t)\|_2dt=\int_\uc Q_C(t)\|Q_C(t)\|_2=0$.  
+
+For a curve $\C$, by taking its derivative and dividing by its length $\|C'\|_{\ltwo}$, the transform accounts for translation and scale variabilities. Thus the image of the set of absolutely continuous closed curves with fixed lengths $l$, $ \{\C:\uc \to \Rtwo: \int_\uc \|C'(t)\|_2dt=l\}$, under the square-root transform map $\C \mapsto Q_\C$ is the set
+\[
+\mathcal{Q}:=\Big\{Q_\C: \int_\uc \|Q_C\|_2^2=1, \int_\uc Q_C(t)\|Q_C(t)\|_2dt=0\Big\},
+\]
+since $\|Q_\C\|_{\ltwo}=\|C'\|_{\ltwo}^{1/2}$. Thus the set $\mathcal{Q}$ is a subset of $\mathbb{L}^2(\uc,\Rtwo):=\{Q:\uc \to \Rtwo: \int_\uc \|Q(t)\|_2^2 <\infty \}$. It is referred to as the pre-shape space corresponding to the curves, since variations due to rotation and parameterization are yet to be accounted for. It is not a linear space and is a manifold \citep{AK}. 
+
+Before defining the shape space, we discuss the actions of groups $\Gamma$ and $SO(2)$ on the set $\mathcal{Q}$. The set $\Gamma$ of reparameterisations (or warp maps) of $\uc$ is group with group action given by composition. Its action on $\mathcal{Q}$ is defined by $(Q_\C,\gamma) \mapsto Q_\C(\gamma) \sqrt{|\gamma '|}$, where $\gamma'$ is the derivative of $\gamma$ (see Chapters 5 and 6 \cite{AK} for more details). The derivative of $\gamma:\uc \to \uc$ needs to be viewed as a derivative of $\gamma:[0,1]\to[0,1]$ based on the identification $\uc \cong \mathbb{R}/2\pi\mathbb{Z}$, and hence $|z|$ is just the absolute value of the real number $z$. 
+The action of the rotation group $SO(2)$ is defined in the usual way as the map $SO(2) \times \mathcal{Q} \to \mathcal{Q}$ with $(O,Q_C)\mapsto \{OQ_C(t): t \in \uc\}$. 
+
+Two important ramifications of the described framework, motivating its use in our work for analyzing shapes of curves, are the following. Under the square-root velocity framework:
+\begin{enumerate}[1.]
+\item The actions of $SO(2)$ and $\Gamma$ on $\mathcal{Q}$ commute, i.e. they can be applied to a curve in any order. This ensures that their combined action is given by the product group $\Gamma \times SO(2)$.
+\item The action of $\Gamma \times SO(2)$ on $\mathcal{Q}$ is by isometries: Given two curves $\C_1$ and $\C_2$, we have $\|OQ_{\C_1}(\gamma)\sqrt{\gamma '}-OQ_{\C_2}(\gamma)\sqrt{\gamma '}\|_{\ltwo}=\|Q_{C_1}-Q_{C_2}\|_{\ltwo}$, for every $(\gamma,O) \in \Gamma \times SO(2)$. This ensures that if two square-root velocity transformed curves are rotated and reparameterized the same way, their distance remains unchanged. 
+\end{enumerate}
+ Starting with a curve $\C$ we can now define its shape to be the equivalence class or its orbit of its corresponding square-root transform:
+ $$[Q_\C]=\text{closure}\{OQ_\C(\gamma) \sqrt{\gamma'}: (\gamma,O) \in \Gamma \times SO(2)\},$$
+ where the closure is with respect to the norm $\|\cdot\|_{\ltwo}$ on $Q$. The shape space consequently is defined as $\mathcal{Q}_s:=\{[Q_\C]: Q_\C \in \mathcal{Q}\}$. Property (2) ensures that the metric induced by the norm $\|\cdot\|_{\ltwo}$ on $\mathcal{Q}$ descends onto a metric $d$ on the shape space (quotient space) $\mathcal{Q}_s$ in a natural way. Given two curves $\C_1$ and $\C_2$, the shape distance between them is defined as
+ \begin{align}
+ \label{distance}
+ d(\C_1,\C_2)&:=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|Q_{\C_1} - OQ_{\C_2}(\gamma)\sqrt{\gamma'}\|_{\ltwo}\\
+ &=\inf_{(\gamma,O) \in \Gamma \times SO(2)}\Big[\int_{\uc}\left\|Q_{C_1}(t)-OQ_{C_2}(\gamma(t))\sqrt{\gamma'(t)}\right\|_2^2dt\Big]^{1/2} \nonumber\\
+ &=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|OQ_{C_1}(\gamma)\sqrt{\gamma'} - Q_{C_2}\|_{\ltwo}\nonumber.
+  \end{align}
+  The symmetry with respect to the action either on $Q_{C_1}$ or $Q_{C_2}$ is an attractive feature and will be used profitably in the sequel. 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Curve completion and classification}
+Suppose we are given closed planar curves $\C^m_j:\uc \to \mathbb{R}^2,j=1\ldots,n$ each of which has been observed only on a region $\R_j \subset \uc$, where $\uc$ is the unit circle in $\Rtwo$. We assume that the curves are absolutely continuous. Additionally, a training sample $\{(y_i,\C^o_i),1,\ldots,N\}$ consisting of class labels $y_i \in \{0,1\}$ and $C^o_i:\uc\to \mathbb{R}^2$, fully observed on a common domain $\uc$, is provided. The set of fully observed curves are elements of the set $\mathcal{C}$; denote by $\mathcal{C}^m$ the set of all partially observed curves. 
+
+The problem at hand is to model the shape of and complete each partially observed curve $\C^m_j$ and assign it to one of $G$ groups. We consider two approaches: one based on a variational formulation, and the other using kernel-based classifier. Before describing our approaches, some comments on the set $\Gamma$ are in order. 
+
+\subsection{The set of reparameterizations $\Gamma$}
+Elements of the group $\Gamma$ of diffeomorphisms of $\uc$ can be viewed in the following manner. The unit circle $\uc$ can be identified with the quotient group $\mathbb{R}/2\pi \mathbb{Z} \cong [0,1]$. Through this identification, every continuous mapping $\beta: \mathbb{R} \to \mathbb{R}$ induces a continuous mapping of $\uc$ onto itself such that $\beta(t+1)=\beta(t)+1$ for all $t \in \mathbb{R}$. If $\beta$ is monotone increasing, we say that the induced map on $\uc$ is orientation-preserving (based on a choice of clockwise or anti-clockwise orientation).
+
+Consider now the set $$\Gamma_\mathbb{R}:=\{\beta:\mathbb{R}\to \mathbb{R}: \beta(t+1)=\beta(t)+1, \text{ continuous and increasing}\}.$$ Each member $\beta$ of $W_\mathbb{R}$ induces a warp map $\tilde{\beta}:\uc \to \uc$ with $\tilde{\beta}(e^{2\pi it})=e^{2\pi i\beta(t)}$, where $\beta$ is referred to as the lift of $\tilde{\beta}$. This $\beta$ satisfies $\beta(t+1)=\beta(t)+1$ for all $t \in [0,1]$, and consequently we have, for $t \in [0,1]$, $\beta(t)=\gamma(t)+c $, where $\gamma$ is a warp map of $[0,1]$ and $c \in (0,1]$ (through the identification of $[0,1]$ with $\mathbb{R}/2\pi \mathbb{Z}$). This procedure can be viewed as one that produces a warp map of $\uc$ by `unwrapping' $\uc$ at a chosen point $s$ and generating a warp map of $[0,1]$.
+If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is the group of diffeomorphisms of $[0,1]$, the map $\Gamma \mapsto \uc \times \Gamma_I$ is a bijection\footnote{Technically, this is not a bijection since for a $\gamma \in \Gamma$, the corresponding $\beta \in \Gamma_I$ has a jump discontinuity at the point $t_c \in [0,1]$ where $\beta(t_c)+c=1$. This can be circumvented by assuming that the members of $\Gamma$ and $\Gamma_I$ are absolutely continuous (as opposed to diffeomorphims); then the map between to the sets is bijective a.e.}. We will hence employ the product group $\uc \times \Gamma_I$ in place of $\Gamma$. This ensures that the domain of each curve $C_j^m$ and $C^o_i$ can be identified with $[0,1]$ upon unwrapping the circle. 
+%This results in $\C^o_i$ becoming periodic with period 1: $\C^o_i(0)=\C^o_i(1)$ for every $i=1,\ldots,n$.
+
+\subsection{Curve completion}
+The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^m_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,N$. Suppose that $\C^m_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^m_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves comprising the missing segment of curve $\C^m_j$ is 
+$$\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} .$$
+For a partially observed $\C_j^m:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
+\begin{equation*}
+C_j \circ X(t):= \C_j^m(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}.
+\end{equation*}
+
+Denote by $Q_{\C^m_j \circ X}$ the square-root transform of $\C^m_j \circ X$. For each $j=1,\ldots,n$, let $\Theta_j:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^o$ and $\mathcal{C}^m$ denote the sets of fully and partially observed curves, respectively. For a fixed $C \in \mathcal{C}$, for each $j=1,\ldots,n$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^m \times \mathcal{C} \to \mathbb{R}$ by
+\begin{align*}
+\Phi_{\theta_j}(C_j^m,C)&:=d^2(C_j^m \circ X_j, OC(\gamma)), \quad \theta_j \in \Theta_j\\
+&=\inf_{(s,\gamma,O) \in \uc \times \Gamma_I\times SO(2)}\|Q_{C_j^m \circ X_j}, OQ_{C}(\gamma)\sqrt{\gamma'}\|_{\ltwo}^2.
+\end{align*}
+The optimal shape completion of a partially observed curve $Q_{C_j^m}, j=1,\ldots,n$ is $Q_{C_j^m\circ X_j^*}$, where $X_j^*$ is obtained from the solution set of:
+\begin{equation}
+\label{opt}
+\theta^*_j:=(s_j^*,\gamma_j^*,O_j^*,X_j^*)=\argmin_{\theta_j \in \Theta_j} \Phi_{\theta_j}(C_j^m,C).
+\end{equation}
+In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ was unwrapped in order to identify $\Gamma$ with $\uc \times \Gamma_I$; $\gamma_j^*:[0,1] \to [0,1]$ and $O_j^*$ represents the optimal reparameterization of the curve $C^m_j \circ X^*_j$. The use of a valid distance on the quotient shape space $\mathcal{Q}_s$ allows us to apply the shape transformations on $Q_{C_i}, i=1\ldots,n$ in the variational problem with introducing any arbitrariness. The (product) group structure of $\uc \times \Gamma_I\times SO(2)$, and its action on $\mathcal{Q}$, ensures that if the transformations were to have been applied to $Q_{C^m_j \circ X^*}$, the resulting solution set would instead contain the corresponding group inverses. 
+(INSERT ILLUSTRATIVE FIGURE). 
+
+\subsection{Classification}
+We outline two approaches for classification of partially observed curves $C^m_j, j=1,\ldots,N$. 
+\subsubsection{Combining completion and classification}
+The variational formulation for the completion of each curve $C^m_j$ with respect to a fixed curve $C$ can be augmented to address the classification task in the following manner. Using the training sample $\{(y_i,\C^o_i),1,\ldots N\}$ partition the set $\{C^o_i, i=1,\ldots,N\}$ into $\bigcup_{g \in G}\{C^o_{ig}, i=1\ldots,N_g\}$ with $N_1+\cdots+N_g=N$. Recall that the shape space of a given set of curves is the quotient metric space with the metric $d$ in (\ref{distance}). Such a structure allows us to define the sample Fr\'{e}chet mean shape curve for a given set of curves. Formally, for each $g \in G$, consider the sample Fr\'{e}chet functional define on the set $\mathcal{C}$ as
+$$F_g:C \to \mathbb{R}, \quad  C \ni C  \mapsto F_g(C):= \sum_{i=1}^{N_g} d^2(C,C_i^0).$$
+The (local) minimizer of $F_g$ is referred to as the Fr\'{e}chet mean set, since $d$ is a distance between two equivalence classes. We then select a member $\hat{M}_g:\uc \to \Rtwo$ from set this and refer to it as the Fr\'{e}chet mean of the group $\{C^o_{ig}, i=1\ldots,N_g\}$ with $g =1,\ldots,G$. 
+
+The variational classifier based on the augmented optimization problem in (\ref{opt}) is defined by the following rule:
+\[
+\text{Assign $C^m_j$ to group $g^*$ where }  (g^*,\theta^*_j)= \argmin_{g \in \{1,\ldots,G\} \times \theta_j \in \Theta_j} \Phi_{\theta_j}(C^m_j,\hat{M}_g).
+\]
+The classifier assigns $C^m_j$ to the group whose Fr\'{e}chet mean is closest to $C^m_j$. The advantage of this approach lies in the fact that completion and classification of partially observed curves are unified under the same metric (distance), and in a certain sense carried out simultaneously.  
+
+\subsubsection{Kernel-based classifier}
+Consider curves $C_j^m\circ X_j: \uc \to \Rtwo, j=1\ldots,n$ that have been completed using the variational formulation in (\ref{opt}). For each curve $C^m_j \circ X_j$ a nonparametric estimate of the (conditional) group probabilities $\pi_g:=P(y_j=g|C_j^m \circ X_j),g=1,\ldots,G$ can be constructed using the distance $d$ on the shape space of curves. Using the estimate a curve $C_j^m\circ X_j$ is assigned to the group with the largest probability. We eschew the cumbersome notation involving the completed curves and outline the methodology for a generic curve $C:\uc \to \Rtwo$ to belong to two groups based on the training sample; hence $g=1,2$ with labels 0 and 1. Extension to more than two groups is routine. 
+
+Assume that training sample $\{(y_i,C^0_i,i=1\ldots,N\}$ consists of independent realizations of the random element $(\mathbf{y},\mathbf{C})$ taking values in $\{0,1\}\times \mathcal{C}$. For a probability space $(\Omega,\mathcal{F},\mathbb{P})$, the random element $\mathbf{C}$ is the mapping $(t,\omega)\mapsto \mathbf{C}(t,\omega)$. Thus $\mathbf{C}$ is an $\Rtwo$-valued stochastic process $\{\mathbf{C}(t), t \in \uc\}$. The kernel-based estimate (see for e.g. Chapter 8 of \cite{FV}) of the probability of assignment for a curve $C$ to group 1, $\pi(C)$, is given by
+\begin{equation}
+\label{prob}
+\hat{\pi}_N(C)=\frac{\sum_{i=1}^Ny_iK_{i,h_N}}{\sum_{i=1}^N K_{i,h_N}},
+\end{equation} 
+where $K_{i,h_N}:=K(h_N^{-1}d(C,C_i^o))$ for a given kernel $K$ and a positive bandwidth sequence $h_N$. The distance $d$ is defined on the quotient space of shape curves in (\ref{distance}).
+
+
+\section{Results}
+Describe the simulation study.  
+
+GRADY'S DESCRIPTION: 
+Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
+
+A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
+
+Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
+
+Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
+
+The partial and whole shape are then compared in order to find the portion of the complete shape which the observed partial shape most adequately corresponds to. This is done by comparing a series of starting segments of the completed shape to the observed partial shape. For each of the subsets, the partial complete shape is scaled and centered, then a best rotation onto the observed partial shape is made. From this, an error term is found, and the segment with the minimum error term is selected as where the closed partial shape will then be overlaid. From here, the straight line segment from earlier is then gradually morphed so that it more and more adequately fits the curvature of the complete shape. After NUMBER iterations, a final version of the imputed partial tooth is obtained.
+
+Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
+\subsection{Completing the curves}
+
+\begin{figure}
+<<echo = FALSE, message = FALSE>>=
+setwd("/Users/gregorymatthews/Dropbox/shapeanalysisgit/")
+source("./R/utility.R")
+source("./R/curve_functions.R")
+source("./R/calc_shape_dist_partial.R")
+source("./R/complete_partial_shape.R")
+source("./R/impute_partial_shape.R")
+source("./R/tooth_cutter.R")
+
+load("./data/data_set_of_full_teeth.RData")
+load("./data/ptsTrainList.RData")
+
+tooth <- "LM1"
+side <- 1
+partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[1]])[[side]])
+complete_shape <- t(ptsTrainList[[1]][[2]])
+
+scale <- FALSE
+plot <- TRUE
+ #complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, scale = FALSE){
+  
+  #Dimension
+  d <- dim(complete_shape)[1]
+  #Number of points for complete_shape and partial_shape
+  N_complete <- dim(complete_shape)[2]
+  N_partial <- dim(partial_shape)[2]
+  
+  t <- seq(0,1,length = 100)
+  x0 <- matrix(NA,ncol = 100,nrow = 2)
+  for (j in 1:d){
+    x0[j,] <- (1-t)*partial_shape[j,N_partial] + t*partial_shape[j,1]
+  }
+  
+  partial_shape_closed <- cbind(partial_shape,x0[,2:100])
+  
+  N_complete_new <- 500
+  t <- seq(0,1,length = N_complete_new)
+  
+  olddel <- get_cumdel(partial_shape_closed)
+  
+  N <- 100
+  
+  
+  partial_shape_closed_obs <- resamplecurve(partial_shape_closed[,1:(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1))],N)
+  partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1)):dim(partial_shape_closed)[2]],N)
+  
+  #Find the centroid of the observed part
+  cent1 <- apply(partial_shape_closed_obs,1, mean)
+  
+  #Centering
+  partial_shape_closed_obs <- partial_shape_closed_obs - cent1
+  partial_shape_closed_mis <- partial_shape_closed_mis - cent1
+  
+  
+  if (scale == TRUE){
+  #scale factor
+  sc1 <- norm(partial_shape_closed_obs, type = "F")
+  
+  #Scaling the shape
+  partial_shape_closed_obs <- partial_shape_closed_obs/sc1
+  partial_shape_closed_mis <- partial_shape_closed_mis/sc1
+  }
+  
+  # plot(t(partial_shape_closed_obs))
+  # points(t(partial_shape_closed_mis), col = "red")
+  # 
+  # plot(t(complete_shape))
+  
+  
+  minE <- Inf
+  jbest <- NA
+  #I think we are looking across all strting points around the curve?
+  for (j in 0:(N_complete-1)){
+    #What does shiftF do??
+    #Why N_complete - 1 and not just N_complete??????
+    mu <- ShiftF(complete_shape[,1:(N_complete-1)],j) 
+    mu <- cbind(mu,mu[,1])
+    
+    olddel1 <- get_cumdel(mu)
+    
+    N <- 100
+    library(fdasrvf)
+    mu <- resamplecurve(mu,N_complete_new)
+    
+    newpt1 <- which(t < olddel1[N_partial])
+    newpt1 <- newpt1[length(newpt1)]
+    
+    mu1 <- resamplecurve(mu[,1:newpt1],N) 
+    mu2 <- resamplecurve(mu[,newpt1:dim(mu)[2]],N) 
+    
+    cent2 <- apply(mu1,1,mean)
+    mu1 <- mu1 - cent2
+    mu2 <- mu2 - cent2
+    
+    if (scale == TRUE){
+    sc2=norm(mu1, type = "F")
+    mu1=mu1/sc2
+    mu2=mu2/sc2
+    }
+    
+    #Finding the best rotation
+    out <- find_best_rotation(partial_shape_closed_obs,mu1)
+    R <- out$R
+    q2new <- out$q2new
+    
+    mu1n <- R%*%mu1
+    
+    Ec <- InnerProd_Q(partial_shape_closed_obs-mu1n,partial_shape_closed_obs-mu1n)
+    if (Ec < minE){
+      jbest <- j
+      Rbest <- R
+      complete_shape_obs <- Rbest%*%mu1
+      complete_shape_mis <- Rbest%*%mu2
+      minE <- Ec
+    }
+    
+  }
+  
+  
+donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[2]])
+  
+  partial_shape_closed_new <- cbind(partial_shape_closed_obs,partial_shape_closed_mis[,2:dim(partial_shape_closed_mis)[2]])
+  
+  
+  
+  
+  n <- 40
+  tn <- seq(0,1, length = N)
+  
+  #Why minus 1 in cos?  
+  #Defining basic functions
+  b <- matrix(NA, nrow = 2*n, ncol = length(tn))
+  for (j in 1:n){
+    b[j,] <- sin(2*pi*j*tn)/(sqrt(2)*pi*j)
+    b[j+n,] <- (cos(2*pi*j*tn)-1)/(sqrt(2)*pi*j)
+  }
+  
+  
+  
+  #Plot
+  par(mfcol = c(5,2))
+  par(mar = c(0,0,0,0))
+  iter <- 0
+  plot(t(donor), type = "l", xlim = c(-100,550), xlab = "", ylab = "", xaxt = 'n', yaxt = 'n', lwd = 3)
+  text(375,-150,paste0("Interation: ", iter))
+  points(t(partial_shape_closed_new), type = "l" , col= "red", lwd = 3)
+  points(t(partial_shape_closed_mis), type = "l" , col= "blue", lwd = 3)
+  
+  
+  n <- dim(b)[1]
+  iter <- 1
+  eps <- 15
+  
+  for (iter in 0:500){
+    
+    v <- partial_shape_closed_mis - complete_shape_mis
+    
+    #Computing each basis component and then adding them.  
+    gradE <- matrix(0,nrow = 2,ncol = N)
+    for (j in 1:n){
+      for (k in 1:d){
+        val <- trapz(tn,v[k,]*b[j,])*b[j,]
+        gradE[k,] <- gradE[k,]+val
+      }}
+    
+    ngE <- trapz(tn,apply(gradE*gradE,2,sum))
+    
+    partial_shape_closed_mis <- partial_shape_closed_mis-eps*gradE
+    
+    partial_shape_closed_new <- cbind(partial_shape_closed_obs,partial_shape_closed_mis[,2:dim(partial_shape_closed_mis)[2]])
+    
+    ngE
+    
+    
+    iter=iter+1
+  
+    
+    if (plot == TRUE & iter%in% c(1,2,3,4,100,200,300,400,500)){
+    #plot(t(partial_shape_closed_new), type = "l")
+    #points(t(donor), type = "l" , col= "red")
+    plot(t(donor), type = "l", xlim = c(-100,550), xlab = "", ylab = "", xaxt = 'n', yaxt = 'n', lwd = 3)
+      text(375,-150,paste0("Interation: ",iter))
+  points(t(partial_shape_closed_new), type = "l" , col= "red", lwd = 3)
+  points(t(partial_shape_closed_mis), type = "l" , col= "blue", lwd = 3)
+    }
+    
+    
+  }
+  
+  
+  
+  
+  #out <- list(partial_shape_imputed = partial_shape_closed_new, partial_obs = partial_shape_closed_obs,  donor = donor)
+  #return(out)
+  
+  
+
+
+@
+
+\caption{Test}
+
+\end{figure}
+
+
+\bibliography{shapebib}
+\bibliographystyle{plainnat}
+
+
+\section{Appendix}
+
+
+
+The asymptotic properties of the estimator $\hat{\pi}_N(C)$ are intimately related to the (shifted) small-ball probability of the process $\mathbf{C}$ under the metric $d$: 
+\begin{align*}
+\phi(Q_C,h_N)&:=\mathbb{P}(d(\mathbf{C},C) < h_N), \quad C \in \mathcal{C}, h_N>0 \\
+&=\mathbb{P}\left(\inf_{(O,\gamma) \in SO(2) \times \Gamma}\|\mathbf{Q_C}-OQ_{C}(\gamma)\sqrt{|\gamma'|}\|_{\ltwo}<h_N\right),
+\end{align*}
+where $\mathbf{Q_C}$ is the (pathwise) square-root transform of the random curve $\mathbf{C}$. For a detailed account of small-ball and shifted small-ball probabilities of processes, and their role in kernel-based estimators involving functional data, see \cite{FV, CR, AM, WL} and references therein. To the best of our knowledge results regarding small-ball probabilities are available only for processes with values in linear function spaces (e.g. Hilbert space with $\mathbb{L}^2$ norm or Banach space with supremum norm). The process $\mathbf{Q_C}=\frac{\mathbf{C'}}{\|\mathbf{C}'\|_{\ltwo}}$ takes values in an infinite-dimensional manifold (pre-shape space) $\mathcal{Q} \subset \mathbb{L}^2(\uc,\Rtwo)$, defined earlier. Moreover, $d$ is on the quotient shape space, and is defined between orbits of $\mathbf{Q_C}$ and $Q_C$ (with respect to the action of $\Gamma$ and $\uc$). 
+
+We can view the class probability $\pi$ (conditional expectation of $\mathbf{y}$ given $\mathbf{C}$) as a map from $\mathcal{C}$ to $[0,1]$. 
+We make the following assumptions. 
+\begin{enumerate}[\text{A}1.]
+\item The kernel $K$ is supported on $[0,1]$ and bounded away from 0 and 1.
+\item The bandwidth $h_N \to 0$ as $N \to \infty$.
+\item $\phi(C,h_N)>0$ for every $h_N >0$ with $N\phi(C,h_N)\to \infty$ as $N\to \infty$.
+\item The conditional probability $\pi:\mathcal{C} \to [0,1]$ is $\alpha$-Lipschitz, i.e. there exists a $\lambda>0$ such that for every $\tilde{C} \in \mathcal{C}$, $|\pi(C)-\pi(\tilde{C})|\leq \lambda \|C-\tilde{C}\|^\alpha$.
+\end{enumerate}
+The following result relates the behaviour of $\phi(Q_C,h_N)$ to the small-ball probability $\phi(C,h_N)=\mathbb{P}(\|\mathbf{C}-C\|<h_N)$ of the process $\mathbf{C}$ (taking values in a linear space), and establishes consistency and rate of convergence of the estimate $\hat{\pi}_N$, as $N\to \infty$. 
+\begin{theorem}
+\label{th1}
+ Under assumptions A1-A3, $\phi(Q_C,h_N)>0$ for every $h_N>0$ and $N\phi(Q_C,h_N)\to \infty$ as $N\to \infty$. As a consequence, $N \to \infty$:
+ \begin{enumerate}[1.]
+\item  $\hat{\pi}_N$ converges in probability to $\pi$;
+\item $\hat{\pi}_N-\pi=O_\mathbb{P}(h^\beta_N)$.
+ \end{enumerate}
+\end{theorem}
+\begin{proof}
+The key argument is to demonstrate that $\phi(Q_C,h_N)>0$ and $N\phi(Q_C,h_N)\to \infty$ under assumptions A1-A3. Proofs of consistency and rate of convergence follow using almost identical arguments as in the proofs of Theorems 6.1 (p. 63) and 8.2 (p. 123) of \cite{FV}, and are omitted. 
+
+%Observe that for $x:\uc \to \Rtwo$, the map $x \mapsto Ox(\gamma)\sqrt{|\gamma'|}$ for $O \in SO(2)$ and $\gamma \in \Gamma$ preserves the squared norm $\|Ox(\gamma)\sqrt{|\gamma'|}\|^2_{\ltwo}$. Indeed
+%\begin{align*}
+%\int_\uc \|Ox(\gamma(t))\sqrt{|\gamma'(t)|}\|_2^2 dt&=\int_\uc\left[(x(\gamma(t))\sqrt{|\gamma'(t)|})^TO^TO(x(\gamma(t))\sqrt{|\gamma'(t)|})\right]dt\\
+%&=\int_\uc \|x(s)\|_2^2ds,
+%\end{align*}
+%since $O^TO=I_2$ and by a change of variable argument. However, 
+%\begin{align*}
+%\int_\uc \|Ox(\gamma(t))\sqrt{|\gamma'(t)|}\|_2 dt&=\int_\uc\left[(x(\gamma(t))\sqrt{|\gamma'(t)|})^TO^TO(x(\gamma(t))\sqrt{|\gamma'(t)|})\right]^{1/2}dt\\
+%&=\int_\uc \|x(s)\|_2\sqrt{|\gamma'(s)|}ds\\
+%&\geq \int_\uc \|x(s)\|_2ds,
+%\end{align*}
+%since $\sqrt{|\gamma'|}$ is positive, and equality is attained if and only if $\gamma(s)=s$, the identity map. Therefore,
+%\begin{align*}
+%\|\mathbf{Q_C}-OQ_C(\gamma)\sqrt{\|\gamma'\|}\|_{\ltwo}^2&=\int_\uc \left[\|\mathbf{Q_C}\|_2^2+\|OQ_C(\gamma)\sqrt{|\gamma'|}\|_2^2
+%-2\|\mathbf{Q_C}\|_2\|OQ_C(\gamma)\sqrt{|\gamma'|}\|_2\right]dt\\
+%&=\int_\uc\|\mathbf{Q_C}(t)\|_2^2dt+\int_\uc \|Q_C(t)\|^2_2dt\\
+%&\quad-2\int_\uc \|\mathbf{Q_C}(t)\|_2\|OQ_C(\gamma(t))\sqrt{|\gamma'(t)|}\|_2dt\\
+%&\leq \int_\uc \left[\|\mathbf{Q_C}\|_2^2+\|Q_C\|_2^2
+%-2\|\mathbf{Q_C}\|_2\|Q_C\|_2\right]dt\\
+%&=\|\mathbf{Q_C}-Q_C\|_{\ltwo}^2.
+%\end{align*}
+The shifted small-ball probability satisfies
+\begin{align*}
+\phi(Q_C,h_N)&=\mathbb{P}(d(\mathbf{C},C) < h_N), \quad C \in \mathcal{C}, h_N>0\\
+&=\mathbb{P}\left(\inf_{(O,\gamma) \in SO(2) \times \Gamma}\|\mathbf{Q_C}-OQ_{C}(\gamma)\sqrt{|\gamma'|}\|_{\ltwo}<h_N\right)\\
+&=\mathbb{P}\left(\inf_{(O,\gamma) \in SO(2) \times \Gamma}\|\mathbf{Q_C}-OQ_{C}(\gamma)\sqrt{|\gamma'|}\|_{\ltwo}^2<h^2_N\right)\\
+&=\mathbb{P}\left( \|\mathbf{Q_C}-\tilde{O}Q_{C}(\tilde{\gamma})\sqrt{|\tilde{\gamma}'|}\|_{\ltwo}^2<h^2_N \text{ for some } (\tilde{O},\tilde{\gamma}) \in SO(2) \times \Gamma \right)\\
+\end{align*}
+under the assumption that the (unique) infimum is attained at $(\tilde{O},\tilde{\gamma}) \in SO(2) \times \Gamma$.
+The infimum will be attained if the orbits of the elements of $\mathcal{Q}$ are closed under the action of the product group $SO(2) \times \Gamma$. While the orbit under $SO(2)$ is closed, the same isn't generally true for $\Gamma$. A technical adjustment in the definition of $\Gamma$ rectifies this; for details see \cite{LRK}.\footnote{The group $\Gamma$ needs to extended to the semi-group $\tilde{\Gamma}$ that allows for derivatives to be 0 at some points. We could then alter the action of $\tilde{\Gamma}$ on $\mathcal{Q}$ to be just the composition $Q_C(\gamma), \gamma \in \tilde{\Gamma}$, and the arguments in the proof remain valid.}
+Observe that $\{\omega\in \Omega: \|\mathbf{Q_C}(\omega)-Q_C(\omega)\|^2_{\ltwo}<h_N^2\}\subseteq\{\omega \in \Omega: \|\mathbf{Q_C}(\omega)-\tilde{O}Q_{C}(\omega)(\tilde{\gamma})\sqrt{\tilde{\gamma}'}\|^2_{\ltwo}<h^2_N \text{ for some } (\tilde{O},\tilde{\gamma}) \in SO(2) \times \Gamma \}$. This can be seen by noting that the relationship is trivially true if $\tilde{\gamma}$ is the identity map in $\Gamma$. Thus we have that
+\begin{equation*}
+\label{eqs}
+\phi(Q_C,h_N)\geq \mathbb{P}\left( \|\mathbf{Q_C}-Q_{C}\|_{\ltwo}^2<h^2_N\right).
+\end{equation*}
+
+Consider the square-root map $\mathfrak{C}: \mathcal{C} \to \mathcal{Q}$, $\mathfrak{C}(C)=Q_C$. The map is a bijection between the two spaces \citep{AK}. It is however a complicated map between two Hilbert spaces. Instead of directly dealing with the map in order to relate $\phi(Q_C,\cdot)$ to $\phi(C,\cdot)$, we adopt the following strategy. 
+
+Denote by $\uc^\infty$ the unit sphere in $\mathbb{L}^2(\uc,\Rtwo)$. Note that the pre-shape space $\mathcal{Q}=\Big\{Q_C: \int_\uc \|Q_C\|_2^2=1, \int_\uc Q_C(t)\|Q_C(t)\|_2dt=0\Big\}$ is proper subset of $\uc^\infty$. Thus we can view $\mathfrak{\mathbf{C}}(C)=\mathbf{Q_C}$ and $\mathfrak{C}(C)=Q_C$ as random elements taking values in $\uc^\infty$.
+Consider the radial map in a Hilbert space $\mathfrak{R}:\mathcal{C}\to \uc^\infty$ given by
+\begin{equation*}
+\mathfrak{R}C = \left\{ \begin{array}{ll}
+         C & \mbox{if $\|C\| \leq  1$};\\
+        \frac{C}{\|C\|} & \mbox{if $\|C\|>1$}.\end{array} \right. 
+\end{equation*}
+The map $\mathfrak{R}$ is the unique metric projection of $\mathcal{C}$ onto $\uc^\infty$ and is 1-Lipschitz and nonexpansive, that is, 
+\[
+\|\mathfrak{R}C_1 -\mathfrak{R}C_2\| \leq \|C_1-C_2\|, \quad C_1,C_2 \in \mathcal{C}.
+\]
+Since the image of $\mathfrak{C}$ (i.e. $\mathcal{Q}$) is contained in the image of $\mathfrak{R}$ (i.e. $\uc^\infty$), and the noting that $\mathfrak{C}$ is bijective and $\mathfrak{R}$ is the unique projection on $\uc^\infty$, for $C \in \mathcal{C}$ we necessarily have $\mathfrak{C}(C)=\mathfrak{R}(C)$.
+
+From the definitions of the maps $\mathfrak{C}$ and $\mathfrak{R}$, from equation (\ref{eqs}) we have,
+\begin{align*}
+\phi(Q_C,h_N)&\geq\mathbb{P}\left(\|\mathfrak{C}(\mathbf{C})-\mathfrak{C}(C)\|_{\ltwo}^2<h^2_N\right)\\
+&=\mathbb{P}\left(\|\mathfrak{R}(\mathbf{C})-\mathfrak{C}(C)\|_{\ltwo}^2<h^2_N\right)\\
+&\geq \mathbb{P}\left(\|\mathbf{C}-C\|_{\ltwo}^2<h^2_N\right)\\
+&=\phi(C,h_N),
+\end{align*}
+since for a fixed $N$, $\{\omega\in \Omega: \|\mathbf{C}(\omega)-C\|_{\ltwo}<h_N\}\subseteq\{\omega \in \Omega: \|\mathfrak{R}(\mathbf{C}(\omega))-\mathfrak{R}(C)\|_{\ltwo} <h_N|\}$ with $\mathfrak{R}$ being 1-Lipschitz. This completes the proof. 
+\end{proof}
+
+\end{document}
