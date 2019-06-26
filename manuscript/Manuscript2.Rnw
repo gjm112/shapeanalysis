@@ -25,13 +25,13 @@
 
 \maketitle
 \section{Introduction}
-%Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
+Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
 
 \subsection{Statistical Shape Analysis}
 \subsection{Landmarks}
-%Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.  Later,the concept of sliding landmarks \citet{Green1996, Bookstein1997} was proposed.  Sliding landmarks are the same as landmarks except that they are allowed to ``slide" along the contour of the curve when being aligned with a reference set of landmarks.  
+Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.  Later,the concept of sliding landmarks \citet{Green1996, Bookstein1997} was proposed.  Sliding landmarks are the same as landmarks except that they are allowed to ``slide" along the contour of the curve when being aligned with a reference set of landmarks.  
 
-\subsection{Continuous Curves}
+\subsection{Continuous Curves1}
 Rather than describing a closed shape with a discrete set of points, a function can be used: 
 $$
 \beta:  \mathbb{S} \rightarrow \mathbb{R}^n 
@@ -103,21 +103,28 @@ Papers mentioned:
 
 
 
-
-\section{Shapes of closed curves}
+\section{Shapes of closed curves1}
 Our interest is in the completion of shapes of partially observed closed curves, and their classification. This first requires us to adopt a suitable representation for the shape of a fully observed curve. We adopt a parametric representation of a closed curve by representing as an absolutely continuous function\footnote{Upon identification of $\uc$ with $[0,1] \cong \mathbb{R}/2\pi\mathbb{Z}$, a curve $\C:[0,1] \to \mathbb{R}^2$ is absolutely continuous if and only if there exists an integrable function $g:[0,1]\to \Rtwo$ such that $\C(t)-\C(0)=\int_0^tg(u)du, \forall t \in [0,1]$.} $\C: \uc \to \Rtwo$, thus automatically ensuring that the curve is closed. The notion of a shape of such a curve requires invariances to transformations that represent nuisance information. Specifically, if $\Gamma:=\{\gamma:S \to S \text{ is an orientation-preserving diffeomorphism}\}$ and $SO(2)$ is the rotation group in $\mathbb{R}^3$, the shape of a parameterized curve $\C:D \to \Rtwo$ is defined to be the equivalence class 
 \[
 [\C]:=\Big\{\sigma O \C(\gamma(t))+a, \gamma \in \Gamma, O \in SO(2), a \in \Rtwo, \sigma >0\Big\}.
 \]
 Thus $[\C]$ is the set of all possible curves that can be obtained through a translation ($\C+a$), rotation ($O\C$), scale change $(\sigma \C)$, a reparametrization ($C(\gamma)$), or a combination of the transformations, of the curve $C$. In words, the shape of a curve $C$ is what is left once variations due scale, translation, rotation and reparametrisation has been accounted for. 
 
+
+
+
 In this instance, it is also of interest to preserve the size and shape of the curve.  This simply requires removing any scale changes from the definition of the equivalence class.  This size-and-shape of a parameterized $C: D \rightarrow \mathbb{R}^2$ is defined to be the equivalence class:
 
-$$
-[C^{\star}] :=  \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
-$$
+
+
+\[
+[\C^{\star}]:=\Big\{\sigma O \C(\gamma(t))+a, \gamma \in \Gamma, O \in SO(2), a \in \Rtwo, \Big\}.
+\]
+
+
 
 Thus $[C^{\star}]$ is the set of all possible curves that can be obtained through a translation ($C+a$), rotation ($OC$), a reparameterization ($C(\gamma)$), or any combination of the transofrmations of curve $C$, notably with scaling not included as one of the possible transformations.  
+
 
 
 A key ingredient in several classification methods (e.g. linear/quadratic discriminant analysis; kernel-based methods) for functional data is the notion of similarity or distance between curves. A popular choice is the distance induced by the $\mathbb{L}^2$ norm of a Hilbert space of square-integrable functions. However, it is well known that the $\mathbb{L}^2$ is unsuitable for comparing curves in the presence of parameterisation variability \citep{KurtekJASA, AK}. To this end we employ a suitable representation (transformation) of a curve $\C$ that allows us to compute distances easily while accounting for the necessary invariances. 
@@ -127,6 +134,7 @@ A closed planar curve $C$ is always an absolutely continuous mapping $C:\uc \to 
 
 \subsection{Square-root velocity transform}
 For a detailed introduction to the transform, its properties and advantages we refer to the reader to Chapter 6 of the book by \cite{AK}. Here we briefly outline the important concepts required for our purposes. 
+
 
 For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
 $$\C \mapsto \frac{C'}{\|C'\|_{\ltwo}}=:Q_\C,$$ 
@@ -159,6 +167,8 @@ Two important ramifications of the described framework, motivating its use in ou
   \end{align}
   The symmetry with respect to the action either on $Q_{C_1}$ or $Q_{C_2}$ is an attractive feature and will be used profitably in the sequel. 
   
+ 
+  
 \section{Preserving scale}
 For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
 $$\C \mapsto C'=:Q^{\star}_\C = Q_\C\|C'\|_{\ltwo} $$ 
@@ -167,9 +177,12 @@ where $\C'$ is the (vector) derivative of $\C(t)$ with respect to $t$.
 
 In this case, the unique (again, up to translations) inverse of this curve $Q^{\star}_C$ is $\int_0^t Q^{\star}_C(s)ds$. To ensure that the curves are closed we need to impose an additional constraint: $\int_\uc Q^{\star}_C(t)=0$. 
   Thus the image of the set of absolutely continuous closed curves , $ \{\C:\uc \to \Rtwo: \int_\uc \|C'(t)\|_2dt=l\}$, under the scale preserving transform map $\C \mapsto Q^{\star}_\C$ is the set
+
 \[
 \mathcal{Q}:=\Big\{Q^{\star}_\C:  \int_\uc Q^{\star}_C(t)dt=0\Big\},
 \]
+
+
 
 
  Starting with a curve $\C$ we can now define its size and shape to be the equivalence class or its orbit of its corresponding velocity transform:
@@ -179,10 +192,10 @@ In this case, the unique (again, up to translations) inverse of this curve $Q^{\
  In the square-root velocity framework, dividing the velocity function by its norm gives us a function that is of norm one.  This implies that it is a point on the unit sphere.  In the finite-dimensional vecotr set-up this amounts to keeping just the direction of the vectors and discarding all other information and the distance between two curves can then be viewed as the angle between these two vectors.  However, when preserving scale this defintion of distance will need to be modified as both the angle AND magnitude of the vectors are both of interest.  
  
  Therefore, a modified defintion of distance that preserves scaling between two curves will be defined: 
- 
- %Is this one symmetric?  
+
+ %Is this one symmetric?  I think so.  
  \begin{align}
- \label{distance}
+ \label{distancestar}
  d^{\star}(\C_1,\C_2)&:=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|Q^{\star}_{\C_1} - OQ^{\star}_{\C_2}(\gamma)\sqrt{\gamma'}\|_{\ltwo}\\
  &=\inf_{(\gamma,O) \in \Gamma \times SO(2)}\Big[\int_{\uc}\left\|Q^{\star}_{C_1}(t)-OQ^{\star}_{C_2}(\gamma(t))\sqrt{\gamma'(t)}\right\|_2^2dt\Big]^{1/2} \nonumber\\
  &=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|OQ^{\star}_{C_1}(\gamma)\sqrt{\gamma'} - Q^{\star}_{C_2}\|_{\ltwo}\nonumber.
@@ -192,7 +205,7 @@ In this case, the unique (again, up to translations) inverse of this curve $Q^{\
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Missingness Function}
-Now consider a function, $R$, defined over the set $\mathbb{S}$, where $R(t) = 1$ if the shape function is observed at $t \in \mathbb{S}$ and $R(t) = 0$ otherwise (i.e. the shape function is observaed at $t \in \mathbb{S}$)  
+Now consider a function, $R$, defined over the set $\mathbb{S}$, where $R(t) = 1$ if the shape function is observed at $t \in \mathbb{S}$ and $R(t) = 0$ otherwise. 
 
 Specifically,   
 $$
@@ -204,7 +217,7 @@ $$
 R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
 $$
 
-Now for a specific curve $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), we can define the function $R$ over $\mathbb{S}$.  However, for every reparameterization of $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), there is a corresponding reparameterization of $R$.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here only the case where $R^{-1}(1)$ be a connected subset of $\mathbb{S}$ is considered, though in general, this does not have to be the case. This prevents us from considering partially observed shapes with multiple ``gaps" (though this is an interesting idea for future work).
+Now for a specific curve $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), we can define the function $R$ over $\mathbb{S}$.  However, for every reparameterization of $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), there is a corresponding reparameterization of $R$.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here we only the case where $R^{-1}(1)$ be a connected subset of $\mathbb{S}$ is considered, though in general, this does not have to be the case. This prevents us from considering partially observed shapes with multiple ``gaps" (though this is an interesting idea for future work).
 
 For a given shape, there are many possible reparameterizations of the missingness function, and an equivalence class can be defined for the missingness function across reparametertizations as follows:  
 
@@ -213,30 +226,74 @@ $$
 [\R] = \{ R(\gamma(t)) , \gamma \in \Gamma \} 
 $$. 
 
-Note that for every curve $\C$ and corresponding $R$, in order to maintain the correct relationship, if $\C$ is reparameterized by $\gamma \in \Gamma$
- $[\C]$ there is a correspondo
-
-
+Note that for every curve $\C$ and corresponding $R$, in order to maintain the correct relationship, if $\C$ is reparameterized by $\gamma \in \Gamma$ then $R$ must be reparameterized using the same $\gamma$ that acted on $\C$.
  
-\section{Curve completion and classification}
-Suppose we are given closed planar curves $\C^m_j:\uc \to \mathbb{R}^2,j=1\ldots,n$ each of which has been observed only on a region $\R_j \subset \uc$, where $\uc$ is the unit circle in $\Rtwo$. We assume that the curves are absolutely continuous. Additionally, a training sample $\{(y_i,\C^o_i),1,\ldots,N\}$ consisting of class labels $y_i \in \{0,1\}$ and $C^o_i:\uc\to \mathbb{R}^2$, fully observed on a common domain $\uc$, is provided. The set of fully observed curves are elements of the set $\mathcal{C}$; denote by $\mathcal{C}^m$ the set of all partially observed curves. 
+ 
+Given $\R$, we can break $[\C^{\star}]$ into the observed and missing part of the size and shape as follows: 
 
-The problem at hand is to model the shape of and complete each partially observed curve $\C^m_j$ and assign it to one of $G$ groups. We consider two approaches: one based on a variational formulation, and the other using kernel-based classifier. Before describing our approaches, some comments on the set $\Gamma$ are in order. 
+$$
+[\C^{\star}]_{obs} = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 1  \}
+$$
+
+and
+%Could also say where $t \in \gamma^{-1}(R^{-1}(1))$
+
+$$
+[\C^{\star}]_{mis} = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 0  \}
+$$.  
+
+Likewise for $[\C]$ we can do the same thing, but also consider scaling: 
+$$
+[\C]_{obs} = \{\sigma O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \> 0 |  R(\gamma(t)) = 1  \}
+$$
+
+and
+%Could also say where $t \in \gamma^{-1}(R^{-1}(1))$
+
+$$
+[\C]_{mis} = \{\sigma O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \> 0 |  R(\gamma(t)) = 0  \}
+$$.
+
+\subsection{Completing the curve}
+%lets use partial and full to denote which curve is which.  Then the observed part of \C^p_j is also \C^p_{j,obs} but there is also a \C^p_{j,mis}, which is the missing part.  Then the concatenation of \C^p_{j,obs} and \C^p_{j,mis} is \C^p_j.
+
+Suppose we are given closed planar curves $\C^p_j:\uc \to \mathbb{R}^2,j=1\ldots,n_p$ each of which has been observed only on a region $\{t : R(\gamma(t) = 1\} \subset \uc$, where $\uc$ is the unit circle in $\Rtwo$. We assume that the curves are absolutely continuous. Additionally, a training sample $\{(y_i,\C^f_i),1,\ldots,n_f\}$ consisting of class labels $y_i \in \{0,1, \cdots G\}$ and $C^f_i:\uc\to \mathbb{R}^2$, fully observed on a common domain $\uc$, is provided. The set of fully observed curves are elements of the set $\mathcal{C}^f$; denote by $\mathcal{C}^p$ the set of all partially observed curves. 
+
+%I don't want to get too hung up on classification.  Classification is just one thing you could do after completing the curves.  
+The problem at hand is to model the shape (and size) of and complete each partially observed curve $\C^p_j$ and assign it to one of $G$ groups. We consider two approaches: one based on a variational formulation, and the other using kernel-based classifier. Before describing our approaches, some comments on the set $\Gamma$ are in order. 
 
 \subsection{The set of reparameterizations $\Gamma$}
 Elements of the group $\Gamma$ of diffeomorphisms of $\uc$ can be viewed in the following manner. The unit circle $\uc$ can be identified with the quotient group $\mathbb{R}/2\pi \mathbb{Z} \cong [0,1]$. Through this identification, every continuous mapping $\beta: \mathbb{R} \to \mathbb{R}$ induces a continuous mapping of $\uc$ onto itself such that $\beta(t+1)=\beta(t)+1$ for all $t \in \mathbb{R}$. If $\beta$ is monotone increasing, we say that the induced map on $\uc$ is orientation-preserving (based on a choice of clockwise or anti-clockwise orientation).
 
-Consider now the set $$\Gamma_\mathbb{R}:=\{\beta:\mathbb{R}\to \mathbb{R}: \beta(t+1)=\beta(t)+1, \text{ continuous and increasing}\}.$$ Each member $\beta$ of $W_\mathbb{R}$ induces a warp map $\tilde{\beta}:\uc \to \uc$ with $\tilde{\beta}(e^{2\pi it})=e^{2\pi i\beta(t)}$, where $\beta$ is referred to as the lift of $\tilde{\beta}$. This $\beta$ satisfies $\beta(t+1)=\beta(t)+1$ for all $t \in [0,1]$, and consequently we have, for $t \in [0,1]$, $\beta(t)=\gamma(t)+c $, where $\gamma$ is a warp map of $[0,1]$ and $c \in (0,1]$ (through the identification of $[0,1]$ with $\mathbb{R}/2\pi \mathbb{Z}$). This procedure can be viewed as one that produces a warp map of $\uc$ by `unwrapping' $\uc$ at a chosen point $s$ and generating a warp map of $[0,1]$.
-If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is the group of diffeomorphisms of $[0,1]$, the map $\Gamma \mapsto \uc \times \Gamma_I$ is a bijection\footnote{Technically, this is not a bijection since for a $\gamma \in \Gamma$, the corresponding $\beta \in \Gamma_I$ has a jump discontinuity at the point $t_c \in [0,1]$ where $\beta(t_c)+c=1$. This can be circumvented by assuming that the members of $\Gamma$ and $\Gamma_I$ are absolutely continuous (as opposed to diffeomorphims); then the map between to the sets is bijective a.e.}. We will hence employ the product group $\uc \times \Gamma_I$ in place of $\Gamma$. This ensures that the domain of each curve $C_j^m$ and $C^o_i$ can be identified with $[0,1]$ upon unwrapping the circle. 
-%This results in $\C^o_i$ becoming periodic with period 1: $\C^o_i(0)=\C^o_i(1)$ for every $i=1,\ldots,n$.
+Consider now the set 
+$$
+\Gamma_\mathbb{R}:=\{\beta:\mathbb{R}\to \mathbb{R}: \beta(t+1)=\beta(t)+1, \text{ continuous and increasing}\}
+$$. 
+
+
+
+Each member $\beta$ of $W_\mathbb{R}$ induces a warp map $\tilde{\beta}:\uc \to \uc$ with $\tilde{\beta}(e^{2\pi it})=e^{2\pi i\beta(t)}$, where $\beta$ is referred to as the lift of $\tilde{\beta}$. This $\beta$ satisfies $\beta(t+1)=\beta(t)+1$ for all $t \in [0,1]$, and consequently we have, for $t \in [0,1]$, $\beta(t)=\gamma(t)+c $, where $\gamma$ is a warp map of $[0,1]$ and $c \in (0,1]$ (through the identification of $[0,1]$ with $\mathbb{R}/2\pi \mathbb{Z}$). This procedure can be viewed as one that produces a warp map of $\uc$ by `unwrapping' $\uc$ at a chosen point $s$ and generating a warp map of $[0,1]$.
+If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is the group of diffeomorphisms of $[0,1]$, the map $\Gamma \mapsto \uc \times \Gamma_I$ is a bijection \footnote{Technically, this is not a bijection since for a $\gamma \in \Gamma$, the corresponding $\beta \in \Gamma_I$ has a jump discontinuity at the point $t_c \in [0,1]$ where $\beta(t_c)+c=1$. This can be circumvented by assuming that the members of $\Gamma$ and $\Gamma_I$ are absolutely continuous (as opposed to diffeomorphims); then the map between to the sets is bijective a.e.}. We will hence employ the product group $\uc \times \Gamma_I$ in place of $\Gamma$. This ensures that the domain of each curve $C_j^p$ and $C^f_i$ can be identified with $[0,1]$ upon unwrapping the circle. 
+%This results in $\C^f_i$ becoming periodic with period 1: $\C^f_i(0)=\C^f_i(1)$ for every $i=1,\ldots,n_p$.
+
+
+\subsection{Curve Completion1}
+Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$.  If we  $X_j \sim \C_{mis}|\C_{obs}$ to be a random draw from this distribution, that is a $X_j \in \mathcal{X}_j$ is an open curve that is a plausible completion of the curve $\C_{obs}$ and $\mathcal{X}_j$ is defined as 
+
+\[
+\mathcal{X}_j := \{X: \gamma^{-1}(R^{-1}(t)) \rightarrow  \mathbb{R}^2 \}
+\]
+
+$t \in \gamma^{-1}(R^{-1}(1))$
 
 \subsection{Curve completion}
 The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^m_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,N$. Suppose that $\C^m_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^m_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves comprising the missing segment of curve $\C^m_j$ is 
 $$\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} .$$
 For a partially observed $\C_j^m:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
-\begin{equation*}
+
+$$
 C_j \circ X(t):= \C_j^m(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}.
-\end{equation*}
+$$
 
 Denote by $Q_{\C^m_j \circ X}$ the square-root transform of $\C^m_j \circ X$. For each $j=1,\ldots,n$, let $\Theta_j:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^o$ and $\mathcal{C}^m$ denote the sets of fully and partially observed curves, respectively. For a fixed $C \in \mathcal{C}$, for each $j=1,\ldots,n$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^m \times \mathcal{C} \to \mathbb{R}$ by
 \begin{align*}
@@ -250,29 +307,6 @@ The optimal shape completion of a partially observed curve $Q_{C_j^m}, j=1,\ldot
 \end{equation}
 In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ was unwrapped in order to identify $\Gamma$ with $\uc \times \Gamma_I$; $\gamma_j^*:[0,1] \to [0,1]$ and $O_j^*$ represents the optimal reparameterization of the curve $C^m_j \circ X^*_j$. The use of a valid distance on the quotient shape space $\mathcal{Q}_s$ allows us to apply the shape transformations on $Q_{C_i}, i=1\ldots,n$ in the variational problem with introducing any arbitrariness. The (product) group structure of $\uc \times \Gamma_I\times SO(2)$, and its action on $\mathcal{Q}$, ensures that if the transformations were to have been applied to $Q_{C^m_j \circ X^*}$, the resulting solution set would instead contain the corresponding group inverses. 
 (INSERT ILLUSTRATIVE FIGURE). 
-
-\subsection{Classification}
-We outline two approaches for classification of partially observed curves $C^m_j, j=1,\ldots,N$. 
-\subsubsection{Combining completion and classification}
-The variational formulation for the completion of each curve $C^m_j$ with respect to a fixed curve $C$ can be augmented to address the classification task in the following manner. Using the training sample $\{(y_i,\C^o_i),1,\ldots N\}$ partition the set $\{C^o_i, i=1,\ldots,N\}$ into $\bigcup_{g \in G}\{C^o_{ig}, i=1\ldots,N_g\}$ with $N_1+\cdots+N_g=N$. Recall that the shape space of a given set of curves is the quotient metric space with the metric $d$ in (\ref{distance}). Such a structure allows us to define the sample Fr\'{e}chet mean shape curve for a given set of curves. Formally, for each $g \in G$, consider the sample Fr\'{e}chet functional define on the set $\mathcal{C}$ as
-$$F_g:C \to \mathbb{R}, \quad  C \ni C  \mapsto F_g(C):= \sum_{i=1}^{N_g} d^2(C,C_i^0).$$
-The (local) minimizer of $F_g$ is referred to as the Fr\'{e}chet mean set, since $d$ is a distance between two equivalence classes. We then select a member $\hat{M}_g:\uc \to \Rtwo$ from set this and refer to it as the Fr\'{e}chet mean of the group $\{C^o_{ig}, i=1\ldots,N_g\}$ with $g =1,\ldots,G$. 
-
-The variational classifier based on the augmented optimization problem in (\ref{opt}) is defined by the following rule:
-\[
-\text{Assign $C^m_j$ to group $g^*$ where }  (g^*,\theta^*_j)= \argmin_{g \in \{1,\ldots,G\} \times \theta_j \in \Theta_j} \Phi_{\theta_j}(C^m_j,\hat{M}_g).
-\]
-The classifier assigns $C^m_j$ to the group whose Fr\'{e}chet mean is closest to $C^m_j$. The advantage of this approach lies in the fact that completion and classification of partially observed curves are unified under the same metric (distance), and in a certain sense carried out simultaneously.  
-
-\subsubsection{Kernel-based classifier}
-Consider curves $C_j^m\circ X_j: \uc \to \Rtwo, j=1\ldots,n$ that have been completed using the variational formulation in (\ref{opt}). For each curve $C^m_j \circ X_j$ a nonparametric estimate of the (conditional) group probabilities $\pi_g:=P(y_j=g|C_j^m \circ X_j),g=1,\ldots,G$ can be constructed using the distance $d$ on the shape space of curves. Using the estimate a curve $C_j^m\circ X_j$ is assigned to the group with the largest probability. We eschew the cumbersome notation involving the completed curves and outline the methodology for a generic curve $C:\uc \to \Rtwo$ to belong to two groups based on the training sample; hence $g=1,2$ with labels 0 and 1. Extension to more than two groups is routine. 
-
-Assume that training sample $\{(y_i,C^0_i,i=1\ldots,N\}$ consists of independent realizations of the random element $(\mathbf{y},\mathbf{C})$ taking values in $\{0,1\}\times \mathcal{C}$. For a probability space $(\Omega,\mathcal{F},\mathbb{P})$, the random element $\mathbf{C}$ is the mapping $(t,\omega)\mapsto \mathbf{C}(t,\omega)$. Thus $\mathbf{C}$ is an $\Rtwo$-valued stochastic process $\{\mathbf{C}(t), t \in \uc\}$. The kernel-based estimate (see for e.g. Chapter 8 of \cite{FV}) of the probability of assignment for a curve $C$ to group 1, $\pi(C)$, is given by
-\begin{equation}
-\label{prob}
-\hat{\pi}_N(C)=\frac{\sum_{i=1}^Ny_iK_{i,h_N}}{\sum_{i=1}^N K_{i,h_N}},
-\end{equation} 
-where $K_{i,h_N}:=K(h_N^{-1}d(C,C_i^o))$ for a given kernel $K$ and a positive bandwidth sequence $h_N$. The distance $d$ is defined on the quotient space of shape curves in (\ref{distance}).
 
 
 \section{Results}
