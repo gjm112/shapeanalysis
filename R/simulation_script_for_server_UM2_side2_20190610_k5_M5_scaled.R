@@ -15,10 +15,10 @@
 
 #!/usr/bin/bash
 
-#nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_LM1_side1_20190610_k5_M5_scaled.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_LM2_side1_20190610_k5_M5_scaled.Rout
+#nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_UM1_side1_20190610_k5_M5_scaled.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_UM1_side1_20190610_k5_M5_scaled.Rout
 
-# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM2_1_k5_M5_scaled.sh
-# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM1_2_k5_M5_scaled.sh
+# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM2_2_k20_M20.sh
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM2_2_k20_M20.sh
 
 
 
@@ -33,8 +33,8 @@ side <- 2 #could be 1 or 2.
 tooth <- "UM2"
 scale <- TRUE
 
-#file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
-#load(file)
+file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+load(file)
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
@@ -53,9 +53,9 @@ load("./data/ptsTrainList.RData")
 #i <- 1 #Whcih tooth.  DSCN number 
 
 #Need a function that takes each partial tooth as an argument to get to parallel.  
-results_list <- list()
-for (d in 1:length(ptsTrainList[[tooth]])){
-#for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
+#results_list <- list()
+#for (d in 1:length(ptsTrainList[[tooth]])){
+for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   #for (d in 1:1){
   print(d)
   print(Sys.time())
