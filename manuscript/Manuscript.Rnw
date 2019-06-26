@@ -3,7 +3,7 @@
 \usepackage{setspace}
 \usepackage{url}
 %% Load De Gruyter specific settings 
-\usepackage{dgjournal}          
+%\usepackage{dgjournal}          
 \usepackage{color,soul}
 %% The mathptmx package is recommended for Times compatible math symbols.
 %% Use mtpro2 or mathtime instead of mathptmx if you have the commercially
@@ -21,14 +21,25 @@
 \setlength{\bibsep}{10pt}
 \usepackage{booktabs}
 
-\usepackage{subfigure}% Support for small, `sub' figures and tables. Your choice of alternative may be preferred instead.
+\usepackage{amsmath,amssymb,graphicx,color,setspace,enumerate,natbib}\usepackage{subfigure}% Support for small, `sub' figures and tables. Your choice of alternative may be preferred instead.
 \usepackage{color,soul}
 \usepackage{moreverb}
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
 
 
+\title{Classification of shapes}
+%\author{Gregory J. Matthews, Kartik Barath, Sebastian Kurtek, Juliet Brophy, George Thiruvathukal, Ofer Harel, Grady Flanary}
+\author{Gregory J. Matthews}
+\date{\today}
+
+
 \begin{document}
+
+
+
+\maketitle
+
 
 \section{Introduction}
 %Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
@@ -48,11 +59,12 @@ This representation is the foundation of the square root velocity function (SRVF
 
 To define the SRVF start by considering an absolutely continuous function $\beta:  \mathbb{S} \rightarrow \mathbb{R}^n$.  The SRVF of this function $q:  \mathbb{S} \rightarrow \mathbb{R}^n$ is defined as the following: 
 
-$$
-q(t) = \left\{ \begin{array}{ll}
-         \frac{\dot{\beta(t)}}{\sqrt{||\beta(t)||}} & \mbox{If \dot{\beta(t)} exist and is nonzero};\\
-        0 & otherwise \end{array} \right 
-$$
+%Need to add a dot here.  
+% $$
+% q(t) = \left{ \begin{array}{ll}
+%         \frac{\beta(t)}{\sqrt{||\beta(t)||}} & \mbox{If \beta(t) exist and is nonzero;}\\
+%         0 & otherwise \end{array} \right
+% $$
 
 where $\dot{\beta(t)}$ is the first derivative of the function $\beta(t)$.  
 
@@ -65,7 +77,7 @@ where $\dot{\beta(t)}$ is the first derivative of the function $\beta(t)$.
 
 
 
-A full review of other methods for shape analysis can be found in \cite{FSDA}.  
+A full review of other methods for shape analysis can be found in CITE(FSDA)
 
 
 %Statistical shape analysis is interested in studying a wide variety of questions about shapes from statistical view such as, for example, how different are two shapes, what is the mean / variability of a collection of shapes, and, of particular interest in this manuscipt, shape classification.  In order to work with shapes statistically, a framework needs to be defined for representing shapes, and there are many different idea for doing this.  For instance, shapes can be represented by landmarks \citep{Kendall1984,LeAndKendall1993,MardiaAndDryden1989}. A landmark is a point on a shape that corresponds to a point on another shape across and within populations.  
@@ -80,7 +92,7 @@ Shape analysis in general.
 
 
 Partial Shape matching. 
-http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
+%http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
 
 \section{Missing Data}
 Missing data problems arise in many statistical settings due to survey non-response, designed missingness in surveys (CITE), measurement error, and latent classes, to name a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, (Demspter Laird and Rubin) describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation (CITE Rubin and Little, Schafer).  The idea behind multiple imputation is to blah blah blah.......
@@ -89,17 +101,17 @@ Missing data problems arise in many statistical settings due to survey non-respo
 EM algorithm (Depster Laird and Rubin)
 Multiple Imputation (Rubin and Little)
 
-For a more thorough review of the missing data literature, see \cite{HortonAndKleinman2007} (Add more).  
+For a more thorough review of the missing data literature, see cite(HortonAndKleinman2007) (Add more).  
 
 
 \section{Missing Data and Shapes}
+
 \subsection{13.1 - Incomplete Data}
 Papers mentioned: 
 \begin{itemize}
 \item Albers and Gower (2010) - Missing data in procrustes
 \item Mitchelson (2013) - handling occluded landmarks. 
 \item Gunz et. al. (2009) - missing data in studies of biological evolution of bone surfaces
-
 \end{itemize}
 
 
@@ -114,7 +126,36 @@ KAJAL's (and grady) Lit review
 %Then notation for missing data in shapes. 
 %which means I now need to talk about open curves.
 \section{Notation}
-\subsection{Size and Shape}
+\subsection{Shape and Size-and-Shape}
+Our interest is in the completion of shapes of partially observed closed curves, and their classification. This first requires us to adopt a suitable representation for the shape of a fully observed curve. We adopt a parametric representation of a closed curve by representing as an absolutely continuous function
+$$
+C : S \rightarrow \mathbb{R}^2
+$$, 
+thus automatically ensuring that the curve is closed. The notion of a shape of such a curve requires invariances to transformations that represent nuisance information. Specifically,
+if  $\Gamma := { \gamma: S \rightarrow S \mbox{ is an orientation-preserving diffeomorphism} }$ and $SO(2)$ is the rotation group in $\mathbb{R}^3$, the shape of a parameterized curve $C: D \rightarrow \mathbb{R}^2$ is defined to be the equivalence class 
+
+$$
+[C] :=  \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \in \mathbb{R}^{+} \} 
+$$
+
+Thus $[C]$ is the set of all possible curves that can be obtained through a translation ($C+a$), rotation ($OC$), scale change ($\sigma C$), a reparameterization ($C(\gamma)$), or any combination of the transofrmations of curve $C$. In words, the shape of curve $C$ is what is left once variations due to sclae, tranlsation, rotation, and reparameterisation have been accounted for.  
+
+In this instance, it is of importance to preserve the size and shape of the curve.  This simply requires removing any scale changes from the definition of the equivalence class.  This size-and-shape of a parameterized $C: D \rightarrow \mathbb{R}^2$ is defined to be the equivalence class:
+
+$$
+[C^{\star}] :=  \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
+$$
+
+Thus $[C^{\star}]$ is the set of all possible curves that can be obtained through a translation ($C+a$), rotation ($OC$), a reparameterization ($C(\gamma)$), or any combination of the transofrmations of curve $C$, notably with scaling not included as one of the possible transformations.  
+
+A key ingredient in several classification methods (e.g. linear/quadratic discriminant analysis; kernel-based methods) for functional data is the notion of similarity or distance between curves. A popular choice is the distance induced by the $\mathbb{L}^2$ norm of a Hilbert space of square-integrable functions. However, it is well known that the $\mathbb{L}^2$ is unsuitable for comparing curves in the presence of parameterisation variability \citet{KurtekEtAl2012}, \citet{AK}. To this end we employ a suitable representation (transformation) of a curve $C$ that allows us to compute distances easily while accounting for the necessary invariances.
+
+\subsection{Notation}
+A closed planar curve $C$ is always an absolutely continuous mapping $C: \mathbb{S} \rightarrow \mathbb{R}^2$, and the set of planar closed curves will be denoted by $\mathbb{C}$
+
+
+
+
 Consider a closed curve, $C$, 
 $$
 C: \mathbb{S} \rightarrow \mathbb{R}^2 

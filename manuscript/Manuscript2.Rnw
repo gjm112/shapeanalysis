@@ -20,7 +20,7 @@
 \begin{document}
 \title{Classification of shapes}
 %\author{Gregory J. Matthews, Kartik Barath, Sebastian Kurtek, Juliet Brophy, George Thiruvathukal, Ofer Harel, Grady Flanary}
-\author{Gregory J. Matthews}
+\author{Gregory J. Matthews et. al. }
 \date{\today}
 
 \maketitle
@@ -104,9 +104,6 @@ Papers mentioned:
 
 
 
-
-
-
 \section{Shapes of closed curves}
 Our interest is in the completion of shapes of partially observed closed curves, and their classification. This first requires us to adopt a suitable representation for the shape of a fully observed curve. We adopt a parametric representation of a closed curve by representing as an absolutely continuous function\footnote{Upon identification of $\uc$ with $[0,1] \cong \mathbb{R}/2\pi\mathbb{Z}$, a curve $\C:[0,1] \to \mathbb{R}^2$ is absolutely continuous if and only if there exists an integrable function $g:[0,1]\to \Rtwo$ such that $\C(t)-\C(0)=\int_0^tg(u)du, \forall t \in [0,1]$.} $\C: \uc \to \Rtwo$, thus automatically ensuring that the curve is closed. The notion of a shape of such a curve requires invariances to transformations that represent nuisance information. Specifically, if $\Gamma:=\{\gamma:S \to S \text{ is an orientation-preserving diffeomorphism}\}$ and $SO(2)$ is the rotation group in $\mathbb{R}^3$, the shape of a parameterized curve $\C:D \to \Rtwo$ is defined to be the equivalence class 
 \[
@@ -114,13 +111,23 @@ Our interest is in the completion of shapes of partially observed closed curves,
 \]
 Thus $[\C]$ is the set of all possible curves that can be obtained through a translation ($\C+a$), rotation ($O\C$), scale change $(\sigma \C)$, a reparametrization ($C(\gamma)$), or a combination of the transformations, of the curve $C$. In words, the shape of a curve $C$ is what is left once variations due scale, translation, rotation and reparametrisation has been accounted for. 
 
+In this instance, it is also of interest to preserve the size and shape of the curve.  This simply requires removing any scale changes from the definition of the equivalence class.  This size-and-shape of a parameterized $C: D \rightarrow \mathbb{R}^2$ is defined to be the equivalence class:
+
+$$
+[C^{\star}] :=  \{\sigma O C(\gamma(t)) + a, \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 \} 
+$$
+
+Thus $[C^{\star}]$ is the set of all possible curves that can be obtained through a translation ($C+a$), rotation ($OC$), a reparameterization ($C(\gamma)$), or any combination of the transofrmations of curve $C$, notably with scaling not included as one of the possible transformations.  
+
 
 A key ingredient in several classification methods (e.g. linear/quadratic discriminant analysis; kernel-based methods) for functional data is the notion of similarity or distance between curves. A popular choice is the distance induced by the $\mathbb{L}^2$ norm of a Hilbert space of square-integrable functions. However, it is well known that the $\mathbb{L}^2$ is unsuitable for comparing curves in the presence of parameterisation variability \citep{KurtekJASA, AK}. To this end we employ a suitable representation (transformation) of a curve $\C$ that allows us to compute distances easily while accounting for the necessary invariances. 
 
 \subsection{Notation}
 A closed planar curve $C$ is always an absolutely continuous mapping $C:\uc \to \Rtwo$, and the set of planar closed curves will be denoted by $\mathcal{C}$. The set $\mathcal{C}$ is equipped with the norm $\|x\|_{\ltwo}:=[\int_\uc \|x(t)\|_2dt]^{1/2}$ where $\|\cdot\|_2$ is the Euclidean norm in $\Rtwo$. $SO(2)$ is the special orthogonal group of rotation matrices of $\Rtwo$, and $\Gamma$ is group of orientation-preserving diffeomorphisms of $\uc$. The set $\Gamma_I$ will denote the group $\{\gamma:[0,1]\to[0,1], \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$. 
+
 \subsection{Square-root velocity transform}
 For a detailed introduction to the transform, its properties and advantages we refer to the reader to Chapter 6 of the book by \cite{AK}. Here we briefly outline the important concepts required for our purposes. 
+
 For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
 $$\C \mapsto \frac{C'}{\|C'\|_{\ltwo}}=:Q_\C,$$ 
 where $\C'$ is the (vector) derivative of $\C(t)$ with respect to $t$, and $\|\cdot\|$ is the usual Euclidean norm in $\Rtwo$. 
@@ -151,8 +158,66 @@ Two important ramifications of the described framework, motivating its use in ou
  &=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|OQ_{C_1}(\gamma)\sqrt{\gamma'} - Q_{C_2}\|_{\ltwo}\nonumber.
   \end{align}
   The symmetry with respect to the action either on $Q_{C_1}$ or $Q_{C_2}$ is an attractive feature and will be used profitably in the sequel. 
+  
+\section{Preserving scale}
+For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
+$$\C \mapsto C'=:Q^{\star}_\C = Q_\C\|C'\|_{\ltwo} $$ 
+where $\C'$ is the (vector) derivative of $\C(t)$ with respect to $t$.  
+
+
+In this case, the unique (again, up to translations) inverse of this curve $Q^{\star}_C$ is $\int_0^t Q^{\star}_C(s)ds$. To ensure that the curves are closed we need to impose an additional constraint: $\int_\uc Q^{\star}_C(t)=0$. 
+  Thus the image of the set of absolutely continuous closed curves , $ \{\C:\uc \to \Rtwo: \int_\uc \|C'(t)\|_2dt=l\}$, under the scale preserving transform map $\C \mapsto Q^{\star}_\C$ is the set
+\[
+\mathcal{Q}:=\Big\{Q^{\star}_\C:  \int_\uc Q^{\star}_C(t)dt=0\Big\},
+\]
+
+
+ Starting with a curve $\C$ we can now define its size and shape to be the equivalence class or its orbit of its corresponding velocity transform:
+ $$[Q^{\star}_\C]=\text{closure}\{OQ^{\star}_\C(\gamma) \sqrt{\gamma'}: (\gamma,O) \in \Gamma \times SO(2)\},$$
+ where the closure is with respect to the norm $\|\cdot\|_{\ltwo}$ on $Q^{\star}$.
+ 
+ In the square-root velocity framework, dividing the velocity function by its norm gives us a function that is of norm one.  This implies that it is a point on the unit sphere.  In the finite-dimensional vecotr set-up this amounts to keeping just the direction of the vectors and discarding all other information and the distance between two curves can then be viewed as the angle between these two vectors.  However, when preserving scale this defintion of distance will need to be modified as both the angle AND magnitude of the vectors are both of interest.  
+ 
+ Therefore, a modified defintion of distance that preserves scaling between two curves will be defined: 
+ 
+ %Is this one symmetric?  
+ \begin{align}
+ \label{distance}
+ d^{\star}(\C_1,\C_2)&:=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|Q^{\star}_{\C_1} - OQ^{\star}_{\C_2}(\gamma)\sqrt{\gamma'}\|_{\ltwo}\\
+ &=\inf_{(\gamma,O) \in \Gamma \times SO(2)}\Big[\int_{\uc}\left\|Q^{\star}_{C_1}(t)-OQ^{\star}_{C_2}(\gamma(t))\sqrt{\gamma'(t)}\right\|_2^2dt\Big]^{1/2} \nonumber\\
+ &=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|OQ^{\star}_{C_1}(\gamma)\sqrt{\gamma'} - Q^{\star}_{C_2}\|_{\ltwo}\nonumber.
+  \end{align}
+ 
+
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Missingness Function}
+Now consider a function, $R$, defined over the set $\mathbb{S}$, where $R(t) = 1$ if the shape function is observed at $t \in \mathbb{S}$ and $R(t) = 0$ otherwise (i.e. the shape function is observaed at $t \in \mathbb{S}$)  
+
+Specifically,   
+$$
+R: \mathbb{S} \rightarrow \left\{0,1\right\}^2
+$$
+
+In $\Rtwo$, for a given point $t$ we have $C(t) = (x_t, y_t)$ and the defintion of the function $R$ allows these two be missing individually (e.g. $x_t$ could be observed and $y_t$ is missing or $y_t$ could be observed and $x_t$ is missing), in our setting both the $x_t$ and $y_t$ values are either both observed or both missing and so specifically in this case the function is of the following form: 
+$$
+R: \mathbb{S} \rightarrow \left\{\{0,0\},\{1,1\}\right\}
+$$
+
+Now for a specific curve $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), we can define the function $R$ over $\mathbb{S}$.  However, for every reparameterization of $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), there is a corresponding reparameterization of $R$.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here only the case where $R^{-1}(1)$ be a connected subset of $\mathbb{S}$ is considered, though in general, this does not have to be the case. This prevents us from considering partially observed shapes with multiple ``gaps" (though this is an interesting idea for future work).
+
+For a given shape, there are many possible reparameterizations of the missingness function, and an equivalence class can be defined for the missingness function across reparametertizations as follows:  
+
+%I think I only need reparameterizations for R?  Rotations too?  
+$$
+[\R] = \{ R(\gamma(t)) , \gamma \in \Gamma \} 
+$$. 
+
+Note that for every curve $\C$ and corresponding $R$, in order to maintain the correct relationship, if $\C$ is reparameterized by $\gamma \in \Gamma$
+ $[\C]$ there is a correspondo
+
+
+ 
 \section{Curve completion and classification}
 Suppose we are given closed planar curves $\C^m_j:\uc \to \mathbb{R}^2,j=1\ldots,n$ each of which has been observed only on a region $\R_j \subset \uc$, where $\uc$ is the unit circle in $\Rtwo$. We assume that the curves are absolutely continuous. Additionally, a training sample $\{(y_i,\C^o_i),1,\ldots,N\}$ consisting of class labels $y_i \in \{0,1\}$ and $C^o_i:\uc\to \mathbb{R}^2$, fully observed on a common domain $\uc$, is provided. The set of fully observed curves are elements of the set $\mathcal{C}$; denote by $\mathcal{C}^m$ the set of all partially observed curves. 
 
