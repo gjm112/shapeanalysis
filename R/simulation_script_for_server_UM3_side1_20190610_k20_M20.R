@@ -15,10 +15,10 @@
 
 #!/usr/bin/bash
 
-#nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k20_M20.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_LM3_side1_20190610_k20_M20.Rout
+#nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_UM1_side1_20190610_k5_M5_scaled.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_UM1_side1_20190610_k5_M5_scaled.Rout
 
-# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k20_M20.sh
-# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k20_M20.sh
+# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM2_2_k5_M5_scaled.sh
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM2_2_k5_M5_scaled.sh
 
 
 
@@ -31,6 +31,7 @@ M <- 20
 k <- 20
 side <- 1 #could be 1 or 2.
 tooth <- "UM3"
+scale <- FALSE
 
 file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
 load(file)
@@ -69,7 +70,7 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   complete_shape_list[[d]]<-NULL
   
   start1 <- Sys.time()
-  imputed_partial_shape <- impute_partial_shape(complete_shape_list,partial_shape, M = M, k = k)
+  imputed_partial_shape <- impute_partial_shape(complete_shape_list,partial_shape, M = M, k = k, scale = scale)
   end1 <- Sys.time()
   end1-start1 #1.4 minutes with 4 cores on server.  Using detectCores()-1 it takes 
   
@@ -102,10 +103,10 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   
   
   
-  dist_imputed_to_whole <- function(whole,part){
+  dist_imputed_to_whole <- function(whole,part, scale = scale){
     whole <- resamplecurve(whole,N = dim(part)[2], mode = "C") 
     print(Sys.time())
-    out <- calc_shape_dist_complete(whole,part)
+    out <- calc_shape_dist_complete(whole,part, scale)
     return(out)
   }
   
@@ -117,7 +118,7 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   
   dist_imputed_to_whole2 <- function(part){
     #out <- lapply(complete_shape_list, dist_imputed_to_whole, part = part) #takes about 3 minutes.  2.11 minutes with mclapply
-    out <- mclapply(complete_shape_list, dist_imputed_to_whole, part = part, mc.cores = 12) #takes about 3 minutes.  2.11 minutes with mclapply
+    out <- mclapply(complete_shape_list, dist_imputed_to_whole, part = part, scale = scale, mc.cores = 12) #takes about 3 minutes.  2.11 minutes with mclapply
     return(out)
   }
   
