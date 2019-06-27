@@ -17,8 +17,8 @@
 
 #nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_UM1_side1_20190610_k5_M5_scaled.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_UM1_side1_20190610_k5_M5_scaled.Rout
 
-# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM2_1_k5_M5_scaled.sh
-# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM2_1_k5_M5_scaled.sh
+# chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM2_2_k20_M20.sh
+# qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM2_2_k20_M20.sh
 
 
 
@@ -33,7 +33,8 @@ side <- 2 #could be 1 or 2.
 tooth <- "UM2"
 scale <- TRUE
 
-file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData")
+if (!scaled){file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")}
+if (scaled){file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData")}
 load(file)
 #/home/gmatthews1/shapeAnalysis
 
@@ -175,7 +176,8 @@ for (d in (length(results_list)+1):length(ptsTrainList[[tooth]])){
   
   end_all <- Sys.time()
   end_all-start_all
-  outfile <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData")
+  if (scaled){outfile <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData")}
+  if (!scaled){outfile <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")}
   save.image(outfile)
 }
 
