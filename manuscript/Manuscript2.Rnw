@@ -418,7 +418,7 @@ In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ 
 This simulation study is based on the shapes of the occlusal surfaces of of extant bovid molars both upper and lower.  Specifically, teeth from the following seven tribes: Alcelaphini, Antilopini, Bovini, Hippotragini, Neotragini, Reduncini, and Tragelaphini.  Specific counts of the sample sizes of each tooth type and tribe can be found in table \ref{sampsize}.  
 
 For each tooth, the raw data was made up of 60 points traced around the occlusal surface of the tooth.  For each tooth, these 60 points were split into two groups roughly divided by a line connecting the mesostyle to the entostyle/metastylid to the ectostylid of mandibular teeth/upper teeth.
-An example of this can be seen in Figure \ref{ToothCutter}.  This cut was chosen for the simulation study and this is a break point commonly observed by in bovid fossils by biological anthropologists.  
+An example of this can be seen in Figure \ref{ToothCutter}.  This cut was chosen for the simulation study and this is a break point commonly observed by in bovid fossils by biological anthropologists.   
 
 For each half of a tooth, the tooth was matched against all the complete teeth in the tooth type to find $k$ suitable donor teeth, the tooth was then completed $M$ times by randomly drawing $M$ teeth with replacement from the set of $k$ donor teeth, and using the donor tooth to complete the tooth as described in section XXX.
 
