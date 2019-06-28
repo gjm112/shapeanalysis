@@ -148,6 +148,8 @@ For a curve $\C$, by taking its derivative and dividing by its length $\|C'\|_{\
 \]
 since $\|Q_\C\|_{\ltwo}=\|C'\|_{\ltwo}^{1/2}$. Thus the set $\mathcal{Q}$ is a subset of $\mathbb{L}^2(\uc,\Rtwo):=\{Q:\uc \to \Rtwo: \int_\uc \|Q(t)\|_2^2 <\infty \}$. It is referred to as the pre-shape space corresponding to the curves, since variations due to rotation and parameterization are yet to be accounted for. It is not a linear space and is a manifold \citep{AK}. 
 
+
+
 Before defining the shape space, we discuss the actions of groups $\Gamma$ and $SO(2)$ on the set $\mathcal{Q}$. The set $\Gamma$ of reparameterisations (or warp maps) of $\uc$ is group with group action given by composition. Its action on $\mathcal{Q}$ is defined by $(Q_\C,\gamma) \mapsto Q_\C(\gamma) \sqrt{|\gamma '|}$, where $\gamma'$ is the derivative of $\gamma$ (see Chapters 5 and 6 \cite{AK} for more details). The derivative of $\gamma:\uc \to \uc$ needs to be viewed as a derivative of $\gamma:[0,1]\to[0,1]$ based on the identification $\uc \cong \mathbb{R}/2\pi\mathbb{Z}$, and hence $|z|$ is just the absolute value of the real number $z$. 
 The action of the rotation group $SO(2)$ is defined in the usual way as the map $SO(2) \times \mathcal{Q} \to \mathcal{Q}$ with $(O,Q_C)\mapsto \{OQ_C(t): t \in \uc\}$. 
 
@@ -226,6 +228,10 @@ $$
 [\R] = \{ R(\gamma(t)) , \gamma \in \Gamma \} 
 $$. 
 
+
+
+
+
 Note that for every curve $\C$ and corresponding $R$, in order to maintain the correct relationship, if $\C$ is reparameterized by $\gamma \in \Gamma$ then $R$ must be reparameterized using the same $\gamma$ that acted on $\C$.
  
  
@@ -254,6 +260,9 @@ $$
 [\C]_{mis} = \{\sigma O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \> 0 |  R(\gamma(t)) = 0  \}
 $$.
 
+
+
+
 \subsection{Completing the curve}
 %lets use partial and full to denote which curve is which.  Then the observed part of \C^p_j is also \C^p_{j,obs} but there is also a \C^p_{j,mis}, which is the missing part.  Then the concatenation of \C^p_{j,obs} and \C^p_{j,mis} is \C^p_j.
 
@@ -272,23 +281,99 @@ $$.
 
 
 
+
 Each member $\beta$ of $W_\mathbb{R}$ induces a warp map $\tilde{\beta}:\uc \to \uc$ with $\tilde{\beta}(e^{2\pi it})=e^{2\pi i\beta(t)}$, where $\beta$ is referred to as the lift of $\tilde{\beta}$. This $\beta$ satisfies $\beta(t+1)=\beta(t)+1$ for all $t \in [0,1]$, and consequently we have, for $t \in [0,1]$, $\beta(t)=\gamma(t)+c $, where $\gamma$ is a warp map of $[0,1]$ and $c \in (0,1]$ (through the identification of $[0,1]$ with $\mathbb{R}/2\pi \mathbb{Z}$). This procedure can be viewed as one that produces a warp map of $\uc$ by `unwrapping' $\uc$ at a chosen point $s$ and generating a warp map of $[0,1]$.
 If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is the group of diffeomorphisms of $[0,1]$, the map $\Gamma \mapsto \uc \times \Gamma_I$ is a bijection \footnote{Technically, this is not a bijection since for a $\gamma \in \Gamma$, the corresponding $\beta \in \Gamma_I$ has a jump discontinuity at the point $t_c \in [0,1]$ where $\beta(t_c)+c=1$. This can be circumvented by assuming that the members of $\Gamma$ and $\Gamma_I$ are absolutely continuous (as opposed to diffeomorphims); then the map between to the sets is bijective a.e.}. We will hence employ the product group $\uc \times \Gamma_I$ in place of $\Gamma$. This ensures that the domain of each curve $C_j^p$ and $C^f_i$ can be identified with $[0,1]$ upon unwrapping the circle. 
 %This results in $\C^f_i$ becoming periodic with period 1: $\C^f_i(0)=\C^f_i(1)$ for every $i=1,\ldots,n_p$.
 
 
 \subsection{Curve Completion1}
-Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$.  If we  $X_j \sim \C_{mis}|\C_{obs}$ to be a random draw from this distribution, that is a $X_j \in \mathcal{X}_j$ is an open curve that is a plausible completion of the curve $\C_{obs}$ and $\mathcal{X}_j$ is defined as 
+Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$ and use random draws from this distribution to complete to curve.  Here this distribution will be approximated non-parametrically and hot-deck type multiple imputation \cite{AndridgeLittle2010} will be used similar in spirit to the idea of predictive mean matching (PMM) (\cite{PMM}).  The basic idea of PMM is to to take partially observed records (termed the donees) and find fully observed records that are close to a particular donee (termed donors).  Random draws from the set of donors are then used to complete the partially observed donees.  
 
-\[
-\mathcal{X}_j := \{X: \gamma^{-1}(R^{-1}(t)) \rightarrow  \mathbb{R}^2 \}
-\]
+The same type of procedure will be performed here, but instead of traditional statistical records, here shapes are considered.  The spirit of the procedure proposed here is similar to PMM in that first the partially observed shape (the donee) is measured against fully observed shapes to find potential donors.  Once the set of potential donors is defined, one of these shapes is randomly drawn and used to complete the partially observed donee.  
 
-$t \in \gamma^{-1}(R^{-1}(1))$
+
+
+The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^p_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,n_p$. Suppose that $\C^p_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^p_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves that can possibly comprise the missing segment of curve $\C^p_j$ is 
+$$
+\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} .
+$$
+
+
+
+For a partially observed $\C_j^p:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
+
+$$
+C^p_j \circ X(t):= \C_j^p(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}
+$$.
+
+%Greg inserted this:
+$\X(t)$ should be chosen from the distribution $\C_{mis}|\C_{obs}$.  In this case, this distribution will be approximated empirically.  To begin,  for a particular partially observed shape, $\C_j^p \in \mathbb{C}^p$, the distance between $\C_j^p$ and each of the completed shapes in $\C_i^f \in \mathbb{C}^f$ is computed. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
+
+\begin{align*}
+\Phi^{p}_{\theta_j}(C_j^p,C_i^f)&:=d^2(C_j^p, \sigma OC_i^f(\gamma)|_{s}), \quad \theta_j \in \Theta_j\\
+&=\inf_{(s,\gamma,\sigma,O) \in \uc \times \Gamma_I\times \mathcal{R}^2 \times SO(2)}\|Q_{C_j^p }, \sigma OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2.
+\end{align*}
+
+%I also want to minimize over subsets of the unit circle.
+%With no scaling
+%add the p super script because these are measuring distances between partial shapes and parts of the complete shape.  
+$$
+\Phi^{p,\star}_{\theta_{ij}}(C_j^p,C_i^f) = d^{\star}(\C_j^p, \C_i^f|_{s}) = \inf_{(s,\gamma,O ) \in \uc \times \Gamma_I\times SO(2)} \|Q_{C_j^p , OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2
+$$
+
+Let $\theta^*_{ij} = (s^*_{ij}, \gamma^*_{ij}, O^*_{ij}) = \argmin_{\theta_{ij} \in \Theta_{ij}} \Phi_{\theta_{ij}}(C_j^p,C_i^f)$.  These values in $\theta^*_{ij}$ will be used again when completing tooth $C_j^p$.  
+
+Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \cdots, n_f$, the indices of the donor set are defined to be $D^{\star}_j = \{i : \Phi^{\star}_{\theta_j}(C_j^p,C_i^f) \le \Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$.  $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \cdots, n_f$ (e.g. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi^{\star}_{\theta_ij}}(C_j^p,C_i^f)_{(n_p)}$ are the minimum and the maximum, respectively). 
+
+$M$ values are drawn, with replacement, from $D^{\star}_j$ and the chosen indices are then used as donors to fill in the missing part of $C^p_j$ with $X_j$ and the completed shape is written as $C^p_j \circ X_j$.  Denote by $Q_{\C^p_j \circ X}$ the square-root transform of $\C^p_j \circ X$. For each $j=1,\ldots,n_p$, let $\Theta_{ij}:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^f$ and $\mathcal{C}^p$ denote the sets of fully and partially observed curves, respectively. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_{ij}}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
+
+%How do I incorporate s here?  This is different than what Karthik had written.  He was minimizing across everything.  We first do partial matching and then once that is done we solve for X by minimizing distances between closed curves.  So no transformations need to be found.  Only find X.
+$$
+X_j^{\star *} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_j^p \circ X_j}, O^*_{ij}Q_{C_i^f}(\gamma^*_{ij})\sqrt{\gamma^*_{ij}'}\|_{\ltwo}^2
+$$
+
+or is scaling is desired
+
+$$
+X_{ij}^{*} =\argmin_{X_{ij} \in \mathcal{X}_{ij}} \|Q_{C_j^p \circ X_{ij}}, \sigma^* O^*_{ij}Q_{C_i^f}(\gamma^*_{ij})\sqrt{\gamma^*_{ij}'}\|_{\ltwo}^2
+$$.  
+
+$X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distribution of $\C_{mis}|\C_{obs}$ where $\C_{mis}|\C_{obs}$ is approximated non-parametrically.  
+
+% %no scaling
+% \begin{align*}
+% \Phi_{\theta_{ij}}(C_j^p,C_i^f)&:=d^{\star}(C_j^p \circ X_j, OC_i^f(\gamma)), \quad \theta_j \in \Theta_j\\
+% &=\inf_{(s,\gamma,O) \in \uc \times \Gamma_I\times SO(2)}\|Q_{C_j^p \circ X_j}, OQ_{C_i^f}(\gamma)\sqrt{\gamma'}\|_{\ltwo}^2.
+% \end{align*}
+
+The optimal shape completion of a partially observed curve $Q_{C_j^p}, j=1,\ldots,n_p$ is $Q_{C_j^p\circ X_j^*}$, where $X_j^*$ is obtained from the solution set of:
+\begin{equation}
+\label{opt}
+\theta^*_j:=(s_j^*,\gamma_j^*,O_j^*,X_j^*)=\argmin_{\theta_j \in \Theta_j} \Phi_{\theta_j}(C_j^p,C_i^f).
+\end{equation}
+In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ was unwrapped in order to identify $\Gamma$ with $\uc \times \Gamma_I$; $\gamma_j^*:[0,1] \to [0,1]$ and $O_j^*$ represents the optimal reparameterization of the curve $C^p_j \circ X^*_j$. The use of a valid distance on the quotient shape space $\mathcal{Q}_s$ allows us to apply the shape transformations on $Q_{C^p_i}, i=1\ldots,n_p$ in the variational problem with introducing any arbitrariness. The (product) group structure of $\uc \times \Gamma_I\times SO(2)$, and its action on $\mathcal{Q}$, ensures that if the transformations were to have been applied to $Q_{C^p_j \circ X^*}$, the resulting solution set would instead contain the corresponding group inverses. 
+(INSERT ILLUSTRATIVE FIGURE). 
+
+\subsection{Partial matching}
+
+
+% \subsection{Choosing $X_j$}
+% While there are many $X_j$
+% 
+% If we let  $X_j \sim \C_{mis}|\C_{obs}$ to be a random draw from this distribution, that is a $X_j \in \mathcal{X}_j$ is an open curve that is a plausible completion of the curve $\C_{obs}$ and $\mathcal{X}_j$ is defined as 
+% 
+% 
+% $\C_{mis}|\C_{obs}$
+
 
 \subsection{Curve completion}
 The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^m_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,N$. Suppose that $\C^m_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^m_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves comprising the missing segment of curve $\C^m_j$ is 
-$$\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} .$$
+
+$$
+\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} 
+$$.
+
 For a partially observed $\C_j^m:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
 
 $$
@@ -302,7 +387,7 @@ Denote by $Q_{\C^m_j \circ X}$ the square-root transform of $\C^m_j \circ X$. Fo
 \end{align*}
 The optimal shape completion of a partially observed curve $Q_{C_j^m}, j=1,\ldots,n$ is $Q_{C_j^m\circ X_j^*}$, where $X_j^*$ is obtained from the solution set of:
 \begin{equation}
-\label{opt}
+\label{opt2}
 \theta^*_j:=(s_j^*,\gamma_j^*,O_j^*,X_j^*)=\argmin_{\theta_j \in \Theta_j} \Phi_{\theta_j}(C_j^m,C).
 \end{equation}
 In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ was unwrapped in order to identify $\Gamma$ with $\uc \times \Gamma_I$; $\gamma_j^*:[0,1] \to [0,1]$ and $O_j^*$ represents the optimal reparameterization of the curve $C^m_j \circ X^*_j$. The use of a valid distance on the quotient shape space $\mathcal{Q}_s$ allows us to apply the shape transformations on $Q_{C_i}, i=1\ldots,n$ in the variational problem with introducing any arbitrariness. The (product) group structure of $\uc \times \Gamma_I\times SO(2)$, and its action on $\mathcal{Q}$, ensures that if the transformations were to have been applied to $Q_{C^m_j \circ X^*}$, the resulting solution set would instead contain the corresponding group inverses. 
