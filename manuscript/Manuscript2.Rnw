@@ -287,21 +287,34 @@ If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is
 %This results in $\C^f_i$ becoming periodic with period 1: $\C^f_i(0)=\C^f_i(1)$ for every $i=1,\ldots,n_p$.
 
 
+
 \subsection{Curve Completion1}
-Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$ and use random draws from this distribution to complete to curve.  Here this distribution will be approximated non-parametrically and hot-deck type multiple imputation \cite{AndridgeLittle2010} will be used similar in spirit to the idea of predictive mean matching (PMM) (\cite{PMM}).  The basic idea of PMM is to to take partially observed records (termed the donees) and find fully observed records that are close to a particular donee (termed donors).  Random draws from the set of donors are then used to complete the partially observed donees.  
+Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$ and use random draws from this distribution to complete to curve.  Here this distribution will be approximated non-parametrically and hot-deck type multiple imputation \cite{AndridgeLittle2010} will be used similar in spirit to the idea of predictive mean matching (PMM) (\cite{PMM}).  The basic idea of PMM is to to take partially observed records (termed the donees) and find fully observed records that are close to a particular donee (termed donors).  Random draws from the set of donors are then used to complete the partially observed donees.  This is repeated $M$ times to create $M$ completed data sets.
 
-The same type of procedure will be performed here, but instead of traditional statistical records, here shapes are considered.  The spirit of the procedure proposed here is similar to PMM in that first the partially observed shape (the donee) is measured against fully observed shapes to find potential donors.  Once the set of potential donors is defined, one of these shapes is randomly drawn and used to complete the partially observed donee.  
+The same type of procedure will be performed here, but instead of traditional statistical records, here shapes are considered.  The spirit of the procedure proposed here is similar to PMM in that first the partially observed shape (the donee) is measured against fully observed shapes to find potential donors.  Once the set of potential donors is defined, one of these shapes is randomly drawn and used to complete the partially observed donee.  This process is crepeated $M$ times to create $M$ completed shapes.  
 
 
 
-The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^p_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,n_p$. Suppose that $\C^p_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^p_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves that can possibly comprise the missing segment of curve $\C^p_j$ is 
+
+
+
+The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^p_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,n_p$. Suppose that $\C^p_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^p_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$.Then the set of curves that can possibly comprise the missing segment of curve $\C^p_j$ is 
+
+
 $$
-\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} .
+\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} 
 $$
+.
+
+
+
+
+
 
 
 
 For a partially observed $\C_j^p:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
+
 
 $$
 C^p_j \circ X(t):= \C_j^p(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}
@@ -310,34 +323,62 @@ $$.
 %Greg inserted this:
 $\X(t)$ should be chosen from the distribution $\C_{mis}|\C_{obs}$.  In this case, this distribution will be approximated empirically.  To begin,  for a particular partially observed shape, $\C_j^p \in \mathbb{C}^p$, the distance between $\C_j^p$ and each of the completed shapes in $\C_i^f \in \mathbb{C}^f$ is computed. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
 
+
+
+
 \begin{align*}
 \Phi^{p}_{\theta_j}(C_j^p,C_i^f)&:=d^2(C_j^p, \sigma OC_i^f(\gamma)|_{s}), \quad \theta_j \in \Theta_j\\
 &=\inf_{(s,\gamma,\sigma,O) \in \uc \times \Gamma_I\times \mathcal{R}^2 \times SO(2)}\|Q_{C_j^p }, \sigma OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2.
 \end{align*}
 
+
+
+
 %I also want to minimize over subsets of the unit circle.
 %With no scaling
 %add the p super script because these are measuring distances between partial shapes and parts of the complete shape.  
 $$
-\Phi^{p,\star}_{\theta_{ij}}(C_j^p,C_i^f) = d^{\star}(\C_j^p, \C_i^f|_{s}) = \inf_{(s,\gamma,O ) \in \uc \times \Gamma_I\times SO(2)} \|Q_{C_j^p , OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2
+\Phi^{p,\star}_{\theta_{ij}}(C_j^p,C_i^f) = d^{\star}(\C_j^p, \C_i^f|_{s}) = \inf_{(s,\gamma,O ) \in \uc \times \Gamma_I\times SO(2)} \|Q_{C_j^p} , OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2
 $$
+
+
+
+
+
 
 Let $\theta^*_{ij} = (s^*_{ij}, \gamma^*_{ij}, O^*_{ij}) = \argmin_{\theta_{ij} \in \Theta_{ij}} \Phi_{\theta_{ij}}(C_j^p,C_i^f)$.  These values in $\theta^*_{ij}$ will be used again when completing tooth $C_j^p$.  
 
-Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \cdots, n_f$, the indices of the donor set are defined to be $D^{\star}_j = \{i : \Phi^{\star}_{\theta_j}(C_j^p,C_i^f) \le \Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$.  $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \cdots, n_f$ (e.g. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi^{\star}_{\theta_ij}}(C_j^p,C_i^f)_{(n_p)}$ are the minimum and the maximum, respectively). 
+
+
+Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \ldots, n_f$, the indices of the donor set are defined to be $D^{\star}_j = \{i : \Phi^{\star}_{\theta_j}(C_j^p,C_i^f) \le \Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \ldots, n_f$ (e.g. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(n_p)}$ are the minimum and the maximum, respectively). 
+
+
+
 
 $M$ values are drawn, with replacement, from $D^{\star}_j$ and the chosen indices are then used as donors to fill in the missing part of $C^p_j$ with $X_j$ and the completed shape is written as $C^p_j \circ X_j$.  Denote by $Q_{\C^p_j \circ X}$ the square-root transform of $\C^p_j \circ X$. For each $j=1,\ldots,n_p$, let $\Theta_{ij}:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^f$ and $\mathcal{C}^p$ denote the sets of fully and partially observed curves, respectively. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_{ij}}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
 
+
+%Something is wrong here latex wise
+$$
+X_j^{\star *} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_j^p \circ X_j}, O^{*}_{ij}Q_{C_i^f} (\gamma^{*}_{ij})\sqrt{\gamma'^{*}_{ij}}\|_{\ltwo}^2
+$$
+
+
+
+
 %How do I incorporate s here?  This is different than what Karthik had written.  He was minimizing across everything.  We first do partial matching and then once that is done we solve for X by minimizing distances between closed curves.  So no transformations need to be found.  Only find X.
-$$
-X_j^{\star *} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_j^p \circ X_j}, O^*_{ij}Q_{C_i^f}(\gamma^*_{ij})\sqrt{\gamma^*_{ij}'}\|_{\ltwo}^2
-$$
+
 
 or is scaling is desired
 
 $$
-X_{ij}^{*} =\argmin_{X_{ij} \in \mathcal{X}_{ij}} \|Q_{C_j^p \circ X_{ij}}, \sigma^* O^*_{ij}Q_{C_i^f}(\gamma^*_{ij})\sqrt{\gamma^*_{ij}'}\|_{\ltwo}^2
-$$.  
+X_j^{*} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_j^p \circ X_j}, O^{*}_{ij}Q_{C_i^f} (\gamma^{*}_{ij})\sqrt{\gamma'^{*}_{ij}}\|_{\ltwo}^2
+$$.
+
+
+
+
+
 
 $X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distribution of $\C_{mis}|\C_{obs}$ where $\C_{mis}|\C_{obs}$ is approximated non-parametrically.  
 
@@ -347,6 +388,9 @@ $X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distributio
 % &=\inf_{(s,\gamma,O) \in \uc \times \Gamma_I\times SO(2)}\|Q_{C_j^p \circ X_j}, OQ_{C_i^f}(\gamma)\sqrt{\gamma'}\|_{\ltwo}^2.
 % \end{align*}
 
+
+
+
 The optimal shape completion of a partially observed curve $Q_{C_j^p}, j=1,\ldots,n_p$ is $Q_{C_j^p\circ X_j^*}$, where $X_j^*$ is obtained from the solution set of:
 \begin{equation}
 \label{opt}
@@ -355,7 +399,10 @@ The optimal shape completion of a partially observed curve $Q_{C_j^p}, j=1,\ldot
 In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ was unwrapped in order to identify $\Gamma$ with $\uc \times \Gamma_I$; $\gamma_j^*:[0,1] \to [0,1]$ and $O_j^*$ represents the optimal reparameterization of the curve $C^p_j \circ X^*_j$. The use of a valid distance on the quotient shape space $\mathcal{Q}_s$ allows us to apply the shape transformations on $Q_{C^p_i}, i=1\ldots,n_p$ in the variational problem with introducing any arbitrariness. The (product) group structure of $\uc \times \Gamma_I\times SO(2)$, and its action on $\mathcal{Q}$, ensures that if the transformations were to have been applied to $Q_{C^p_j \circ X^*}$, the resulting solution set would instead contain the corresponding group inverses. 
 (INSERT ILLUSTRATIVE FIGURE). 
 
-\subsection{Partial matching}
+
+
+
+\subsection{Classification}
 
 
 % \subsection{Choosing $X_j$}
@@ -367,51 +414,111 @@ In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ 
 % $\C_{mis}|\C_{obs}$
 
 
-\subsection{Curve completion}
-The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^m_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,N$. Suppose that $\C^m_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^m_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves comprising the missing segment of curve $\C^m_j$ is 
+\section{Simulation Study}
+This simulation study is based on the shapes of the occlusal surfaces of of extant bovid molars both upper and lower.  Specifically, teeth from the following seven tribes: Alcelaphini, Antilopini, Bovini, Hippotragini, Neotragini, Reduncini, and Tragelaphini.  Specific counts of the sample sizes of each tooth type and tribe can be found in table \ref{sampsize}.  
 
-$$
-\mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} 
-$$.
+For each tooth, the raw data was made up of 60 points traced around the occlusal surface of the tooth.  For each tooth, these 60 points were split into two groups roughly divided by a line connecting the mesostyle to the entostyle/metastylid to the ectostylid of mandibular teeth/upper teeth.
+An example of this can be seen in Figure \ref{ToothCutter}.  This cut was chosen for the simulation study and this is a break point commonly observed by in bovid fossils by biological anthropologists.  
 
-For a partially observed $\C_j^m:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
+For each half of a tooth, the tooth was matched against all the complete teeth in the tooth type to find $k$ suitable donor teeth, the tooth was then completed $M$ times by randomly drawing $M$ teeth with replacement from the set of $k$ donor teeth, and using the donor tooth to complete the tooth as described in section XXX.
 
-$$
-C_j \circ X(t):= \C_j^m(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}.
-$$
-
-Denote by $Q_{\C^m_j \circ X}$ the square-root transform of $\C^m_j \circ X$. For each $j=1,\ldots,n$, let $\Theta_j:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^o$ and $\mathcal{C}^m$ denote the sets of fully and partially observed curves, respectively. For a fixed $C \in \mathcal{C}$, for each $j=1,\ldots,n$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^m \times \mathcal{C} \to \mathbb{R}$ by
-\begin{align*}
-\Phi_{\theta_j}(C_j^m,C)&:=d^2(C_j^m \circ X_j, OC(\gamma)), \quad \theta_j \in \Theta_j\\
-&=\inf_{(s,\gamma,O) \in \uc \times \Gamma_I\times SO(2)}\|Q_{C_j^m \circ X_j}, OQ_{C}(\gamma)\sqrt{\gamma'}\|_{\ltwo}^2.
-\end{align*}
-The optimal shape completion of a partially observed curve $Q_{C_j^m}, j=1,\ldots,n$ is $Q_{C_j^m\circ X_j^*}$, where $X_j^*$ is obtained from the solution set of:
-\begin{equation}
-\label{opt2}
-\theta^*_j:=(s_j^*,\gamma_j^*,O_j^*,X_j^*)=\argmin_{\theta_j \in \Theta_j} \Phi_{\theta_j}(C_j^m,C).
-\end{equation}
-In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ was unwrapped in order to identify $\Gamma$ with $\uc \times \Gamma_I$; $\gamma_j^*:[0,1] \to [0,1]$ and $O_j^*$ represents the optimal reparameterization of the curve $C^m_j \circ X^*_j$. The use of a valid distance on the quotient shape space $\mathcal{Q}_s$ allows us to apply the shape transformations on $Q_{C_i}, i=1\ldots,n$ in the variational problem with introducing any arbitrariness. The (product) group structure of $\uc \times \Gamma_I\times SO(2)$, and its action on $\mathcal{Q}$, ensures that if the transformations were to have been applied to $Q_{C^m_j \circ X^*}$, the resulting solution set would instead contain the corresponding group inverses. 
-(INSERT ILLUSTRATIVE FIGURE). 
-
-
-\section{Results}
-Describe the simulation study.  
-
-GRADY'S DESCRIPTION: 
-Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
-
-A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
-
-Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
-
-Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
-
-The partial and whole shape are then compared in order to find the portion of the complete shape which the observed partial shape most adequately corresponds to. This is done by comparing a series of starting segments of the completed shape to the observed partial shape. For each of the subsets, the partial complete shape is scaled and centered, then a best rotation onto the observed partial shape is made. From this, an error term is found, and the segment with the minimum error term is selected as where the closed partial shape will then be overlaid. From here, the straight line segment from earlier is then gradually morphed so that it more and more adequately fits the curvature of the complete shape. After NUMBER iterations, a final version of the imputed partial tooth is obtained.
-
-Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
-\subsection{Completing the curves}
 
 \begin{figure}
+<<echo = FALSE, message = FALSE>>=
+setwd("/Users/gregorymatthews/Dropbox/shapeanalysisgit/")
+source("./R/utility.R")
+source("./R/curve_functions.R")
+source("./R/calc_shape_dist_partial.R")
+source("./R/complete_partial_shape.R")
+source("./R/impute_partial_shape.R")
+source("./R/tooth_cutter.R")
+
+load("./data/data_set_of_full_teeth.RData")
+load("./data/ptsTrainList.RData")
+
+tooth <- "LM1"
+
+complete_shape <- t(ptsTrainList[[1]][[1]])
+plot(t(complete_shape), type = "l")
+points(t(complete_shape), pch = 16)
+
+side <- 1
+partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[1]])[[side]])
+plot(t(complete_shape), type = "l")
+points(t(complete_shape), pch = 16)
+points(t(partial_shape), pch = 16, col = "red")
+points(t(partial_shape), type = "l", col = "red")
+
+side <- 2
+partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[1]])[[side]])
+points(t(partial_shape), pch = 16, col = "blue")
+points(t(partial_shape), type = "l", col = "blue")
+@
+
+\caption{Example cuts for an Alcelaphini LM1 (DSCN2871)}
+\label{ToothCutter}
+\end{figure}
+
+<<>>=
+  k = 5
+  M = 5
+  side <- 1
+  tooth <- "LM3"
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData"))
+
+plot(t(results_list[[1]]$imputed_partial$imputed[[1]]),col = "red", type = "l", xlim = c(-200,700), ylim = c(-200,200))
+points(t(results_list[[1]]$imputed_partial$partial_obs))
+points(t(results_list[[1]]$imputed_partial$imputed[[2]]),col = "orange", type = "l")
+points(t(results_list[[1]]$imputed_partial$imputed[[3]]),col = "gold", type = "l")
+points(t(results_list[[1]]$imputed_partial$imputed[[4]]),col = "darkgreen", type = "l")
+points(t(results_list[[1]]$imputed_partial$imputed[[5]]),col = "blue", type = "l")
+
+
+greg <- c()
+for (i in 1:length(results_list))
+  {
+  greg[i] <- results_list[[i]]$truth$Tribe
+  }
+  table(greg)
+  sum(table(greg))
+@
+
+
+
+  \begin{table}[h!]
+  \begin{center}
+\begin{tabular}{ c c c c c c c c  }
+  & Alcelaphini  & Antilopini & Bovini &Hippotragini & Neotragini & Reduncini & Tragelaphini & Total \\ 
+ LM1 & 106 & 27 & 22 & 26 & 45 & 76 & 53 & 355 \\ 
+ LM2 & 117 & 30 & 25 & 37 & 55 & 90 & 53 & 407\\ 
+ LM3 & 117 & 30 & 19 & 34 & 53 & 96 & 62 & 411 \\ 
+ UM1 & 117 & 30 & 23 & 37 & 43 & 80 & 75 & 405 \\ 
+ UM2 & 118 & 30 & 23 & 41 & 53 & 97 & 94 & 456\\ 
+ UM3 & 71 & 30 & 17 & 58 & 52 & 110 & 78 &  416\\ 
+\end{tabular}
+\end{center}
+\caption{Sample sizes for the simulation study by tooth type and tribe}
+\label{sampsize}
+\end{table}
+
+
+%These are the numbers after the shapes that are scale incorreclty have been removed.  
+LM1 - 355
+LM2 - 407
+LM3 - 411
+UM1 - 405
+UM2 - 456
+UM3 - 416
+
+DSCN2601 example
+
+%<<>>=
+%  include_graphics("/Users/gregorymatthews/Dropbox/shapeanalysi%sgit/manuscript/fig/DSCN2601.JPG") 
+%@
+
+@
+
+  \begin{figure}
 <<echo = FALSE, message = FALSE>>=
 setwd("/Users/gregorymatthews/Dropbox/shapeanalysisgit/")
 source("./R/utility.R")
@@ -615,6 +722,26 @@ donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[
 \caption{Test}
 
 \end{figure}
+
+
+\section{Results}
+Describe the simulation study.  
+
+GRADY'S DESCRIPTION: 
+Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
+
+A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
+
+Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
+
+Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
+
+The partial and whole shape are then compared in order to find the portion of the complete shape which the observed partial shape most adequately corresponds to. This is done by comparing a series of starting segments of the completed shape to the observed partial shape. For each of the subsets, the partial complete shape is scaled and centered, then a best rotation onto the observed partial shape is made. From this, an error term is found, and the segment with the minimum error term is selected as where the closed partial shape will then be overlaid. From here, the straight line segment from earlier is then gradually morphed so that it more and more adequately fits the curvature of the complete shape. After NUMBER iterations, a final version of the imputed partial tooth is obtained.
+
+Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
+\subsection{Completing the curves}
+
+
 
 
 \bibliography{shapebib}
