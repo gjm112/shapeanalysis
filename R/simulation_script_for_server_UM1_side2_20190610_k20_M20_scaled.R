@@ -31,8 +31,8 @@ library(parallel)
 
 M <- 20
 k <- 20
-side <- 1 #could be 1 or 2.
-tooth <- "LM2"
+side <- 2 #could be 1 or 2.
+tooth <- "UM1"
 scale <- TRUE
 
 #if (!scale){file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")}

@@ -15,14 +15,14 @@
 
 #!/usr/bin/bash
 
-#nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k5_M5_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_LM2_side2_20190610_k5_M5_scaled.Rout
+#nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k5_M5_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_LM2_side2_20190610_k_M5_scaled.Rout
 
 # chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k10_M10_scaled.sh
 # qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k10_M10_scaled.sh
 
 
 # cd /home/gmatthews1/Work/shapeanalysis
-# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_UM3_side2_20190610_k10_M10_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_UM3_side2_20190610_k10_M10_scaled.Rout &
+# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_LM1_side2_20190610_k10_M10_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_LM1_side2_20190610_k10_M10_scaled.Rout &
 
 
 start_all <- Sys.time()
