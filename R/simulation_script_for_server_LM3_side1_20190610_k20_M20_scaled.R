@@ -22,18 +22,18 @@
 
 
 # cd /home/gmatthews1/Work/shapeanalysis
-# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_LM1_side2_20190610_k10_M10_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_LM1_side2_20190610_k10_M10_scaled.Rout &
+# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_LM1_side1_20190610_k5_M10.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_LM1_side1_20190610_k5_M10.Rout &
 
 
 start_all <- Sys.time()
 library(fdasrvf)
 library(parallel)
 
-M <- 20
-k <- 20
+M <- 10
+k <- 5
 side <- 1 #could be 1 or 2.
-tooth <- "LM3"
-scale <- TRUE
+tooth <- "LM1"
+scale <- FALSE
 
 #if (!scale){file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")}
 #if (scale){file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData")}
