@@ -1,0 +1,607 @@
+---
+title: "Species Results 20190709"
+author: "Gregory J. Matthews, Ph.D."
+date: "7/9/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "LM1"
+side <- 1  
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "LM1"
+side <- 2  
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "LM2"
+side <- 1
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "LM2"
+side <- 2 
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "LM3"
+side <- 1
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "LM3"
+side <- 2
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "UM1"
+side <- 1
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "UM1"
+side <- 2
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "UM2"
+side <- 1
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+
+```{r echo = FALSE}
+# library(dplyr)
+# tooth <- "UM2"
+# side <- 2  
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k5_M5 <- logloss_imputed
+# 
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k10_M10 <- logloss_imputed
+# 
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k20_M20 <- logloss_imputed
+# 
+# #load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# #logloss_imputed_k20_M5 <- logloss_imputed
+# 
+# #load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# #logloss_imputed_k20_M10 <- logloss_imputed
+# 
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k10_M5 <- logloss_imputed
+# 
+# 
+# n5 <- length(logloss_imputed_k5_M5)
+# n10 <- length(logloss_imputed_k10_M10)
+# n20 <- length(logloss_imputed_k20_M20)
+# #n20_5 <- length(logloss_imputed_k20_M5)
+# #n20_10 <- length(logloss_imputed_k20_M10)
+# n10_5 <- length(logloss_imputed_k10_M5)
+# n_part <- length(logloss_part)
+# 
+# fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+#                                logloss_imputed_k10_M10,
+#                               logloss_imputed_k20_M20,
+#                               logloss_imputed_k10_M5,
+#                               logloss_part),
+#                    knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+# 
+# library(ggplot2 )
+# ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+# 
+
+```
+
+
+
+```{r echo = FALSE}
+library(dplyr)
+tooth <- "UM3"
+side <- 1
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k5_M5 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k20_M20 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M5 <- logloss_imputed
+
+#load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+#logloss_imputed_k20_M10 <- logloss_imputed
+
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+
+logloss_imputed_k10_M5 <- logloss_imputed
+
+
+n5 <- length(logloss_imputed_k5_M5)
+n10 <- length(logloss_imputed_k10_M10)
+n20 <- length(logloss_imputed_k20_M20)
+#n20_5 <- length(logloss_imputed_k20_M5)
+#n20_10 <- length(logloss_imputed_k20_M10)
+n10_5 <- length(logloss_imputed_k10_M5)
+n_part <- length(logloss_part)
+
+fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+                               logloss_imputed_k10_M10,
+                              logloss_imputed_k20_M20,
+                              logloss_imputed_k10_M5,
+                              logloss_part),
+                   knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+
+library(ggplot2 )
+ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
+```{r echo = FALSE}
+# library(dplyr)
+# tooth <- "UM3"
+# side <- 2
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k5_M5 <- logloss_imputed
+# 
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k10_M10 <- logloss_imputed
+# 
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k20_M20 <- logloss_imputed
+# 
+# #load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# #logloss_imputed_k20_M5 <- logloss_imputed
+# 
+# #load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# #logloss_imputed_k20_M10 <- logloss_imputed
+# 
+# load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species_given_tribe.RData"))
+# 
+# logloss_imputed_k10_M5 <- logloss_imputed
+# 
+# 
+# n5 <- length(logloss_imputed_k5_M5)
+# n10 <- length(logloss_imputed_k10_M10)
+# n20 <- length(logloss_imputed_k20_M20)
+# #n20_5 <- length(logloss_imputed_k20_M5)
+# #n20_10 <- length(logloss_imputed_k20_M10)
+# n10_5 <- length(logloss_imputed_k10_M5)
+# n_part <- length(logloss_part)
+# 
+# fret <- data.frame(logloss = c(logloss_imputed_k5_M5,
+#                                logloss_imputed_k10_M10,
+#                               logloss_imputed_k20_M20,
+#                               logloss_imputed_k10_M5,
+#                               logloss_part),
+#                    knn =  c(c(1:n5), c(1:n10),c(1:n20), c(1:n10_5), c(1:n_part)), method = c(rep("knn w Imputation k5 M5",n5),rep("knn w Imputation k10 M10",n10), rep("knn w Imputation k20 M20",n20),rep("knn w Imputation k10 M5",n10_5),rep("knn w no imp",n_part)))
+# 
+# library(ggplot2 )
+# ggplot(aes(x = knn, y = logloss, col = method), data = fret) + geom_point() + geom_line() + ggtitle(paste0("tooth = ",tooth,", side = ",side))
+
+
+```
+
+
