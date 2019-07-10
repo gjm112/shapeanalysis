@@ -22,7 +22,7 @@
 
 
 # cd /home/gmatthews1/Work/shapeanalysis
-# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_20190610_k10_M20.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_20190610_k10_M20.Rout &
+# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_20190610_k10_M20_scaled.R /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_20190610_k10_M20_scaled.Rout &
 
 
 start_all <- Sys.time()
@@ -31,8 +31,8 @@ library(parallel)
 
 M <- 20
 k <- 10
-side <- 1 #could be 1 or 2.
-tooth <- "LM2"
+#side <- 1 #could be 1 or 2.
+#tooth <- "LM2"
 scale <- FALSE
 
 for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
