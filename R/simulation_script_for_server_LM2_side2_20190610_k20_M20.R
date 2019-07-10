@@ -32,8 +32,8 @@ k <- 20
 side <- 2 #could be 1 or 2.
 tooth <- "LM2"
 
-file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
-load(file)
+#file <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
+#load(file)
 #/home/gmatthews1/shapeAnalysis
 
 #setwd("/home/gmatthews1/shapeAnalysis")
