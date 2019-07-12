@@ -22,7 +22,7 @@
 
 
 # cd /home/gmatthews1/Work/shapeanalysis
-# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_20190610_k5_M10_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_20190610_k5_M10_scaled.Rout &
+# nohup R CMD BATCH --vanilla /home/gmatthews1/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k5_M5_scaled.R /home/gmatthews1/Work/shapeanalysis/simulation_script_for_server_LM2_side2_20190610_k5_M5_scaled.Rout &
 
 
 start_all <- Sys.time()
