@@ -15,7 +15,7 @@
 
 #!/usr/bin/bash
 
-#nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k20_M20.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_LM3_side1_20190610_k20_M20.Rout
+#nohup R CMD BATCH --vanilla /home/gmatthew/Work/shapeanalysis/R/simulation_script_for_server_LM2_side2_20190610_k5_M5scaled.R /home/gmatthew/Work/shapeanalysis/simulation_script_for_server_LM2_side2_20190610_k5_M5scaled.Rout
 
 # chmod +x /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k20_M20.sh
 # qsub -A SE_HPC -t 720 -n 1 -q pubnet /home/gmatthew/Work/shapeanalysis/shape_script_LM1_1_k20_M20.sh
@@ -26,6 +26,10 @@
 start_all <- Sys.time()
 library(fdasrvf)
 library(parallel)
+
+#LM2 side 2 20 20 
+#UM2 side 2 5 5 
+#UM3 side 1 20 20 
 
 M <- 20
 k <- 20
