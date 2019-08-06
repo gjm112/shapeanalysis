@@ -34,11 +34,11 @@ Much of the early work in shape analysis was based on defining shapes by a serie
 \subsection{Continuous Curves1}
 Rather than describing a closed shape with a discrete set of points, a function can be used: 
 $$
-\beta:  \mathbb{S} \rightarrow \mathbb{R}^n 
+C:  \mathbb{S} \rightarrow \mathbb{R}^n 
 $$
-where $\mathbb{S}$ is the unit sphere and guarantees that the function has the same start and end point (i.e. is a closed curve).  The function $\beta$ is a closed curve but scalings, translations, rotations and reparameterizations of this function will usually result in different functions, which means that this framework does not offer invariance across these transformations.  Rather than using this function directly, the first derivative could be used, which results in a translation invariant representation.  
+where $\mathbb{S}$ is the unit sphere and guarantees that the function has the same start and end point (i.e. is a closed curve).  The function $C$ is a closed curve but scalings, translations, rotations and reparameterizations of this function will usually result in different functions, which means that this framework does not offer invariance across these transformations.  Rather than using this function directly, the first derivative could be used, which results in a translation invariant representation.  
 
-This representation is the foundation of the square root velocity function (SRVF) (CITE) framework, which allows invariance across tranlsation, rotation, (optional) scaling, and reparameterization.  Frameworks for representing shapes that have invariance over reparameterization are said to be {\em elastic}. 
+This representation is the foundation of the square root velocity function (SRVF) \cite{FSDA} framework, which allows invariance across tranlsation, rotation, (optional) scaling, and reparameterization.  Frameworks for representing shapes that have invariance over reparameterization are said to be {\em elastic}. 
 
 To define the SRVF start by considering an absolutely continuous function $\beta:  \mathbb{S} \rightarrow \mathbb{R}^n$.  The SRVF of this function $q:  \mathbb{S} \rightarrow \mathbb{R}^n$ is defined as the following: 
 
@@ -49,18 +49,9 @@ To define the SRVF start by considering an absolutely continuous function $\beta
 %         0 & otherwise \end{array} \right
 % $$
 
-where $\dot{\beta(t)}$ is the first derivative of the function $\beta(t)$.  
+where $\dot{C(t)}$ is the first derivative of the function $C(t)$.  
 
-
-
-
-
-
-
-
-
-
-A full review of other methods for shape analysis can be found in CITE(FSDA)
+A full review of other methods for shape analysis can be found in \cite{FSDA}
 
 
 %Statistical shape analysis is interested in studying a wide variety of questions about shapes from statistical view such as, for example, how different are two shapes, what is the mean / variability of a collection of shapes, and, of particular interest in this manuscipt, shape classification.  In order to work with shapes statistically, a framework needs to be defined for representing shapes, and there are many different idea for doing this.  For instance, shapes can be represented by landmarks \citep{Kendall1984,LeAndKendall1993,MardiaAndDryden1989}. A landmark is a point on a shape that corresponds to a point on another shape across and within populations.  
@@ -78,18 +69,25 @@ Partial Shape matching.
 %http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
 
 \section{Missing Data}
-Missing data problems arise in many statistical settings due to survey non-response, designed missingness in surveys (CITE), measurement error, and latent classes, to name a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, (Demspter Laird and Rubin) describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation (CITE Rubin and Little, Schafer).  The idea behind multiple imputation is to blah blah blah.......
 
 
-EM algorithm (Depster Laird and Rubin)
-Multiple Imputation (Rubin and Little)
+Missing data problems arise in many statistical settings due to survey non-response (CITE), designed missingness in surveys \cite{LittleRhemtulla2013,WoodEtAl2018}, measurement error (CITE), and latent classes (CITE), to name a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, (Demspter Laird and Rubin) describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation \cite{LittleRubin1987,SchaferBook}.  The idea behind multiple imputation is to contruct a model for the missing values conditional on the observed values, and then fill in the missing values by randomly drawing from this distribution.  This process is repeated $M$ times to create $M$ completed data sets.  An analysis of interest is performed on each of the $M$ completed data sets (e.g. calculating a mean, multiple regression, clustering, etc.) and then the results are combined across the completed data sets using appropriate combining rules \cite{LittleRubin1987}.  
 
-For a more thorough review of the missing data literature, see cite(HortonAndKleinman2007) (Add more).  
-
-
+For a more thorough review of the missing data literature, see \cite{HortonKleinman2007) (MORE).  
 \section{Missing Data and Shapes}
+Much of the research involving missing data in shape analysis has focused on work related to landmark based data \cite{GunzEtAl2009,GunzEtAl2004,NeeserEtAl2009, CouetteAndWhite2010}. By defining landmarks on each shape, the problem can be framed in a more traditional statistical setting where each landmark can be thought of as a variables and more traditional missing data techniques can be used.  
+%\cite{GunzEtAl2009} presented a method for reconstructing hominin crania using landmarks and semi-landmarks.  
 
-\subsection{13.1 - Incomplete Data}
+%\cite{GunzEtAl2004} Basically the same thing as the 2009 paper. 
+
+%\cite{NeeserEtAl2009} Also landmarks.  Using mean imputtion, thin plate spliens and regression.  
+
+%\cite{CouetteAndWhite2010}: Use mutivariate regression 
+
+\cite{Robinson2012}: Partial shape matching paper at Florida State. 
+
+
+\subsection{13.1 - Incomple e Data}
 Papers mentioned: 
 \begin{itemize}
 \item Albers and Gower (2010) - Missing data in procrustes
@@ -232,6 +230,7 @@ $$.
 
 
 
+
 Note that for every curve $\C$ and corresponding $R$, in order to maintain the correct relationship, if $\C$ is reparameterized by $\gamma \in \Gamma$ then $R$ must be reparameterized using the same $\gamma$ that acted on $\C$.
  
  
@@ -291,14 +290,12 @@ If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is
 \subsection{Curve Completion1}
 Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$ and use random draws from this distribution to complete to curve.  Here this distribution will be approximated non-parametrically and hot-deck type multiple imputation \cite{AndridgeLittle2010} will be used similar in spirit to the idea of predictive mean matching (PMM) (\cite{PMM}).  The basic idea of PMM is to to take partially observed records (termed the donees) and find fully observed records that are close to a particular donee (termed donors).  Random draws from the set of donors are then used to complete the partially observed donees.  This is repeated $M$ times to create $M$ completed data sets.
 
+
+
 The same type of procedure will be performed here, but instead of traditional statistical records, here shapes are considered.  The spirit of the procedure proposed here is similar to PMM in that first the partially observed shape (the donee) is measured against fully observed shapes to find potential donors.  Once the set of potential donors is defined, one of these shapes is randomly drawn and used to complete the partially observed donee.  This process is crepeated $M$ times to create $M$ completed shapes.  
 
-
-
-
-
-
 The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^p_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,n_p$. Suppose that $\C^p_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^p_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$.Then the set of curves that can possibly comprise the missing segment of curve $\C^p_j$ is 
+
 
 
 $$
@@ -320,6 +317,8 @@ $$
 C^p_j \circ X(t):= \C_j^p(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}
 $$.
 
+
+
 %Greg inserted this:
 $\X(t)$ should be chosen from the distribution $\C_{mis}|\C_{obs}$.  In this case, this distribution will be approximated empirically.  To begin,  for a particular partially observed shape, $\C_j^p \in \mathbb{C}^p$, the distance between $\C_j^p$ and each of the completed shapes in $\C_i^f \in \mathbb{C}^f$ is computed. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
 
@@ -332,8 +331,6 @@ $\X(t)$ should be chosen from the distribution $\C_{mis}|\C_{obs}$.  In this cas
 \end{align*}
 
 
-
-
 %I also want to minimize over subsets of the unit circle.
 %With no scaling
 %add the p super script because these are measuring distances between partial shapes and parts of the complete shape.  
@@ -341,16 +338,11 @@ $$
 \Phi^{p,\star}_{\theta_{ij}}(C_j^p,C_i^f) = d^{\star}(\C_j^p, \C_i^f|_{s}) = \inf_{(s,\gamma,O ) \in \uc \times \Gamma_I\times SO(2)} \|Q_{C_j^p} , OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2
 $$
 
-
-
-
-
-
 Let $\theta^*_{ij} = (s^*_{ij}, \gamma^*_{ij}, O^*_{ij}) = \argmin_{\theta_{ij} \in \Theta_{ij}} \Phi_{\theta_{ij}}(C_j^p,C_i^f)$.  These values in $\theta^*_{ij}$ will be used again when completing tooth $C_j^p$.  
 
 
 
-Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \ldots, n_f$, the indices of the donor set are defined to be $D^{\star}_j = \{i : \Phi^{\star}_{\theta_j}(C_j^p,C_i^f) \le \Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \ldots, n_f$ (e.g. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(n_p)}$ are the minimum and the maximum, respectively). 
+Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \ldots, n_f$, the indices of the donor set are defined to be $D^{\star}_j = \{i : \Phi^{\star}_{\theta_j}(C_j^p,C_i^f) \le \Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \ldots, n_f$ (e.g. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(n_f)}$ are the minimum and the maximum, respectively). 
 
 
 
@@ -358,10 +350,13 @@ Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ f
 $M$ values are drawn, with replacement, from $D^{\star}_j$ and the chosen indices are then used as donors to fill in the missing part of $C^p_j$ with $X_j$ and the completed shape is written as $C^p_j \circ X_j$.  Denote by $Q_{\C^p_j \circ X}$ the square-root transform of $\C^p_j \circ X$. For each $j=1,\ldots,n_p$, let $\Theta_{ij}:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^f$ and $\mathcal{C}^p$ denote the sets of fully and partially observed curves, respectively. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_{ij}}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
 
 
+
 %Something is wrong here latex wise
 $$
 X_j^{\star *} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_j^p \circ X_j}, O^{*}_{ij}Q_{C_i^f} (\gamma^{*}_{ij})\sqrt{\gamma'^{*}_{ij}}\|_{\ltwo}^2
 $$
+
+
 
 
 
@@ -380,7 +375,9 @@ $$.
 
 
 
-$X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distribution of $\C_{mis}|\C_{obs}$ where $\C_{mis}|\C_{obs}$ is approximated non-parametrically.  
+$X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distribution of $\C_{mis}|\C_{obs}$ where $\C_{mis}|\C_{obs}$ is approximated non-parametrically. 
+
+
 
 % %no scaling
 % \begin{align*}
@@ -415,12 +412,21 @@ In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ 
 
 
 \section{Simulation Study}
-This simulation study is based on the shapes of the occlusal surfaces of of extant bovid molars both upper and lower.  Specifically, teeth from the following seven tribes: Alcelaphini, Antilopini, Bovini, Hippotragini, Neotragini, Reduncini, and Tragelaphini.  Specific counts of the sample sizes of each tooth type and tribe can be found in table \ref{sampsize}.  
+This simulation study is based on the the shapes of the occlusal surface of upper and lower extant bovid molars.  Specifically, teeth from seven bovid tribes (Alcelaphini, Antilopini, Bovini, Hippotragini, Neotragini, Reduncini, and Tragelaphini) and twenty species (arundium, buselaphus, caffer, campestris, capreolus, dorcas, ellipsiprymnus, equinus, fulvorufulva, gazella, gnou, leche, marsupialis, niger, oreotragus, oryx, ourebi, scriptus, strepsiceros, taurinus).  Six tooth types were considered here lower/mandibular molars 1, 2, and 3 (LM1, LM2, LM3) and upper/maxillary molars 1, 2, 3 (UM1, UM2, UM3).  Specific counts of the sample sizes of each tooth type and tribe can be found in table \ref{sampsize}. 
 
-For each tooth, the raw data was made up of 60 points traced around the occlusal surface of the tooth.  For each tooth, these 60 points were split into two groups roughly divided by a line connecting the mesostyle to the entostyle/metastylid to the ectostylid of mandibular teeth/upper teeth.
-An example of this can be seen in Figure \ref{ToothCutter}.  This cut was chosen for the simulation study and this is a break point commonly observed by in bovid fossils by biological anthropologists.   
+For each tooth specimen in a specific tooth type (each tooth type was considered separately), the raw representation of each shape was comprised of 60 points traced around the occlusal surface of the tooth.  For each tooth, these 60 points were split into two groups roughly divided by a line connecting the mesostyle to the entostyle (metastylid to the ectostylid) of mandibular teeth (maxillary teeth) (Full deatils in appenidix).  An example of this can be seen in Figure \ref{ToothCutter}.  This type of cut was chosen for this simulation study as this is a break point commonly observed by biological anthropologists in fossilized bovid teeth.  
 
-For each half of a tooth, the tooth was matched against all the complete teeth in the tooth type to find $k$ suitable donor teeth, the tooth was then completed $M$ times by randomly drawing $M$ teeth with replacement from the set of $k$ donor teeth, and using the donor tooth to complete the tooth as described in section XXX.
+%Might switch $k$ to $l$ because of k-nearest neighbors. 
+Then, for each half of a tooth specimen, the donee was matched against all the remaining complete teeth (partial teeth were not matched against the full tooth that the partial tooth was derived from) in that specific tooth type to find a set of $k$ suitable donor teeth. The donee was then completed $M$ times by randomly drawing $M$ teeth with replacement from the set of $k$ donor teeth.  The selected donor teeth were then used to to complete the tooth as described in section XXX.
+
+The resulting imputed teeth were then used to evaluate the performance of several different types of analyses.  Classification is of major interest to biological anthropologists, and a k-nearest neighbors approach to classification was evaluated as well as a (kernel based approach using Frechet means was evaluated maybe?).   For k-nearest neighbors, both partial matching and matching after imputation was checked.  
+
+In additional, the total area of the tooth is of interest to biological anthropologists.  The accuracy of total area estimation using imputations was also evaluated to test if the total area of a partially observed tooth can be accurately estiamted using this imputation procedure.   
+
+
+
+We checked different values of M and k and included scaling vs not sclaing.  
+
 
 
 \begin{figure}
@@ -439,8 +445,8 @@ load("./data/ptsTrainList.RData")
 tooth <- "LM1"
 
 complete_shape <- t(ptsTrainList[[1]][[1]])
-plot(t(complete_shape), type = "l")
-points(t(complete_shape), pch = 16)
+#plot(t(complete_shape), type = "l")
+#points(t(complete_shape), pch = 16)
 
 side <- 1
 partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[1]])[[side]])
@@ -454,52 +460,70 @@ partial_shape <- t(tooth_cutter(ptsTrainList[[tooth]][[1]])[[side]])
 points(t(partial_shape), pch = 16, col = "blue")
 points(t(partial_shape), type = "l", col = "blue")
 @
-
 \caption{Example cuts for an Alcelaphini LM1 (DSCN2871)}
 \label{ToothCutter}
 \end{figure}
+
+
 
 <<>>=
   k = 5
   M = 5
   side <- 1
-  tooth <- "LM3"
+  tooth <- "LM1"
 load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData"))
 
-plot(t(results_list[[1]]$imputed_partial$imputed[[1]]),col = "red", type = "l", xlim = c(-200,700), ylim = c(-200,200))
+plot(t(results_list[[1]]$imputed_partial$imputed[[1]]),col = "red", type = "l", xlim = c(-200,550), ylim = c(-200,200), xlab = "", ylab = "")
 points(t(results_list[[1]]$imputed_partial$partial_obs))
 points(t(results_list[[1]]$imputed_partial$imputed[[2]]),col = "orange", type = "l")
 points(t(results_list[[1]]$imputed_partial$imputed[[3]]),col = "gold", type = "l")
 points(t(results_list[[1]]$imputed_partial$imputed[[4]]),col = "darkgreen", type = "l")
 points(t(results_list[[1]]$imputed_partial$imputed[[5]]),col = "blue", type = "l")
+@
 
 
-greg <- c()
-for (i in 1:length(results_list))
-  {
-  greg[i] <- results_list[[i]]$truth$Tribe
-  }
-  table(greg)
-  sum(table(greg))
+
+<<echo = FALSE>>=
+# greg <- c()
+# for (i in 1:length(results_list))
+#   {
+#   greg[i] <- results_list[[i]]$truth$Tribe
+#   }
+#   table(greg)
+#   sum(table(greg))
+#   
+#   species <- c()
+# for (i in 1:length(results_list))
+#   {
+#   species[i] <- results_list[[i]]$truth$Species
+#   }
+#   
+#   
+#   table(greg,species)
 @
 
 
 
   \begin{table}[h!]
+  \small
   \begin{center}
-\begin{tabular}{ c c c c c c c c  }
-  & Alcelaphini  & Antilopini & Bovini &Hippotragini & Neotragini & Reduncini & Tragelaphini & Total \\ 
+\begin{tabular}{ | c | c c c c c c c | c | }
+  & Alcelaphini  & Antilopini & Bovini & Hippotragini & Neotragini & Reduncini & Tragelaphini & Total \\ 
+  \hline
  LM1 & 106 & 27 & 22 & 26 & 45 & 76 & 53 & 355 \\ 
  LM2 & 117 & 30 & 25 & 37 & 55 & 90 & 53 & 407\\ 
  LM3 & 117 & 30 & 19 & 34 & 53 & 96 & 62 & 411 \\ 
  UM1 & 117 & 30 & 23 & 37 & 43 & 80 & 75 & 405 \\ 
  UM2 & 118 & 30 & 23 & 41 & 53 & 97 & 94 & 456\\ 
- UM3 & 71 & 30 & 17 & 58 & 52 & 110 & 78 &  416\\ 
+ UM3 & 71 & 30 & 17 & 58 & 52 & 110 & 78 & 416\\ 
+ \hline
 \end{tabular}
 \end{center}
 \caption{Sample sizes for the simulation study by tooth type and tribe}
 \label{sampsize}
 \end{table}
+
+
 
 
 %These are the numbers after the shapes that are scale incorreclty have been removed.  
@@ -741,6 +765,17 @@ The partial and whole shape are then compared in order to find the portion of th
 Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
 \subsection{Completing the curves}
 
+
+\subsection{Numerical Results}
+
+<<>>=
+  for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
+  for (side in 1:2){print(c(tooth, side))
+load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries.RData"))
+
+
+}}
+@
 
 
 
