@@ -19,28 +19,31 @@
 %\newtheorem*{proof}{Proof}
 \begin{document}
 \title{Classification of shapes}
-%\author{Gregory J. Matthews, Kartik Barath, Sebastian Kurtek, Juliet Brophy, George Thiruvathukal, Ofer Harel, Grady Flanary}
+\author{Gregory J. Matthews, Kartik Barath, Sebastian Kurtek, Juliet Brophy, George K. Thiruvathukal, Ofer Harel}
 \author{Gregory J. Matthews et. al. }
 \date{\today}
 
 \maketitle
 \section{Introduction}
+\subsection{Statistical Shape Analysis}
 Statistical analysis of shape plays an important role in many areas of science such as biology (\cite{OHiggins1989}, \cite{OHigginsDryden1993}, \cite{GoodallLange1989}), chemistry (\cite{DrydenEtAl2007,CzogielEtAl2011}), medicine (\cite{Bookstein1996, BrignellEtAl2010}), bioinformatics (\cite{GreenAndMardia2006}), genetics (\cite{HorganEtAl1992}), geology (\cite{Lohman1983}) and anthropology \cite{Brophy2014}(Matthews 2017).  Formal techniques for statistical shape analysis have been developed to extend classical statistical methods to shapes, such as computation of a mean shape and shape variability, extensions of Hotelling's $T^2$-test for inference about mean shapes, and principal components analysis of shapes (PCA), to name just a few \cite{DrydenAndMardiaBook}.  Statistical shape analysis techniques generally assume that the entire shape is observed.  However, in practice, there are instances where the shapes of interest are only partially observed.  For example, the shape of the occlusal surface of isolated fossil teeth from the Family Bovidae is useful to biological anthropologists for identifying the taxa of specimens, which in turn is used to reconstruct paleoenvirnoments.  In order to classify these isolated fossil tooth remains, scientists rely on, among other factors, the shape of the outline of the occlusal surface of the tooth to make accurate taxonomic classifications. Currently, only complete (or nearly complete) teeth are generally considered in classification analyses, however, there are numerous specimens of fractured fossil Bovid teeth that are not considered as strongly or ignored entirely in the analysis process because the full shape is not observed.  There are countless examples in the missing data literature where dropping observations with missing data (i.e. complete case analysis) has been demonstrated to produce biased results, therefore, it is scientifically beneficial to have methods for including partial observations in an analysis of interest, in this example the classification of fossilized teeth from the family Bovidae. 
 
-\subsection{Statistical Shape Analysis}
-\subsection{Landmarks}
+
+\subsubsection{Landmarks}
 Much of the early work in shape analysis was based on defining shapes by a series of landmarks (\cite{Bookstein1986,MardiaAndDryden1989,Kendall1984,LeAndKendall1993}) where each point represents a meaningful location on a shape and there is a natural correspondence between points across shapes in a sample.  This allows for a natural correspondence of points across shapes and greatly simplifies analysis in many cases, such as computing a mean shape or variability of a collection of shapes.  The use of landmark data also allows for a natural methods for the alignment of shapes to one another using a method called Procrustes analysis \cite{Green1952,Goodall1991}, which aligns shapes subject to translations, rotations, and scaling.  Additionally, shapes can be defined by unlabeled points where there is some true labeling, but it is unobserved.  This setting is more complicated than labeled landmarks since the correspondence between points across shapes is unknown.  In many situations, however, there are no reasonable choices for landmarks on the shape.  Later,the concept of sliding landmarks \citet{Green1996, Bookstein1997} was proposed.  Sliding landmarks are the same as landmarks except that they are allowed to ``slide" along the contour of the curve when being aligned with a reference set of landmarks.  
 
-\subsection{Continuous Curves1}
+\subsubsection{Continuous Curves}
 Rather than describing a closed shape with a discrete set of points, a function can be used: 
 $$
 C:  \mathbb{S} \rightarrow \mathbb{R}^n 
 $$
 where $\mathbb{S}$ is the unit sphere and guarantees that the function has the same start and end point (i.e. is a closed curve).  The function $C$ is a closed curve but scalings, translations, rotations and reparameterizations of this function will usually result in different functions, which means that this framework does not offer invariance across these transformations.  Rather than using this function directly, the first derivative could be used, which results in a translation invariant representation.  
 
-This representation is the foundation of the square root velocity function (SRVF) \cite{FSDA} framework, which allows invariance across tranlsation, rotation, (optional) scaling, and reparameterization.  Frameworks for representing shapes that have invariance over reparameterization are said to be {\em elastic}. 
+This representation is the foundation of the square root velocity function (SRVF) \cite{FSDA} framework (discussed in more detail in section \ref{SRVF}), which allows invariance across tranlsation, rotation, (optional) scaling, and reparameterization (Frameworks for representing shapes that have invariance over reparameterization are said to be {\em elastic}).  It is this type of representation that will be focused on in the present manuscript.  
 
-To define the SRVF start by considering an absolutely continuous function $\beta:  \mathbb{S} \rightarrow \mathbb{R}^n$.  The SRVF of this function $q:  \mathbb{S} \rightarrow \mathbb{R}^n$ is defined as the following: 
+For a full review of methods for shape analysis the reader is referred to \cite{FSDA} and \cite{DrydenAndMardiaBook}.
+
+%To define the SRVF start by considering an absolutely continuous function $\beta:  \mathbb{S} \rightarrow \mathbb{R}^n$.  The SRVF of this function $q:  \mathbb{S} \rightarrow \mathbb{R}^n$ is defined as the following: 
 
 %Need to add a dot here.  
 % $$
@@ -49,30 +52,41 @@ To define the SRVF start by considering an absolutely continuous function $\beta
 %         0 & otherwise \end{array} \right
 % $$
 
-where $\dot{C(t)}$ is the first derivative of the function $C(t)$.  
+%where $\dot{C(t)}$ is the first derivative of the function $C(t)$.  
 
-A full review of other methods for shape analysis can be found in \cite{FSDA}
+
 
 
 %Statistical shape analysis is interested in studying a wide variety of questions about shapes from statistical view such as, for example, how different are two shapes, what is the mean / variability of a collection of shapes, and, of particular interest in this manuscipt, shape classification.  In order to work with shapes statistically, a framework needs to be defined for representing shapes, and there are many different idea for doing this.  For instance, shapes can be represented by landmarks \citep{Kendall1984,LeAndKendall1993,MardiaAndDryden1989}. A landmark is a point on a shape that corresponds to a point on another shape across and within populations.  
 
-Sliding landmarks by Bookstein.  
+%Sliding landmarks by Bookstein.  
 
-Section 1.2.4 in FSU disserttion is a good description of this.  
+%Section 1.2.4 in FSU disserttion is a good description of this.  
 
-Shape analysis in general. 
-
-
+%Shape analysis in general. 
 
 
-Partial Shape matching. 
+
+
+%Partial Shape matching. 
 %http://diginole.lib.fsu.edu/islandora/object/fsu%3A183299
 
-\section{Missing Data}
-Missing data problems arise in many statistical settings due to survey non-response (CITE), designed missingness in surveys \cite{LittleRhemtulla2013,WoodEtAl2018}, measurement error \cite{GuoHarelLittle2010}, and latent classes \cite{LCABook}, to name just a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, (Demspter Laird and Rubin) describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation \cite{LittleRubin1987,SchaferBook}.  The idea behind multiple imputation is to contruct a model for the missing values conditional on the observed values, and then fill in the missing values by randomly drawing from this distribution.  This process is repeated $M$ times to create $M$ completed data sets.  An analysis of interest is performed on each of the $M$ completed data sets (e.g. calculating a mean, multiple regression, clustering, etc.) and then the results are combined across the completed data sets using appropriate combining rules \cite{LittleRubin1987}.  For a full review of the missing data literature, see \cite{HortonKleinman2007, Murray2018} 
+\subsection{Missing Data}
+Missing data problems arise in many statistical settings due to survey non-response \cite{AndridgeLittle2010}, designed missingness in surveys \cite{LittleRhemtulla2013,WoodEtAl2018}, measurement error \cite{GuoHarelLittle2010}, and latent classes \cite{LCABook}, to name just a few examples.  There are numerous methods proposed in the literaure describing methods for handling missing data in a statistically principled manner.  For example, \cite{EM} describes the EM algorithm for finding maximum likelihood estimates in the presence of missing data.  Another method, of particular interest in this setting, for handling mising data is multiple imputation \cite{LittleRubin1987,SchaferBook}.  The idea behind multiple imputation is to contruct a statistical model for the missing values conditional on the observed values, and then fill in the missing values by randomly drawing from this distribution.  This process is repeated $M$ times to create $M$ completed data sets.  An analysis of interest is performed on each of the $M$ completed data sets (e.g. calculating a mean, multiple regression, clustering, etc.) and then the results are combined across the completed data sets using appropriate combining rules \cite{LittleRubin1987}.  While traditional multiple imputation methods usually deal with finite dimensional data, recent work he extended multiple imputation concepts to functional data.  This current work is working with functional data, however, when moving from functions to shapes additional considerations must be made to properly analyze this type of data.  
 
-\section{Missing Data and Shapes}
-Work such as \cite{Brown2012} examines missing data in the morphology of crocodile skulls.  however, their data set consists of linear morphometric measurements of the skulls rather than dealing directly with the shape of th skull through landmarks or semi-landmarks.  Other research on missing data in shape analysis has focused on landmark based data such as \cite{GunzEtAl2009,GunzEtAl2004,NeeserEtAl2009,CouetteAndWhite2010}. By defining landmarks on each shape, the problem can be framed in a more traditional statistical setting where each landmark can be thought of as a covariate and more traditional missing data techniques, such as the EM algorithm and multiple imputation, can be used.  \cite{Arbour2014} look at four different methods for dealing with missing landmark data: Bayesian Principal Component Analysis (BPCA), least-squares regression, thin-plate splines (TPS), and mean substitution.  
+For a full review of the missing data literature, see \cite{HortonKleinman2007, Murray2018} .  
+
+
+
+\subsection{Missing Data and Shapes}
+There is a substantial literature on missing data and shape analysis, however, most of the work is fundamentally different than this focus of this article.  For eaxample, work such as \cite{Brown2012} examines missing data in the morphology of crocodile skulls.  However, their data set consists of linear morphometric measurements of the skulls rather than dealing directly with the shape of th skull through landmarks or semi-landmarks.  Other research on missing data in shape analysis has focused on landmark based data such as \cite{GunzEtAl2009,GunzEtAl2004,NeeserEtAl2009,CouetteAndWhite2010}. By defining landmarks on each shape, the problem can be framed in a more traditional statistical setting where each landmark can be thought of as a covariate and more traditional missing data techniques, such as the EM algorithm and multiple imputation, can be used.  \cite{Arbour2014} look at four different methods for dealing with missing landmark data: Bayesian Principal Component Analysis (BPCA), least-squares regression, thin-plate splines (TPS), and mean substitution.  Additional work on missing data can be found in \cite{AlbersGower2010}, which focuses on missing data in procrustes analysis and \cite{Mitchelson2013}, wich considers occluded landmark data.  
+
+
+
+%\item Albers and Gower (2010) - Missing data in procrustes
+%\item Mitchelson (2013) - handling occluded landmarks. 
+%\item Gunz et. al. (2009) - missing data in studies of biological evolution of bone surfaces
+
 %\cite{GunzEtAl2009} presented a method for reconstructing hominin crania using landmarks and semi-landmarks.  
 
 %\cite{GunzEtAl2004} Basically the same thing as the 2009 paper. 
@@ -81,63 +95,55 @@ Work such as \cite{Brown2012} examines missing data in the morphology of crocodi
 
 %\cite{CouetteAndWhite2010}: Use mutivariate regression 
 
-The work most closely related to this current work can be found in \cite{Robinson2012}
+The work most closely related to this current work can be found in \cite{Robinson2012}, which studied the problem of matching a partialliy observed shape to a full shape.  \cite{Robinson2012} performs partial matching using the square root velocity framework, which is the framework that is used in this current work.  However, their interest in matching was the primary motivation of that work whereas in this current work partial shape matching is only an intermediate step of interest only to then perform multiple imputation of the partially observed shape, thus generating several plausible versions of a completed shape.  
+
+%Partial shape matching paper at Florida State. 
+\section{Methods}
+Our interest is in the completion of shapes of partially observed closed curves and their classification. This first requires us to adopt a suitable representation for the shape of a fully observed curve. We adopt a parametric representation of a closed curve by representing it as an absolutely continuous function \footnote{Upon identification of $\uc$ with $[0,1] \cong \mathbb{R}/2\pi\mathbb{Z}$, a curve $\C:[0,1] \to \mathbb{R}^2$ is absolutely continuous if and only if there exists an integrable function $g:[0,1]\to \Rtwo$ such that $\C(t)-\C(0)=\int_0^tg(u)du, \forall t \in [0,1]$.} $\C: \uc \to \Rtwo$, where $\uc$ is the unit shpere, thus automatically ensuring that the curve is closed. The notion of a shape of such a curve requires invariances to transformations that represent nuisance information. Specifically, if $\Gamma:=\{\gamma:\uc \to \uc \text{ is an orientation-preserving diffeomorphism}\}$ and $SO(2)$ is the rotation group in $\mathbb{R}^2$, the shape of a parameterized curve $\C:\uc \to \Rtwo$ is defined to be the equivalence class 
 
 
-Partial shape matching paper at Florida State. 
-
-
-\subsection{13.1 - Incomple e Data}
-Papers mentioned: 
-\begin{itemize}
-\item Albers and Gower (2010) - Missing data in procrustes
-\item Mitchelson (2013) - handling occluded landmarks. 
-\item Gunz et. al. (2009) - missing data in studies of biological evolution of bone surfaces
-\end{itemize}
-
-
-
-
-
-
-
-
-\section{Shapes of closed curves1}
-Our interest is in the completion of shapes of partially observed closed curves, and their classification. This first requires us to adopt a suitable representation for the shape of a fully observed curve. We adopt a parametric representation of a closed curve by representing as an absolutely continuous function\footnote{Upon identification of $\uc$ with $[0,1] \cong \mathbb{R}/2\pi\mathbb{Z}$, a curve $\C:[0,1] \to \mathbb{R}^2$ is absolutely continuous if and only if there exists an integrable function $g:[0,1]\to \Rtwo$ such that $\C(t)-\C(0)=\int_0^tg(u)du, \forall t \in [0,1]$.} $\C: \uc \to \Rtwo$, thus automatically ensuring that the curve is closed. The notion of a shape of such a curve requires invariances to transformations that represent nuisance information. Specifically, if $\Gamma:=\{\gamma:S \to S \text{ is an orientation-preserving diffeomorphism}\}$ and $SO(2)$ is the rotation group in $\mathbb{R}^3$, the shape of a parameterized curve $\C:D \to \Rtwo$ is defined to be the equivalence class 
 \[
 [\C]:=\Big\{\sigma O \C(\gamma(t))+a, \gamma \in \Gamma, O \in SO(2), a \in \Rtwo, \sigma >0\Big\}.
 \]
+
+
 Thus $[\C]$ is the set of all possible curves that can be obtained through a translation ($\C+a$), rotation ($O\C$), scale change $(\sigma \C)$, a reparametrization ($C(\gamma)$), or a combination of the transformations, of the curve $C$. In words, the shape of a curve $C$ is what is left once variations due scale, translation, rotation and reparametrisation has been accounted for. 
 
 
 
 
-In this instance, it is also of interest to preserve the size and shape of the curve.  This simply requires removing any scale changes from the definition of the equivalence class.  This size-and-shape of a parameterized $C: D \rightarrow \mathbb{R}^2$ is defined to be the equivalence class:
+
+
+Additionally, it may be of interest to preserve the size along with shape of the curve.  This simply requires removing any scale changes from the definition of the equivalence class.  This size-and-shape of a parameterized $C: D \rightarrow \mathbb{R}^2$ is defined to be the equivalence class:
 
 
 
 \[
-[\C^{\star}]:=\Big\{\sigma O \C(\gamma(t))+a, \gamma \in \Gamma, O \in SO(2), a \in \Rtwo, \Big\}.
+[\C]_{s}:=\Big\{\sigma O \C(\gamma(t))+a, \gamma \in \Gamma, O \in SO(2), a \in \Rtwo, \Big\}.
 \]
 
 
 
-Thus $[C^{\star}]$ is the set of all possible curves that can be obtained through a translation ($C+a$), rotation ($OC$), a reparameterization ($C(\gamma)$), or any combination of the transofrmations of curve $C$, notably with scaling not included as one of the possible transformations.  
+
+Thus $[C]_{s}$ is the set of all possible curves that can be obtained through a translation ($C+a$), rotation ($OC$), a reparameterization ($C(\gamma)$), or any combination of the transformations of curve $C$, notably with scaling not included as one of the possible transformations.  
+
+A key ingredient in several classification methods (e.g. linear/quadratic discriminant analysis; kernel-based methods) for functional data is the notion of similarity or distance between curves. A popular choice is the distance induced by the $\mathbb{L}^2$ norm of a Hilbert space of square-integrable functions. However, it is well known that the $\mathbb{L}^2$ is unsuitable for comparing curves in the presence of parameterisation variability (\cite{KurtekJASA, AK}). To this end we employ a suitable representation (transformation) of a curve $\C$ that allows us to compute distances easily while accounting for the necessary invariances. 
 
 
 
-A key ingredient in several classification methods (e.g. linear/quadratic discriminant analysis; kernel-based methods) for functional data is the notion of similarity or distance between curves. A popular choice is the distance induced by the $\mathbb{L}^2$ norm of a Hilbert space of square-integrable functions. However, it is well known that the $\mathbb{L}^2$ is unsuitable for comparing curves in the presence of parameterisation variability \cite{KurtekJASA, AK}. To this end we employ a suitable representation (transformation) of a curve $\C$ that allows us to compute distances easily while accounting for the necessary invariances. 
-
-\subsection{Notation}
+%\subsection{Notation}
 A closed planar curve $C$ is always an absolutely continuous mapping $C:\uc \to \Rtwo$, and the set of planar closed curves will be denoted by $\mathcal{C}$. The set $\mathcal{C}$ is equipped with the norm $\|x\|_{\ltwo}:=[\int_\uc \|x(t)\|_2dt]^{1/2}$ where $\|\cdot\|_2$ is the Euclidean norm in $\Rtwo$. $SO(2)$ is the special orthogonal group of rotation matrices of $\Rtwo$, and $\Gamma$ is group of orientation-preserving diffeomorphisms of $\uc$. The set $\Gamma_I$ will denote the group $\{\gamma:[0,1]\to[0,1], \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$. 
 
-\subsection{Square-root velocity transform}
+
+
+\subsection{Square-root velocity transform}\label{SRVF}
 For a detailed introduction to the transform, its properties and advantages we refer to the reader to Chapter 6 of the book by \cite{AK}. Here we briefly outline the important concepts required for our purposes. 
 
 
 For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
 $$\C \mapsto \frac{C'}{\|C'\|_{\ltwo}}=:Q_\C,$$ 
 where $\C'$ is the (vector) derivative of $\C(t)$ with respect to $t$, and $\|\cdot\|$ is the usual Euclidean norm in $\Rtwo$. 
+
 
 The unique (up to translations) inverse of a square-root transformed curve $Q_C$ is $\int_o^t Q_C(s)\|Q_C(s)\|_2ds$. To ensure that the curves are closed we need to impose an additional constraint: $\int_\uc \|C'(t)\|_2dt=\int_\uc Q_C(t)\|Q_C(t)\|_2=0$.  
 
@@ -151,6 +157,8 @@ since $\|Q_\C\|_{\ltwo}=\|C'\|_{\ltwo}^{1/2}$. Thus the set $\mathcal{Q}$ is a s
 
 Before defining the shape space, we discuss the actions of groups $\Gamma$ and $SO(2)$ on the set $\mathcal{Q}$. The set $\Gamma$ of reparameterisations (or warp maps) of $\uc$ is group with group action given by composition. Its action on $\mathcal{Q}$ is defined by $(Q_\C,\gamma) \mapsto Q_\C(\gamma) \sqrt{|\gamma '|}$, where $\gamma'$ is the derivative of $\gamma$ (see Chapters 5 and 6 \cite{AK} for more details). The derivative of $\gamma:\uc \to \uc$ needs to be viewed as a derivative of $\gamma:[0,1]\to[0,1]$ based on the identification $\uc \cong \mathbb{R}/2\pi\mathbb{Z}$, and hence $|z|$ is just the absolute value of the real number $z$. 
 The action of the rotation group $SO(2)$ is defined in the usual way as the map $SO(2) \times \mathcal{Q} \to \mathcal{Q}$ with $(O,Q_C)\mapsto \{OQ_C(t): t \in \uc\}$. 
+
+
 
 Two important ramifications of the described framework, motivating its use in our work for analyzing shapes of curves, are the following. Under the square-root velocity framework:
 \begin{enumerate}[1.]
@@ -169,43 +177,60 @@ Two important ramifications of the described framework, motivating its use in ou
   The symmetry with respect to the action either on $Q_{C_1}$ or $Q_{C_2}$ is an attractive feature and will be used profitably in the sequel. 
   
 
+
   
-\section{Preserving scale}
+\subsection{Preserving scale}
 For an absolutely continuous curve $\C:\uc \to \Rtwo$ consider the transformation 
-$$\C \mapsto C'=:Q^{\star}_\C = Q_\C\|C'\|_{\ltwo} $$ 
+
+
+
+%$$\C \mapsto \frac{C'}{\|C'\|_{\ltwo}}=:Q_\C,$$ 
+$$
+\C \mapsto \C'=:Q_{\C_s} 
+$$ %Q_{\C\|C'\|}_{\ltwo}
+
+
+
 where $\C'$ is the (vector) derivative of $\C(t)$ with respect to $t$.  
 
 
-In this case, the unique (again, up to translations) inverse of this curve $Q^{\star}_C$ is $\int_0^t Q^{\star}_C(s)ds$. To ensure that the curves are closed we need to impose an additional constraint: $\int_\uc Q^{\star}_C(t)=0$. 
-  Thus the image of the set of absolutely continuous closed curves , $ \{\C:\uc \to \Rtwo: \int_\uc \|C'(t)\|_2dt=l\}$, under the scale preserving transform map $\C \mapsto Q^{\star}_\C$ is the set
+
+
+In this case, the unique (again, up to translations) inverse of this curve $Q_{C_s}$ is $\int_0^t Q_{C_s}(u)du$. To ensure that the curves are closed we need to impose an additional constraint: $\int_\uc Q_{C_s}(t)=0$. 
+  Thus the image of the set of absolutely continuous closed curves , $ \{\C:\uc \to \Rtwo: \int_\uc \|C'(t)\|_2dt=l\}$, under the scale preserving transform map $\C \mapsto Q_{\C_s}$ is the set
 
 \[
-\mathcal{Q}:=\Big\{Q^{\star}_\C:  \int_\uc Q^{\star}_C(t)dt=0\Big\},
+\mathcal{Q}:=\Big\{Q_{\C_s}:  \int_\uc Q_{C_s}(t)dt=0\Big\},
 \]
 
 
 
 
+
  Starting with a curve $\C$ we can now define its size and shape to be the equivalence class or its orbit of its corresponding velocity transform:
- $$[Q^{\star}_\C]=\text{closure}\{OQ^{\star}_\C(\gamma) \sqrt{\gamma'}: (\gamma,O) \in \Gamma \times SO(2)\},$$
- where the closure is with respect to the norm $\|\cdot\|_{\ltwo}$ on $Q^{\star}$.
+ $$[Q_{\C}]_s=\text{closure}\{OQ_{\C_s}(\gamma) \sqrt{\gamma'}: (\gamma,O) \in \Gamma \times SO(2)\},$$
+ where the closure is with respect to the norm $\|\cdot\|_{\ltwo}$ on $Q_s$.
  
- In the square-root velocity framework, dividing the velocity function by its norm gives us a function that is of norm one.  This implies that it is a point on the unit sphere.  In the finite-dimensional vecotr set-up this amounts to keeping just the direction of the vectors and discarding all other information and the distance between two curves can then be viewed as the angle between these two vectors.  However, when preserving scale this defintion of distance will need to be modified as both the angle AND magnitude of the vectors are both of interest.  
+
+ 
+ In the square-root velocity framework, dividing the velocity function by its norm gives us a function that is of norm one.  This implies that it is a point on the unit sphere.  In the finite-dimensional vector set-up this amounts to keeping just the direction of the vectors and discarding all other information and the distance between two curves can then be viewed as the angle between these two vectors.  However, when preserving scale this defintion of distance will need to be modified as both the angle AND magnitude of the vectors are both of interest.  
  
  Therefore, a modified defintion of distance that preserves scaling between two curves will be defined: 
+ 
+
 
  %Is this one symmetric?  I think so.  
  \begin{align}
  \label{distancestar}
- d^{\star}(\C_1,\C_2)&:=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|Q^{\star}_{\C_1} - OQ^{\star}_{\C_2}(\gamma)\sqrt{\gamma'}\|_{\ltwo}\\
- &=\inf_{(\gamma,O) \in \Gamma \times SO(2)}\Big[\int_{\uc}\left\|Q^{\star}_{C_1}(t)-OQ^{\star}_{C_2}(\gamma(t))\sqrt{\gamma'(t)}\right\|_2^2dt\Big]^{1/2} \nonumber\\
- &=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|OQ^{\star}_{C_1}(\gamma)\sqrt{\gamma'} - Q^{\star}_{C_2}\|_{\ltwo}\nonumber.
+ d_s(\C_1,\C_2)&:=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|Q_{\C_{s,1}} - OQ_{\C_{s,2}}(\gamma)\sqrt{\gamma'}\|_{\ltwo}\\
+ &=\inf_{(\gamma,O) \in \Gamma \times SO(2)}\Big[\int_{\uc}\left\|Q_{C_{s,1}}(t)-OQ^{\star}_{C_{s,2}}(\gamma(t))\sqrt{\gamma'(t)}\right\|_2^2dt\Big]^{1/2} \nonumber\\
+ &=\inf_{(\gamma,O) \in \Gamma \times SO(2)} \|OQ_{C_{s,1}}(\gamma)\sqrt{\gamma'} - Q_{C_{s,2}}\|_{\ltwo}\nonumber.
   \end{align}
  
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Missingness Function}
+\subsection{Missingness Function}
 Now consider a function, $R$, defined over the set $\mathbb{S}$, where $R(t) = 1$ if the shape function is observed at $t \in \mathbb{S}$ and $R(t) = 0$ otherwise. 
 
 Specifically,   
@@ -220,7 +245,7 @@ $$
 
 
 
-Now for a specific curve $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), we can define the function $R$ over $\mathbb{S}$.  However, for every reparameterization of $C$ in the equivalence class $[\C]$ (or $[\C^{\star}]$), there is a corresponding reparameterization of $R$.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here we only the case where $R^{-1}(1)$ be a connected subset of $\mathbb{S}$ is considered, though in general, this does not have to be the case. This prevents us from considering partially observed shapes with multiple ``gaps" (though this is an interesting idea for future work).
+Now for a specific curve $C$ in the equivalence class $[\C]$ (or $[\C]_s$), we can define the function $R$ over $\mathbb{S}$.  However, for every reparameterization of $C$ in the equivalence class $[\C]$ (or $[\C]_s$), there is a corresponding reparameterization of $R$.  Also, note that $R^{-1}(1)$ is the subset of domain $\mathbb{S}$ such that the coordinates of the shape are observed for every point in this set.  Further, here we only the case where $R^{-1}(1)$ be a connected subset of $\mathbb{S}$ is considered, though in general, this does not have to be the case. This prevents us from considering partially observed shapes with multiple ``gaps" (though this is an interesting idea for future work).
 
 For a given shape, there are many possible reparameterizations of the missingness function, and an equivalence class can be defined for the missingness function across reparametertizations as follows:  
 
@@ -234,44 +259,40 @@ $$.
 
 
 
+
+
 Note that for every curve $\C$ and corresponding $R$, in order to maintain the correct relationship, if $\C$ is reparameterized by $\gamma \in \Gamma$ then $R$ must be reparameterized using the same $\gamma$ that acted on $\C$.
  
  
-Given $\R$, we can break $[\C^{\star}]$ into the observed and missing part of the size and shape as follows: 
+Given $\R$, we can break $[\C]_s$ into the observed and missing part of the size and shape as follows: 
 
 $$
-[\C^{\star}]_{obs} = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 1  \}
+[\C]_{s,obs} = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 1  \}
 $$
 
 and
 %Could also say where $t \in \gamma^{-1}(R^{-1}(1))$
 
 $$
-[\C^{\star}]_{mis} = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 0  \}
+[\C]_{s,mis} = \{ O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2 |  R(\gamma(t)) = 0  \}
 $$.  
 
-Likewise for $[\C]$ we can do the same thing, but also consider scaling: 
+
+
+
+Likewise for $[\C]$, the same partitioning can be done, but also considering scaling: 
 $$
 [\C]_{obs} = \{\sigma O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \> 0 |  R(\gamma(t)) = 1  \}
 $$
 
 and
 %Could also say where $t \in \gamma^{-1}(R^{-1}(1))$
-
 $$
 [\C]_{mis} = \{\sigma O C(\gamma(t)) + a,  R(\gamma(t)), \gamma \in \Gamma, O \in SO(2), a\in \mathbb{R}^2, \sigma \> 0 |  R(\gamma(t)) = 0  \}
 $$.
 
 
 
-
-\subsection{Completing the curve}
-%lets use partial and full to denote which curve is which.  Then the observed part of \C^p_j is also \C^p_{j,obs} but there is also a \C^p_{j,mis}, which is the missing part.  Then the concatenation of \C^p_{j,obs} and \C^p_{j,mis} is \C^p_j.
-
-Suppose we are given closed planar curves $\C^p_j:\uc \to \mathbb{R}^2,j=1\ldots,n_p$ each of which has been observed only on a region $\{t : R(\gamma(t) = 1\} \subset \uc$, where $\uc$ is the unit circle in $\Rtwo$. We assume that the curves are absolutely continuous. Additionally, a training sample $\{(y_i,\C^f_i),1,\ldots,n_f\}$ consisting of class labels $y_i \in \{0,1, \cdots G\}$ and $C^f_i:\uc\to \mathbb{R}^2$, fully observed on a common domain $\uc$, is provided. The set of fully observed curves are elements of the set $\mathcal{C}^f$; denote by $\mathcal{C}^p$ the set of all partially observed curves. 
-
-%I don't want to get too hung up on classification.  Classification is just one thing you could do after completing the curves.  
-The problem at hand is to model the shape (and size) of and complete each partially observed curve $\C^p_j$ and assign it to one of $G$ groups. We consider two approaches: one based on a variational formulation, and the other using kernel-based classifier. Before describing our approaches, some comments on the set $\Gamma$ are in order. 
 
 \subsection{The set of reparameterizations $\Gamma$}
 Elements of the group $\Gamma$ of diffeomorphisms of $\uc$ can be viewed in the following manner. The unit circle $\uc$ can be identified with the quotient group $\mathbb{R}/2\pi \mathbb{Z} \cong [0,1]$. Through this identification, every continuous mapping $\beta: \mathbb{R} \to \mathbb{R}$ induces a continuous mapping of $\uc$ onto itself such that $\beta(t+1)=\beta(t)+1$ for all $t \in \mathbb{R}$. If $\beta$ is monotone increasing, we say that the induced map on $\uc$ is orientation-preserving (based on a choice of clockwise or anti-clockwise orientation).
@@ -290,16 +311,20 @@ If $\Gamma_I:=\{\gamma:[0,1] \to [0,1]: \gamma'>0,\gamma(0)=0, \gamma(1)=1\}$ is
 
 
 
-\subsection{Curve Completion1}
-Out goal is to complete $[\C]_{obs}$ or ($[\C^{\star}]_{obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $\C_{mis}|\C_{obs}$ and use random draws from this distribution to complete to curve.  Here this distribution will be approximated non-parametrically and hot-deck type multiple imputation \cite{AndridgeLittle2010} will be used similar in spirit to the idea of predictive mean matching (PMM) (\cite{PMM}).  The basic idea of PMM is to to take partially observed records (termed the donees) and find fully observed records that are close to a particular donee (termed donors).  Random draws from the set of donors are then used to complete the partially observed donees.  This is repeated $M$ times to create $M$ completed data sets.
 
+\section{Curve Completion and Classification}
+\subsection{Curve Completion} \label{curvecomp}
+%lets use partial and full to denote which curve is which.  Then the observed part of \C^p_j is also \C^p_{j,obs} but there is also a \C^p_{j,mis}, which is the missing part.  Then the concatenation of \C^p_{j,obs} and \C^p_{j,mis} is \C^p_j.
+Suppose we are given closed planar curves $\C^p_j:\uc \to \mathbb{R}^2,j=1\ldots,n_p$ each of which has been observed only on a region $\{t : R(\gamma(t) = 1\} \subset \uc$. We assume that the curves are absolutely continuous.  Additionally, a training sample $\{(y_i,\C^f_i),1,\ldots,n_f\}$ consisting of class labels $y_i \in \{0,1, \cdots G\}$ and $C^f_i:\uc\to \mathbb{R}^2$, fully observed on a common domain $\uc$, is provided. The set of fully observed curves are elements of the set $\mathcal{C}^f$; denote by $\mathcal{C}^p$ the set of all partially observed curves.  Specifically,  $\C^p_j = (\C^p_{j,obs},\C^p_{j,mis}) \in \mathcal{C}^p$ then $\C^p_{j,obs} \in [C_j]_{obs}$ and $\C^p_{j,mis} \in [C_j]_{mis}$. 
 
+%I don't want to get too hung up on classification.  Classification is just one thing you could do after completing the curves.  
+
+%We consider two approaches: one based on a variational formulation, and the other using kernel-based classifier. Before describing our approaches, some comments on the set $\Gamma$ are in order.
+The problem at hand is to model the shape (or size and shape) of and complete each partially observed curve $\C^p_j$ and assign it to one of $G$ groups. That is our goal is to complete $[\C]_{obs}$ or ($[\C]_{s,obs}$) by randomly drawing from the distribution on the missing part of the shape conditional on the observed part.  Specifically, for a fixed translation, rotation, scaling, and parameterization, we seek to approximate the distribution of $[\C]_{mis}|[\C]_{obs}$ and use random draws from this distribution to complete to curve.  Here this distribution will be approximated non-parametrically and hot-deck type multiple imputation \cite{AndridgeLittle2010} will be used similar in spirit to the idea of predictive mean matching (PMM) (\cite{PMM}).  The basic idea of PMM is to to take partially observed records (termed the donees) and find fully observed records that are close to a particular donee (termed donors).  Random draws from the set of donors are then used to complete the partially observed donees.  This is repeated $M$ times to create $M$ completed data sets.
 
 The same type of procedure will be performed here, but instead of traditional statistical records, here shapes are considered.  The spirit of the procedure proposed here is similar to PMM in that first the partially observed shape (the donee) is measured against fully observed shapes to find potential donors.  Once the set of potential donors is defined, one of these shapes is randomly drawn and used to complete the partially observed donee.  This process is crepeated $M$ times to create $M$ completed shapes.  
 
-The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^p_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,n_p$. Suppose that $\C^p_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^p_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$.Then the set of curves that can possibly comprise the missing segment of curve $\C^p_j$ is 
-
-
+The observed region $\mathcal{R}_j$ associated with a partially observed curve $\C^p_j$ is the subinterval $[0,t_j]$ with $t_j<1$ for all $j=1,\ldots,n_p$. Suppose that $\C^p_j(0)=\mathbf{a}_j:=(a_{1j},a_{2j})^T$ and $\C^p_j(t_j)=\mathbf{b}_j:=(b_{1j},b_{2j})^T$. Then the set of curves that can possibly comprise the missing segment of curve $\C^p_j$ is 
 
 $$
 \mathcal{X}_j:=\{\X: [t_j,1] \to \Rtwo: \X(t_j)=\mathbf{b}, \X(1)=\mathbf{a}\} 
@@ -307,14 +332,10 @@ $$
 .
 
 
-
-
-
-
+  
 
 
 For a partially observed $\C_j^p:[0,t_j]$ and an $X \in \mathcal{X}_j$ with $j=1,\ldots,n$, define its completion to be the concatenated closed curve
-
 
 $$
 C^p_j \circ X(t):= \C_j^p(t) \mathbb{I}_{t \in [0,t_j]}+\X(t) \mathbb{I}_{(t_j,1]}
@@ -322,45 +343,35 @@ $$.
 
 
 
-
-
 %Greg inserted this:
-$X(t)$ should be chosen from the distribution $C_{mis}|C_{obs}$.  In this case, this distribution will be approximated empirically.  To begin,  for a particular partially observed shape, $C_j^p \in \mathbb{C}^p$, the distance between $C_j^p$ and each of the completed shapes in $C_i^f \in \mathbb{C}^f$ is computed. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
-
-
+$X(t)$ should be chosen from the distribution $C_{mis}|C_{obs}$.  In this case, this distribution is approximated empirically.  To begin, for a particular partially observed shape, $C_j^p \in \mathbb{C}^p$, the distance between $C_j^p$ and each of the completed shapes in $C_i^f \in \mathbb{C}^f$ is computed. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_j}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
 
 
 \begin{align*}
 \Phi^{p}_{\theta_j}(C_j^p,C_i^f)&:=d^2(C_j^p, \sigma OC_i^f(\gamma)|_{s}), \quad \theta_j \in \Theta_j\\
-&=\inf_{(s,\gamma,\sigma,O) \in \uc \times \Gamma_I\times \mathcal{R}^2 \times SO(2)}\|Q_{C_j^p }, \sigma OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2.
+&=\inf_{(s,\gamma,\sigma,O) \in \uc \times \Gamma_I\times \mathcal{R}^2 \times SO(2)}\|Q_{C_j^p}, \sigma OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2.
 \end{align*}
+
+
 
 
 %I also want to minimize over subsets of the unit circle.
 %With no scaling
-%add the p super script because these are measuring distances between partial shapes and parts of the complete shape.  
+%add the p super script because these are measuring distances between partial shapes and parts of the complete shape. 
+For considering size and shape, the following modifcations are made: 
 $$
-\Phi^{p,\star}_{\theta_{ij}}(C_j^p,C_i^f) = d^{\star}(\C_j^p, \C_i^f|_{s}) = \inf_{(s,\gamma,O ) \in \uc \times \Gamma_I\times SO(2)} \|Q_{C_j^p} , OQ_{C_i^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2
+\Phi^{p,s}_{\theta_{ij}}(C_j^p,C_i^f) = d_s(\C_j^p, \C_i^f|_{s}) = \inf_{(s,\gamma,O ) \in \uc \times \Gamma_I\times SO(2)} \|Q_{C_{s,j}^p} , OQ_{C_{s,i}^f}(\gamma)|_{s}\sqrt{\gamma'}\|_{\ltwo}^2
 $$
 
-Let $\theta^*_{ij} = (s^*_{ij}, \gamma^*_{ij}, O^*_{ij}) = \argmin_{\theta_{ij} \in \Theta_{ij}} \Phi_{\theta_{ij}}(C_j^p,C_i^f)$.  These values in $\theta^*_{ij}$ will be used again when completing tooth $C_j^p$.  
+Let $\theta^*_{ij} = (s^*_{ij}, \gamma^*_{ij}, O^*_{ij}) = \argmin_{\theta_{ij} \in \Theta_{ij}} \Phi_{\theta_{ij}}(C_{j}^p,C_{i}^f)$.  These values in $\theta^*_{ij}$ will be used again when completing tooth $C_j^p$.  
+
+Now, continuing this example with size and shape, for a fixed $j$, after computing $\Phi^{s}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \ldots, n_f$, the indices of the donor set are defined to be $D_{s,j} = \{i : \Phi_{s,\theta_j}(C_j^p,C_i^f) \le \Phi_{s,\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$. $\Phi_{s,\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi_{s,\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \ldots, n_f$ (e.g. $\Phi_{s,\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi_{s,\theta_{ij}}(C_j^p,C_i^f)_{(n_f)}$ are the minimum and the maximum, respectively). 
+
+$M$ values are drawn, with replacement, from $D_{s,j}$ and the chosen indices are then used as donors to fill in the missing part of $C^p_j$ with $X_j$ and the completed shape is written as $C^p_j \circ X_j$.  Denote by $Q_{\C^p_j \circ X}$ the square-root transform of $\C^p_j \circ X$. For each $j=1,\ldots,n_p$, let $\Theta_{ij}:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^f$ and $\mathcal{C}^p$ denote the sets of fully and partially observed curves, respectively. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_{ij}}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
 
 
-
-Now for a fixed $j$, after computing $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)$ for all $i = 1, 2, \ldots, n_f$, the indices of the donor set are defined to be $D^{\star}_j = \{i : \Phi^{\star}_{\theta_j}(C_j^p,C_i^f) \le \Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)} \}$. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ is the $k$-th smallest value of $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(k)}$ over all $i = 1, 2, \ldots, n_f$ (e.g. $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(1)}$ and $\Phi^{\star}_{\theta_{ij}}(C_j^p,C_i^f)_{(n_f)}$ are the minimum and the maximum, respectively). 
-
-
-
-
-$M$ values are drawn, with replacement, from $D^{\star}_j$ and the chosen indices are then used as donors to fill in the missing part of $C^p_j$ with $X_j$ and the completed shape is written as $C^p_j \circ X_j$.  Denote by $Q_{\C^p_j \circ X}$ the square-root transform of $\C^p_j \circ X$. For each $j=1,\ldots,n_p$, let $\Theta_{ij}:=\uc \times \Gamma_I \times SO(2) \times \mathcal{X}_j$, and recall that $\mathcal{C}^f$ and $\mathcal{C}^p$ denote the sets of fully and partially observed curves, respectively. For a fixed $C_i^f \in \mathcal{C}^f$, for each $i=1,\ldots,n_f$ define the cost functional $\Phi_{\theta_{ij}}:\mathcal{C}^p \times \mathcal{C}^f \to \mathbb{R}$ by
-
-
-
-
-
-%Something is wrong here latex wise
 $$
-X_j^{\star *} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_j^p \circ X_j}, O^{*}_{ij}Q_{C_i^f} (\gamma^{*}_{ij})\sqrt{\gamma'^{*}_{ij}}\|_{\ltwo}^2
+X_{s,j}^{ *} =\argmin_{X_j \in \mathcal{X}_j} \|Q_{C_{s,j}^p \circ X_j}, O^{*}_{ij}Q_{C_{s,i}^f} (\gamma^{*}_{ij})\sqrt{\gamma'^{*}_{ij}}\|_{\ltwo}^2
 $$
 
 
@@ -384,7 +395,8 @@ $$.
 
 
 
-$X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distribution of $\C_{mis}|\C_{obs}$ where $\C_{mis}|\C_{obs}$ is approximated non-parametrically. 
+$X_{ij}^{*}$ (or $X_{s,ij}^{*}$) can be viewed as draws from the distribution of $[\C]_{mis}|[\C]_{obs}$ or ($[\C]_{s,mis}|[\C]_{s,obs}$).
+
 
 
 
@@ -393,7 +405,6 @@ $X_{ij}^{*}$ (or $X_{ij}^{\star *}$) can be viewed as draws from the distributio
 % \Phi_{\theta_{ij}}(C_j^p,C_i^f)&:=d^{\star}(C_j^p \circ X_j, OC_i^f(\gamma)), \quad \theta_j \in \Theta_j\\
 % &=\inf_{(s,\gamma,O) \in \uc \times \Gamma_I\times SO(2)}\|Q_{C_j^p \circ X_j}, OQ_{C_i^f}(\gamma)\sqrt{\gamma'}\|_{\ltwo}^2.
 % \end{align*}
-
 
 
 
@@ -406,9 +417,37 @@ In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ 
 (INSERT ILLUSTRATIVE FIGURE). 
 
 
+\subsection{Classification}\label{Classification}
+Consider a training data set where the true class of each shape is known.  That is the true class of the $i$-th complete shape, $C_i^f$, is $y_i$ where $i = 1, \cdots, N_f$, and $y_i \in \{1, \cdots, G\}$ where $G$ is the known number of classes.  In classification of partially observed shapes, the goal is to classify each partially observed shape $C_j^p$ into one of the $G$ classes.  The classification problem here will be approached using a simple nearest neighbors approach.  
+
+$$
+\pi(y_j = g | C_j^p \circ X_j) = \frac{1}{(knn)M} \sum_{m = 1}^{M} \sum_{C_i^f \in N_{knn}(C_j^p \circ X_j)} y_i
+$$
+
+where $N_{knn}(C_j^p \circ X_j)$ is a neighborhood around $C_j^p \circ X_j$ and is defined such that $C_i^f \in N_{knn}(C_j^p \circ X_j)$ when $\Phi^{\star}_{\theta_{ij}}(C_j^p \circ X_j,C_i^f)_{(knn)} \le \Phi^{\star}_{\theta_{ij}}(C_j^p \circ X_j,C_i^f)_{(knn)}$
+
+$C_j^p$ is then classified to $\hat{y_j}$ where 
+
+$$
+\hat{y_j} = \argmin_{g \in {1, \cdots, G}} \pi(y_j = g | C_j^p \circ X_j)
+$$.
 
 
-\subsection{Classification}
+For comparison purposes, partially observed shapes are classified prior to completing to the shape.  In this case, 
+
+$$
+\pi(y_j = g | C_j^p) = \frac{1}{(knn)} \sum_{C_i^f \in N_{knn}(C_j^p)} y_i
+$$
+
+where $N_{knn}(C_j^p)$ is a neighborhood around $C_j^p$ and is defined such that $C_i^f \in N_{knn}(C_j^p)$ when $\Phi^{\star}_{\theta_{ij}}(C_j^p ,C_i^f)_{(knn)} \le \Phi^{\star}_{\theta_{ij}}(C_j^p ,C_i^f)_{(knn)}$
+
+Additionally, the the classification of shape $j$ without imputation is then performed as follows:
+$$
+\hat{y_j} = \argmin_{g \in {1, \cdots, G}} \pi(y_j = g | C_j^p )
+$$.
+
+
+
 
 
 % \subsection{Choosing $X_j$}
@@ -421,20 +460,34 @@ In the expression above $s_j^*$ corresponds to the optimal point at which $\uc$ 
 
 
 \section{Simulation Study}
-This simulation study is based on the the shapes of the occlusal surface of upper and lower extant bovid molars.  Specifically, teeth from seven bovid tribes (Alcelaphini, Antilopini, Bovini, Hippotragini, Neotragini, Reduncini, and Tragelaphini) and twenty species (arundium, buselaphus, caffer, campestris, capreolus, dorcas, ellipsiprymnus, equinus, fulvorufulva, gazella, gnou, leche, marsupialis, niger, oreotragus, oryx, ourebi, scriptus, strepsiceros, taurinus).  Six tooth types were considered here lower/mandibular molars 1, 2, and 3 (LM1, LM2, LM3) and upper/maxillary molars 1, 2, 3 (UM1, UM2, UM3).  Specific counts of the sample sizes of each tooth type and tribe can be found in table \ref{sampsize}. 
+%Describe the simulation study.  
+
+%GRADY'S DESCRIPTION: 
+%Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
+
+%A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
+
+%Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
+
+%Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
+
+%The partial and whole shape are then compared in order to find the portion of the complete shape which the observed partial shape most adequately corresponds to. This is done by comparing a series of starting segments of the completed shape to the observed partial shape. For each of the subsets, the partial complete shape is scaled and centered, then a best rotation onto the observed partial shape is made. From this, an error term is found, and the segment with the minimum error term is selected as where the closed partial shape will then be overlaid. From here, the straight line segment from earlier is then gradually morphed so that it more and more adequately fits the curvature of the complete shape. After NUMBER iterations, a final version of the imputed partial tooth is obtained.
+
+%Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
+
+
+
+
+This simulation study is based on data generated from the shapes of the occlusal surface of upper and lower extant bovid molars [JULIET DESCRIBE DATA SET].  Specifically, teeth from seven bovid tribes (Alcelaphini, Antilopini, Bovini, Hippotragini, Neotragini, Reduncini, and Tragelaphini) and twenty species (arundium, buselaphus, caffer, campestris, capreolus, dorcas, ellipsiprymnus, equinus, fulvorufulva, gazella, gnou, leche, marsupialis, niger, oreotragus, oryx, ourebi, scriptus, strepsiceros, taurinus).  Six tooth types were considered here lower/mandibular molars 1, 2, and 3 (LM1, LM2, LM3) and upper/maxillary molars 1, 2, 3 (UM1, UM2, UM3).  Specific counts of the sample sizes of each tooth type and tribe can be found in table \ref{sampsize}. 
 
 For each tooth specimen in a specific tooth type (each tooth type was considered separately), the raw representation of each shape was comprised of 60 points traced around the occlusal surface of the tooth.  For each tooth, these 60 points were split into two groups roughly divided by a line connecting the mesostyle to the entostyle (metastylid to the ectostylid) of mandibular teeth (maxillary teeth) (Full deatils in appenidix).  An example of this can be seen in Figure \ref{ToothCutter}.  This type of cut was chosen for this simulation study as this is a break point commonly observed by biological anthropologists in fossilized bovid teeth.  
 
 %Might switch $k$ to $l$ because of k-nearest neighbors. 
-Then, for each half of a tooth specimen, the donee was matched against all the remaining complete teeth (partial teeth were not matched against the full tooth that the partial tooth was derived from) in that specific tooth type to find a set of $k$ suitable donor teeth. The donee was then completed $M$ times by randomly drawing $M$ teeth with replacement from the set of $k$ donor teeth.  The selected donor teeth were then used to to complete the tooth as described in section XXX.
+Then, for each half of a tooth specimen, the donee was matched against all the remaining complete teeth (partial teeth were not matched against the full tooth that the partial tooth was derived from) in that specific tooth type to find a set of $k$ suitable donor teeth. The donee was then completed $M$ times by randomly drawing $M$ teeth with replacement from the set of $k$ donor teeth.  The selected donor teeth were then used to to complete the tooth as described in section \ref{curvecomp}.
 
-The resulting imputed teeth were then used to evaluate the performance of several different types of analyses.  Classification is of major interest to biological anthropologists, and a k-nearest neighbors approach to classification was evaluated as well as a (kernel based approach using Frechet means was evaluated maybe?).   For k-nearest neighbors, both partial matching and matching after imputation was checked.  
+The resulting imputed teeth were then used to evaluate the performance of several different types of analyses.  Classification is of major interest to biological anthropologists, and a knn-nearest neighbors approach to classification was evaluated as well as a (kernel based approach using Frechet means was evaluated maybe?).   For knn-nearest neighbors, both partial matching and matching after imputation was checked.  For imputation, many different settings were considered for simulation, including, scaling vs not scaling, side 1 (left) vs side 2 (right),  values of $M = 5, 10, and 20$ and values of $k = 5, 10, and 20$.  Each tooth type (i.e LM1, UM2, etc.) were all considered separately.  
 
-In additional, the total area of the tooth is of interest to biological anthropologists.  The accuracy of total area estimation using imputations was also evaluated to test if the total area of a partially observed tooth can be accurately estiamted using this imputation procedure.   
-
-
-
-We checked different values of M and k and included scaling vs not scaling.  
+%In additional, the total area of the tooth is of interest to biological anthropologists.  The accuracy of total area estimation using imputations was also evaluated to test if the total area of a partially observed tooth can be accurately estiamted using this imputation procedure.   
 
 
 
@@ -475,7 +528,7 @@ points(t(partial_shape), type = "l", col = "blue")
 
 
 
-<<>>=
+<<echo = FALSE>>=
   k = 5
   M = 5
   side <- 1
@@ -537,20 +590,23 @@ points(t(results_list[[1]]$imputed_partial$imputed[[5]]),col = "blue", type = "l
 
 
 %These are the numbers after the shapes that are scale incorreclty have been removed.  
-LM1 - 355
-LM2 - 407
-LM3 - 411
-UM1 - 405
-UM2 - 456
-UM3 - 416
+% LM1 - 355
+% LM2 - 407
+% LM3 - 411
+% UM1 - 405
+% UM2 - 456
+% UM3 - 416
+% 
+% DSCN2601 example
 
-DSCN2601 example
 
-%<<>>=
-%  include_graphics("/Users/gregorymatthews/Dropbox/shapeanalysi%sgit/manuscript/fig/DSCN2601.JPG") 
-%@
 
+
+<<echo = FALSE>>=
+  include_graphics("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/DSCN2601.JPG") 
 @
+
+
 
   \begin{figure}
 <<echo = FALSE, message = FALSE>>=
@@ -752,9 +808,7 @@ donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[
 
 
 @
-
 \caption{An example of how the donor tooth is used to impute the donee}
-
 \end{figure}
 
 
@@ -762,28 +816,42 @@ donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[
 
 
 \section{Results}
-Describe the simulation study.  
+Classification results were evaluated using accuracy and log-loss as described in section \ref{Classification}.  Accuracy and log loss are defined as follows: 
 
-GRADY'S DESCRIPTION: 
-Required scripts and data are loaded into the R environment from external files. R package fdasrvf is used for requisite shape distance functions, namely for resampling points around a curve and finding the distance between two closed shapes.
+$$
+Accuracy = \frac{1}{N_p} \sum_{j = 1}^{N_p} \hat{y_j}
+$$
 
-A loop begins for both the individual teeth and their left and right halves. The two halves are generated at this step via finding the two points which are separated with the smallest Euclidean distance, provided that these two points are roughly twenty indices away in either direction, ensuring that teeth will be split roughly at the midpoint, where the X would be on a figure-eight. 
+and
 
-Teeth halves are stored as ``partial shape" alongside an indicator for whether it is the first or second half of the tooth in question, and the complete shape list is amended to not have the tooth in question present so that it would not be matched with itself. 
+$$
+Log-loss = - \sum_{j = 1}^{N_p} \sum_{g = 1}^{G} I(y_j = g) log(\pi(y_j = g | C_j^p \circ X_j))
+$$.
 
-Using the partial shape distance function, distances between the given half of the given tooth and the remaining completed teeth are taken. From the K smallest distances, a sample of size M with replacement is taken. For each of unique teeth in M, an imputed version of the tooth is then created: First, the partial shape is closed via a series of tightly-spaced points connecting the starting and ending point. Both the partial and complete shape are then resampled with splines—for the partial shape, the straight segment connecting the start and end is done separately from this, in order to avoid spline-based issues where the shape is predicted to curve inwards in a manner not reflective of the true shape. 
+Accuracy and log-loss were considered separately for each of the 6 tooth types.  Within each tooth type, scaled vs unscaled and left vs right side of the tooth were both considered separately.  
 
-The partial and whole shape are then compared in order to find the portion of the complete shape which the observed partial shape most adequately corresponds to. This is done by comparing a series of starting segments of the completed shape to the observed partial shape. For each of the subsets, the partial complete shape is scaled and centered, then a best rotation onto the observed partial shape is made. From this, an error term is found, and the segment with the minimum error term is selected as where the closed partial shape will then be overlaid. From here, the straight line segment from earlier is then gradually morphed so that it more and more adequately fits the curvature of the complete shape. After NUMBER iterations, a final version of the imputed partial tooth is obtained.
 
-Classification is done using KNN, where the distances between the imputed tooth and the whole teeth are measured, and the most common class designation amongst the TEN ? teeth with the smallest distance measure is used to predict the class designation of the imputed tooth. A total of M of these predictions is then obtained based on the sampling from the K smallest distances earlier. Further, KNN classification based off the earlier, partial distances is used a means of assessing the performance of classifying based upon imputation. 
 
-\subsection{Completing the curves}
-
-\subsection{Numerical Results}
 
 \subsection{Tribe Classification}
-Results of classification accuracy for tribe are presented using 1-nearest neighbor classification for values of $k$ (5, 10, and 20) and $M$ (5, 10, and 20) along with results when no imputation is used for classification.  Six different teeth are considered here (LM1, LM2, LM3, UM1, UM2, and UM3) along with two sides (1 (left) and 2 (right)).  
-%Table \ref{tab:tribe:unscaled:accuracy} shows the accuracy of tribe classification when using size and shape for different imputation settings along with accuracy when using no imputation.  Table \ref{tab:tribe:scaled:accuracy} is similar to table \ref{tab:tribe:unscaled:accuracy}, except that only shape, as opposed to size and shape, is used to classify each tooth to a tribe.  
+To start, results of classification accuracy at the tribe level are presented using 1-nearest neighbor classification for values of $k$ (5, 10, and 20) and $M$ (5, 10, and 20) along with results when no imputation is used for classification.  Six different teeth are considered here (LM1, LM2, LM3, UM1, UM2, and UM3) along with two sides (1 (left) and 2 (right)).  Table \ref{tab:tribe:unscaled:accuracy} shows the accuracy of tribe classification when using size and shape for different imputation settings along with accuracy when using no imputation.  Table \ref{tab:tribe:scaled:accuracy} is similar to table \ref{tab:tribe:unscaled:accuracy}, except that only shape, as opposed to size and shape, is considered when classifying the teeth.
+In both table \ref{tab:tribe:scaled:accuracy} and \ref{tab:tribe:unscaled:accuracy}, one can see that most of the time classification using nearest neighbor without performing imputation yields higher accuracy than classification after imputation, however, there aer several notable exceptions.  
+
+As shown in table \ref{tab:tribe:unscaled:accuracy}, when classifiying using size and shape, the right side (i.e. side 2) of the LM2 teeth yield higher accuracy after imputation compared to performing no imputation in 6 out of the 9 different combinations of $M$ and $k$ examined.  Additionally, for LM2 on the left side (i.e. side 1), there is one instance where imputation outperforms in terms of accuracy over no imputation.  Specifically, when $k=5$ and $M = 20$, we get an accuracy of 0.922 compared to 0.907 for no imputation. 
+
+When removing the scaling and classifying only on shape, there are three instances of a tooth/side combination using imputation that outperform in terms of accuracy over no imputation.  Both LM3 side 1 and side 2, for certain combinations of $k$ and $M$, outperform no imputation along with some combination of $k$ and $M$ for LM2 side 2.  
+
+
+Figure \ref{Tribe:Unscaled:Acc} shows accuracy results when not scaling when using different choices for the number of nearest neighbors used in classification.  In most cases, classification accuracy is higher regardless of the choice of the number of nearest neighbors.  The only real exception to this is LM2 side 2 with k = 10 and M = 20 performs similary in terms of classification as the method without imputation.  
+When scaling is considered, as shown in figure \ref{Tribe:Scaled:Acc}, once again it appears that in terms of classification accuracy, foregoing the imputation step yields the highest classification accuracy. The exceptions to this are in LM2 both sides 1 and 2, which appears again in outperforming no imputation, as well as LM3 both sides 1 and 2.  For side 2 of both LM2 and LM3, no imputation yields the highest classification accuracy for most choices of the number of nearest neighbors, but the performance difference in very small.  For sides 1 in these same teeth, LM2 and LM3, no imputation performs similarly to the better combinations of $k$ and $M$ for imputation.  
+
+In addition to looking at accuracy of prediction, the log loss of the predictions is also considered for different choices of nearest neighbors.  Figure \ref{Tribe:Unscaled:LogLoss} shows results of this for predictions on the unscaled shapes.  In all cases, for smaller values of the number of nearest neighbors chosen, imputation outperforms not performing imputation.  As the number of nearest neighbors increases, not performing imputation performs as well or better than imputation in most cases.  Figure \ref{Tribe:Scaled:LogLoss} shows log loss results for prediction when scaling of the shapes is considered.  Again, for a small choice of nearest neighbors, imputation outperforms no imputation.  It also appears that imputation is superior to no imputation over a wider range of choices for nearest neighbors in this setting.  In fact, for some teeth (UM1 both sides, LM2 side 1, UM2 side 2, LM2 side 2) there are certain combinations of $M$, usually 20, and $k$, either 10 or 20, that are better in terms of log loss for imputation regardless of the choice of nearest neighbors.  
+
+
+
+
+
+
 
 
 
@@ -841,8 +909,8 @@ Results of classification accuracy for tribe are presented using 1-nearest neigh
  \hline
 LM1 & 1 & 0.848 & 0.854 & 0.867 & 0.811 & 0.834 & 0.834 & 0.758 & 0.777 & 0.792 & 0.885 \\ 
   LM1 & 2 & 0.854 & 0.862 & 0.878 & 0.842 & 0.845 & 0.854 & 0.831 & 0.854 & 0.856 & 0.896 \\ 
-  LM2 & 1 & 0.897 & 0.899 & 0.922 & 0.872 & 0.88 & 0.892 & 0.857 & 0.862 & 0.867 & 0.907 \\ 
-  LM2 & 2 & 0.877 & 0.892 & 0.899 & 0.904 & 0.897 & 0.924 & 0.877 & 0.897 & 0.867 & 0.882 \\ 
+  LM2 & 1 & 0.897 & 0.899 & {\bf 0.922} & 0.872 & 0.88 & 0.892 & 0.857 & 0.862 & 0.867 & 0.907 \\ 
+  LM2 & 2 & 0.877 & {\bf 0.892} & {\bf 0.899} & {\bf 0.904} & {\bf 0.897} & {\bf 0.924} & 0.877 & {\bf 0.897} & 0.867 & 0.882 \\ 
   LM3 & 1 & 0.876 & 0.873 & 0.87 & 0.842 & 0.856 & 0.856 & 0.818 & 0.81 & 0.83 & 0.886 \\ 
   LM3 & 2 & 0.854 & 0.873 & 0.879 & 0.856 & 0.881 & 0.869 & 0.822 & 0.847 & 0.859 & 0.893 \\ 
   UM1 & 1 & 0.849 & 0.872 & 0.892 & 0.857 & 0.867 & 0.877 & 0.817 & 0.844 & 0.852 & 0.926 \\ 
@@ -853,7 +921,7 @@ LM1 & 1 & 0.848 & 0.854 & 0.867 & 0.811 & 0.834 & 0.834 & 0.758 & 0.777 & 0.792 
   UM3 & 2 & 0.692 & 0.743 & 0.675 & 0.688 & 0.726 & 0.74 & 0.637 & 0.671 & 0.851 & 0.856 \\ 
    \hline
 \end{tabular}
-\caption{Tribe Classification of size and shape using nearest neighbor classification (i.e. k = 1)}
+\caption{Tribe Classification of size and shape using nearest neighbor classification (i.e. k = 1). Bold indicates that imputation outperformed no imputation.}
 \label{tab:tribe:unscaled:accuracy}
 \end{table}
 
@@ -897,7 +965,7 @@ LM1 & 1 & 0.848 & 0.854 & 0.867 & 0.811 & 0.834 & 0.834 & 0.758 & 0.777 & 0.792 
 # "Tooth & Side & M=5 & M=10 & M=20 & M=5 & M=10 & M=20 & M=5 & M=10 & M=20 & Partial  \\\\\n")
 # print(xtable(test), add.to.row = addtorow, include.colnames = FALSE, include.rownames = FALSE)
 @
- 
+
  
 % latex table generated in R 3.5.1 by xtable 1.8-2 package
 % Fri Aug  9 13:39:28 2019
@@ -911,9 +979,9 @@ LM1 & 1 & 0.848 & 0.854 & 0.867 & 0.811 & 0.834 & 0.834 & 0.758 & 0.777 & 0.792 
 LM1 & 1 & 0.724 & 0.752 & 0.744 & 0.744 & 0.749 & 0.766 & 0.766 & 0.766 & 0.746 & 0.78 \\ 
   LM1 & 2 & 0.71 & 0.744 & 0.758 & 0.758 & 0.749 & 0.744 & 0.744 & 0.744 & 0.738 & 0.806 \\ 
   LM2 & 1 & 0.71 & 0.744 & 0.769 & 0.769 & 0.764 & 0.774 & 0.774 & 0.774 & 0.73 & 0.806 \\ 
-  LM2 & 2 & 0.735 & 0.742 & 0.769 & 0.769 & 0.762 & 0.789 & 0.789 & 0.789 & 0.776 & 0.779 \\ 
-  LM3 & 1 & 0.725 & 0.701 & 0.737 & 0.737 & 0.72 & 0.735 & 0.735 & 0.735 & 0.732 & 0.737 \\ 
-  LM3 & 2 & 0.742 & 0.781 & 0.779 & 0.779 & 0.754 & 0.796 & 0.796 & 0.796 & 0.803 & 0.793 \\ 
+  LM2 & 2 & 0.735 & 0.742 & 0.769 & 0.769 & 0.762 & {\bf 0.789} & {\bf 0.789} & {\bf 0.789} & 0.776 & 0.779 \\ 
+  LM3 & 1 & 0.725 & 0.701 & {\bf 0.737} & {\bf 0.737} & 0.72 & 0.735 & 0.735 & 0.735 & 0.732 & 0.737 \\ 
+  LM3 & 2 & 0.742 & 0.781 & 0.779 & 0.779 & 0.754 & {\bf 0.796} & {\bf 0.796} & {\bf 0.796} & 0{\bf 0.803} & 0.793 \\ 
   UM1 & 1 & 0.652 & 0.674 & 0.679 & 0.679 & 0.691 & 0.691 & 0.691 & 0.691 & 0.701 & 0.783 \\ 
   UM1 & 2 & 0.681 & 0.696 & 0.743 & 0.743 & 0.716 & 0.751 & 0.751 & 0.751 & 0.714 & 0.842 \\ 
   UM2 & 1 & 0.579 & 0.614 & 0.607 & 0.607 & 0.645 & 0.638 & 0.638 & 0.638 & 0.636 & 0.776 \\ 
@@ -922,9 +990,10 @@ LM1 & 1 & 0.724 & 0.752 & 0.744 & 0.744 & 0.749 & 0.766 & 0.766 & 0.766 & 0.746 
   UM3 & 2 & 0.502 & 0.505 & 0.5 & 0.5 & 0.495 & 0.51 & 0.51 & 0.51 & 0.507 & 0.714 \\ 
    \hline
 \end{tabular}
-\caption{Tribe Classification using shape and nearest neighbor classification (i.e. k = 1)}
+\caption{Tribe Classification using shape and nearest neighbor classification (i.e. k = 1).  Bold indicates that imputation outperformed no imputation.}
 \label{tab:tribe:scaled:accuracy}
 \end{table}
+
 
 
 
@@ -1028,9 +1097,9 @@ LM1 & 1 & 0.724 & 0.752 & 0.744 & 0.744 & 0.749 & 0.766 & 0.766 & 0.766 & 0.746 
 
 
 
-Tribe classification, Scaled results: 
+%Tribe classification, Scaled results: 
 <<echo = FALSE>>=
-# tooth <- "LM1"
+# tooth <- "LM3"
 # side <- 1
 #   library(ggplot2)
 # acc_res_list <- list()
@@ -1113,8 +1182,8 @@ Tribe classification, Scaled results:
 # #acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(accuracy  = c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])), tooth_type = rep(paste0(tooth,"_",side),4),  M_k = c("M20 l20", "M10 l10", "M5 l5", "No Imp"))
 # 
 #   }
-# 
-#     png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_by_knn_tribe_scaled_",tooth,".png"), res = 300, units = "in", w = 8, h =4)
+# library(cowplot)
+# png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_by_knn_tribe_scaled_",tooth,".png"), res = 300, units = "in", w = 8, h =4)
 # legend <- get_legend(g2)
 # g2 <- g2 + theme(legend.position="none")
 # grid.arrange(g1, g2, legend, ncol=3, widths=c(2.3, 2.3, 0.8))
@@ -1125,15 +1194,15 @@ Tribe classification, Scaled results:
 # 
 # 
 # 
-# 
-# 
-# #dat <- do.call(rbind, acc_res_list)
-# #ggplot(aes(x = tooth, y = accuracy, col = M_k), data = dat) + geom_point()
+
+
+#dat <- do.call(rbind, acc_res_list)
+#ggplot(aes(x = tooth, y = accuracy, col = M_k), data = dat) + geom_point()
 
 @
 
- Tribe classification unscaled accuracy plot using knn = 1
- <<>>=
+ %Tribe classification unscaled accuracy plot using knn = 1
+ <<echo = FALSE>>=
 #    #tooth <- "LM1"
 # #side <- 1
 # library(ggplot2)
@@ -1238,43 +1307,167 @@ Tribe classification, Scaled results:
 \caption{Accuracy of tribe classification scaled}
 \end{figure}
 
+% Accuracy By Tooth Type - Unscaled
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_LM1.png}
+% \caption{Accuracy of tribe classification unscaled - LM1}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_LM2.png}
+% \caption{Accuracy of tribe classification unscaled- LM2}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_LM3.png}
+% \caption{Accuracy of tribe classification unscaled- LM3}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_UM1.png}
+% \caption{Accuracy of tribe classification unscaled - UM1}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_UM2.png}
+% \caption{Accuracy of tribe classification unscaled - UM2}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_UM3.png}
+% \caption{Accuracy of tribe classification unscaled - UM3}
+% \end{figure}
 
-Accuracy By Tooth Type
 \begin{figure}
-\includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM1.png}
-\caption{Accuracy of tribe classification scaled - LM1}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_LM2.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_LM3.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_UM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_UM2.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_unscaled_UM3.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Tribe Unscaled Acc Results}
+    \label{Tribe:Unscaled:Acc}
+\end{figure}
+
+
+Accuracy By Tooth Type - Scaled
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM1.png}
+% \caption{Accuracy of tribe classification scaled - LM1}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM2.png}
+% \caption{Accuracy of tribe classification scaled- LM2}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM3.png}
+% \caption{Accuracy of tribe classification scaled- LM3}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM1.png}
+% \caption{Accuracy of tribe classification scaled - UM1}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM2.png}
+% \caption{Accuracy of tribe classification scaled - UM2}
+% \end{figure}
+% 
+% \begin{figure}
+% \includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM3.png}
+% \caption{Accuracy of tribe classification scaled - UM3}
+% \end{figure}
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM2.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM3.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM2.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM3.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Tribe Scaled Acc Results}
+    \label{Tribe:Scaled:Acc}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_scaled_LM2.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_scaled_LM3.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_scaled_UM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_scaled_UM2.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_scaled_UM3.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Tribe Scaled Log Loss Results}
+    \label{Tribe:Scaled:LogLoss}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM2.png}
-\caption{Accuracy of tribe classification scaled- LM2}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_unscaled_LM2.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_unscaled_LM3.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_unscaled_UM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_unscaled_UM2.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_tribe_unscaled_UM3.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Tribe Unscaled Log Loss Results}
+    \label{Tribe:Unscaled:LogLoss}
 \end{figure}
 
-\begin{figure}
-\includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_LM3.png}
-\caption{Accuracy of tribe classification scaled- LM3}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM1.png}
-\caption{Accuracy of tribe classification scaled - UM1}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM2.png}
-\caption{Accuracy of tribe classification scaled - UM2}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width = 0.5\textwidth]{fig/acc_by_tooth_by_knn_tribe_scaled_UM3.png}
-\caption{Accuracy of tribe classification scaled - UM3}
-\end{figure}
-
-
-
-\bibliography{shapebib}
-\bibliographystyle{plainnat}
-\end{document}
 
 
 
@@ -1284,8 +1477,9 @@ Accuracy By Tooth Type
 
 
 
-Tribe classification scaled accuracy plot using knn = 1
-<<>>=
+
+%Tribe classification scaled accuracy plot using knn = 1
+<<echo = FALSE>>=
 # library(ggplot2)
 # acc_res_list <- list()
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
@@ -1352,12 +1546,12 @@ Tribe classification scaled accuracy plot using knn = 1
 # #print(c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])))
 # 
 # # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(
-# #   accuracy  = c(mean(acc_imputed_k20_M20[1:20]),mean(acc_imputed_k20_M10[1:20]),mean(acc_imputed_k20_M5[1:20]),mean(acc_imputed_k10_M20[1:20]),mean(acc_imputed_k10_M10[1:20]),mean(acc_imputed_k10_M5[1:20]),mean(acc_imputed_k5_M20[1:20]),mean(acc_imputed_k5_M10[1:20]),mean(acc_imputed_k5_M5[1:20]),mean(acc_part_k20_M20[1:20])), 
+# #   accuracy  = c(mean(acc_imputed_k20_M20[1:20]),mean(acc_imputed_k20_M10[1:20]),mean(acc_imputed_k20_M5[1:20]),mean(acc_imputed_k10_M20[1:20]),mean(acc_imputed_k10_M10[1:20]),mean(acc_imputed_k10_M5[1:20]),mean(acc_imputed_k5_M20[1:20]),mean(acc_imputed_k5_M10[1:20]),mean(acc_imputed_k5_M5[1:20]),mean(acc_part_k20_M20[1:20])),
 # #   tooth_type = rep(paste0(tooth,"_",side),10),  k = c(rep(20,3),rep(10,3),rep(5,3),rep("No Imp",1)), M = c(rep(c(20,10,5),3),rep("No Imp",1)))
 # 
 # #knn = 1
 # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(
-#   accuracy  = c(mean(acc_imputed_k20_M20[1]),mean(acc_imputed_k20_M10[1]),mean(acc_imputed_k20_M5[1]),mean(acc_imputed_k10_M20[1]),mean(acc_imputed_k10_M10[1]),mean(acc_imputed_k10_M5[1]),mean(acc_imputed_k5_M20[1]),mean(acc_imputed_k5_M10[1]),mean(acc_imputed_k5_M5[1]),mean(acc_part_k20_M20[1])), 
+#   accuracy  = c(mean(acc_imputed_k20_M20[1]),mean(acc_imputed_k20_M10[1]),mean(acc_imputed_k20_M5[1]),mean(acc_imputed_k10_M20[1]),mean(acc_imputed_k10_M10[1]),mean(acc_imputed_k10_M5[1]),mean(acc_imputed_k5_M20[1]),mean(acc_imputed_k5_M10[1]),mean(acc_imputed_k5_M5[1]),mean(acc_part_k20_M20[1])),
 #   tooth_type = rep(paste0(tooth,"_",side),10),  k = c(rep(20,3),rep(10,3),rep(5,3),rep("No Imp",1)), M = c(rep(c(20,10,5),3),rep("No Imp",1)))
 # 
 # 
@@ -1370,11 +1564,11 @@ Tribe classification scaled accuracy plot using knn = 1
 # png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_knn1_tribe_scaled.png"), res = 300, units = "in", w = 8, h =4)
 # ggplot(aes(x = tooth_type, y = accuracy, col = k, shape = M), data = dat) + geom_point()
 # dev.off()
-#   
+
   @
 
-Tribe classification log loss unscaled.
-<<>>=
+%Tribe classification log loss unscaled.
+<<echo = FALSE>>=
 # library(dplyr)
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
 # for (side in 1:2){
@@ -1464,8 +1658,8 @@ Tribe classification log loss unscaled.
 @
 
 
-Tribe classification log loss scaled.
-<<>>=
+%Tribe classification log loss scaled.
+<<echo = FALSE>>=
 # library(dplyr)
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
 # for (side in 1:2){
@@ -1534,7 +1728,7 @@ Tribe classification log loss scaled.
 # 
 # library(ggplot2 )
 # if (side == 1){
-# g1 <- ggplot(aes(x = knn, y = logloss, col = k, shape = M), data = fret) + geom_point() + geom_line() + ggtitle(paste0("Tooth = ",tooth,", side = 1")) +  theme(legend.position="none") 
+# g1 <- ggplot(aes(x = knn, y = logloss, col = k, shape = M), data = fret) + geom_point() + geom_line() + ggtitle(paste0("Tooth = ",tooth,", side = 1")) +  theme(legend.position="none")
 # }
 # 
 # if (side == 2){
@@ -1556,6 +1750,24 @@ Tribe classification log loss scaled.
 
 
 \subsection{Species Classification}
+Additionally, classification results are presented for species classification.  Whereas at the tribe level there are only 7 different classes, there are 20 different classes at the species level.  Once again, results are presented for accuracy of species classification using the nearest neighbor method.  While in most cases in tribe classifcation, accuracy was higher when classifying without using imputation, we see the opposite in species classification.  Tables \ref{tab:species:unscaled:accuracy} and \ref{tab:species:scaled:accuracy} show accuracy results for species classification for form and shape, respectively.  Bold entries indicate instances where the classification accuracy is higher when using imputation than the classification accuracy without using imputation.  The results of these tables are shown graphically in figures \ref{Species:Unscaled:Acc} and \ref{Species:Scaled:Acc}.
+
+When form (i.e. size and shape) is considered, classification accuracy without doing imputation ranged from 0.231 (UM3, side 1) to 0.328 (UM1, side 2).  Classification accuracy for imputation has a slighlty larger range of values and ranges from approximately 0.2 to 0.35.  For every tooth-side combination, except UM1 side 2, there is at least one imputation combination of $M$ and $k$ that results in higher classification accuracy compared to not performing imputation.  Notably, for side 1 in the following teeth LM1, LM2, LM3, and UM1, all combinations of $M$ and $k$ yield higher accuracy with imputation as compared to without imputation.  
+
+When only shape is considered, the classification accuracy is lower as we know that size is an important factor is classifying these teeth.  Without performing imputation classification accuracy ranges from 0.144 (UM3, side 1) to 0.279 (UM1, side 2).  When imputation is performed accuracies were observed between approximately 0.15 and 0.3.  In this case, classification with imputation leads to higher accuracy than classification without imputation in every combination of $M$ and $k$ tested here for both sides of teeth LM1, LM2, and LM3, and for side 1 of UM1.  
+
+
+Figure \ref{Species:Unscaled:Acc} shows how accuracy when classifying species is related to the choice of number of nearest neighbors when scaling is not considered.  One can see that in most cases, for only a small number of nearest neighbors chosen, imputation outperforms no imputation in most cases.  However, as the number of nearest neighbors is increased, the no imputation method yields higher accuracy than performing the imputation.
+
+Figure \ref{Species:Scaled:Acc} shows the same results as figure \ref{Species:Unscaled:Acc}, but in this case scaling is considered. Once again for small choices of the number of nearest neighbors, imputation outperforms no imputation. However, unlike the previous case, there are a few examples where imputation outperforms regardless of the number of nearest neighbors chosen, for example, UM1 side 1 and LM2 side 2.  
+
+Finally, figures \ref{Species:Unscaled:LogLoss} and \ref{Species:Scaled:LogLoss} show species classification log loss results for the unscaled and scaled cases, respectively.  When scaling is not consdiered (i.e. figure \ref{Species:Unscaled:LogLoss}), when the number of nearest neighbors is chosen to be small (i.e. less than 5), there is always at least one imputation setting that has lower log loss than no imputation.  However, in all cases as the number of nearest neighbors chosen gets close to 20, no imputation performs better in terms of log loss than doing imputation.
+
+Lastly, in figure \ref{Species:Scaled:LogLoss} results for species classification in terms of log loss are shown.  In this setting, imputation is almost uniformly better than not performing imputation when considering log loss.  In fact, in many cases ALL imputation combinations are beating no imputation for choices of the number of nearest neighbors less than 10.  Notably, this can be seen in all instances of side 1.  We see similar results for side 2, however, they are much less dramatic and hold only for choices of the number of nearest neghbors less than around 5.  This setting is notable in that most of the results presented thus far have been supportive of simply not performing imputation at all.  However, in this setting, imputation seems to be almost a uniformly better choice than not performing imputation.  
+
+
+
+
 
 
 <<echo = FALSE>>=
@@ -1597,6 +1809,7 @@ Tribe classification log loss scaled.
 @
 
 
+
 % latex table generated in R 3.5.1 by xtable 1.8-2 package
 % Tue Aug 27 16:03:52 2019
 
@@ -1607,18 +1820,18 @@ Tribe classification log loss scaled.
   & & \multicolumn{3}{c}{k=5} & \multicolumn{3}{c}{k=10} & \multicolumn{3}{c}{k=20} &  \\
  Tooth & Side & M=5 & M=10 & M=20 & M=5 & M=10 & M=20 & M=5 & M=10 & M=20 & Partial  \\
  \hline
-LM1 & 1 & 0.296 & 0.31 & 0.307 & 0.282 & 0.304 & 0.307 & 0.276 & 0.285 & 0.301 & 0.265 \\ 
-  LM1 & 2 & 0.335 & 0.324 & 0.326 & 0.301 & 0.31 & 0.327 & 0.279 & 0.301 & 0.315 & 0.307 \\ 
-  LM2 & 1 & 0.329 & 0.349 & 0.329 & 0.334 & 0.349 & 0.349 & 0.305 & 0.329 & 0.344 & 0.29 \\ 
-  LM2 & 2 & 0.324 & 0.337 & 0.304 & 0.312 & 0.327 & 0.332 & 0.305 & 0.31 & 0.305 & 0.327 \\ 
-  LM3 & 1 & 0.311 & 0.326 & 0.326 & 0.321 & 0.341 & 0.331 & 0.314 & 0.319 & 0.333 & 0.273 \\ 
-  LM3 & 2 & 0.304 & 0.324 & 0.329 & 0.29 & 0.304 & 0.326 & 0.27 & 0.297 & 0.297 & 0.292 \\ 
-  UM1 & 1 & 0.304 & 0.294 & 0.295 & 0.286 & 0.291 & 0.299 & 0.257 & 0.291 & 0.289 & 0.257 \\ 
+LM1 & 1 & {\bf 0.296} & {\bf 0.31} & {\bf 0.307} & {\bf 0.282} & {\bf 0.304} & {\bf 0.307} & {\bf 0.276} & {\bf 0.285} & {\bf 0.301} & 0.265 \\ 
+  LM1 & 2 & {\bf 0.335} & {\bf 0.324} & {\bf 0.326} & 0.301 & {\bf 0.31} & {\bf 0.327} & 0.279 & 0.301 & {\bf 0.315} & 0.307 \\ 
+  LM2 & 1 & {\bf 0.329} & {\bf 0.349} & {\bf 0.329} & {\bf 0.334} & {\bf 0.349} & {\bf 0.349} & {\bf 0.305} &{\bf  0.329} & {\bf 0.344} & 0.29 \\ 
+  LM2 & 2 & 0.324 & {\bf 0.337} & 0.304 & 0.312 & {\bf 0.327} & {\bf 0.332} & 0.305 & 0.31 & 0.305 & 0.327 \\ 
+  LM3 & 1 & {\bf 0.311} & {\bf 0.326} & {\bf 0.326} & {\bf 0.321} & {\bf 0.341} & {\bf 0.331} & {\bf 0.314} & {\bf 0.319} & {\bf 0.333} & 0.273 \\ 
+  LM3 & 2 & {\bf 0.304} & {\bf 0.324} & {\bf 0.329} & 0.29 & {\bf 0.304} & {\bf 0.326} & 0.27 & {\bf 0.297} & {\bf 0.297} & 0.292 \\ 
+  UM1 & 1 & {\bf 0.304} & {\bf 0.294} & {\bf 0.295} & {\bf 0.286} & {\bf 0.291} & {\bf 0.299} & {\bf 0.257} & {\bf 0.291} & {\bf 0.289} & 0.257 \\ 
   UM1 & 2 & 0.309 & 0.319 & 0.309 & 0.306 & 0.311 & 0.311 & 0.264 & 0.299 & 0.291 & 0.328 \\ 
-  UM2 & 1 & 0.272 & 0.272 & 0.265 & 0.252 & 0.254 & 0.263 & 0.23 & 0.243 & 0.248 & 0.252 \\ 
-  UM2 & 2 & 0.278 & 0.281 & 0.373 & 0.279 & 0.287 & 0.281 & 0.268 & 0.281 & 0.281 & 0.28 \\ 
-  UM3 & 1 & 0.226 & 0.221 & 0.233 & 0.226 & 0.24 & 0.25 & 0.268 & 0.281 & 0.281 & 0.231 \\ 
-  UM3 & 2 & 0.224 & 0.243 & 0.245 & 0.228 & 0.25 & 0.243 & 0.212 & 0.216 & 0.24 & 0.25 \\ 
+  UM2 & 1 & {\bf 0.272} & {\bf 0.272} & {\bf 0.265} & {\bf 0.252} & {\bf 0.254} & {\bf 0.263} & 0.23 & 0.243 & 0.248 & 0.252 \\ 
+  UM2 & 2 & 0.278 & {\bf 0.281} & {\bf 0.373} & 0.279 & {\bf 0.287} & {\bf 0.281} & 0.268 & {\bf 0.281} & {0.281} & 0.28 \\ 
+  UM3 & 1 & 0.226 & 0.221 & {\bf 0.233} & 0.226 & 0.24 & 0.25 & {\bf 0.268} & {\bf 0.281} & {\bf 0.281} & 0.231 \\ 
+  UM3 & 2 & 0.224 & 0.243 & 0.245 & 0.228 & {\bf 0.25} & 0.243 & 0.212 & 0.216 & 0.24 & 0.25 \\ 
    \hline
 \end{tabular}
 \caption{Species Classification using size and shape and nearest neighbor classification (i.e. k = 1)}
@@ -1674,18 +1887,18 @@ LM1 & 1 & 0.296 & 0.31 & 0.307 & 0.282 & 0.304 & 0.307 & 0.276 & 0.285 & 0.301 &
   & & \multicolumn{3}{c}{k=5} & \multicolumn{3}{c}{k=10} & \multicolumn{3}{c}{k=20} &  \\
  Tooth & Side & M=5 & M=10 & M=20 & M=5 & M=10 & M=20 & M=5 & M=10 & M=20 & Partial  \\
  \hline
-LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 & 0.158 \\ 
-  LM1 & 2 & 0.234 & 0.251 & 0.254 & 0.245 & 0.273 & 0.273 & 0.256 & 0.27 & 0.273 & 0.231 \\ 
-  LM2 & 1 & 0.234 & 0.297 & 0.302 & 0.268 & 0.292 & 0.283 & 0.278 & 0.295 & 0.3 & 0.231 \\ 
-  LM2 & 2 & 0.27 & 0.297 & 0.292 & 0.26 & 0.263 & 0.3 & 0.278 & 0.295 & 0.302 & 0.238 \\ 
-  LM3 & 1 & 0.265 & 0.263 & 0.275 & 0.251 & 0.27 & 0.265 & 0.246 & 0.265 & 0.273 & 0.204 \\ 
-  LM3 & 2 & 0.238 & 0.229 & 0.248 & 0.241 & 0.265 & 0.282 & 0.217 & 0.255 & 0.265 & 0.207 \\ 
-  UM1 & 1 & 0.23 & 0.244 & 0.242 & 0.212 & 0.237 & 0.259 & 0.205 & 0.237 & 0.252 & 0.185 \\ 
-  UM1 & 2 & 0.244 & 0.247 & 0.249 & 0.257 & 0.272 & 0.289 & 0.235 & 0.262 & 0.272 & 0.279 \\ 
-  UM2 & 1 & 0.154 & 0.164 & 0.184 & 0.18 & 0.189 & 0.197 & 0.158 & 0.182 & 0.2 & 0.167 \\ 
-  UM2 & 2 & 0.219 & 0.235 & 0.224 & 0.213 & 0.219 & 0.23 & 0.197 & 0.195 & 0.202 & 0.226 \\ 
-  UM3 & 1 & 0.151 & 0.171 & 0.175 & 0.163 & 0.161 & 0.173 & 0.142 & 0.159 & 0.166 & 0.144 \\ 
-  UM3 & 2 & 0.163 & 0.178 & 0.175 & 0.19 & 0.19 & 0.173 & 0.159 & 0.173 & 0.18 & 0.188 \\ 
+LM1 & 1 & {\bf 0.214} & {\bf 0.242} & {\bf 0.228} & {\bf 0.245} & {\bf 0.273} & {\bf 0.254} & {\bf 0.228} & {\bf 0.256} & {\bf 0.268} & 0.158 \\ 
+  LM1 & 2 & {\bf 0.234} & {\bf 0.251} & {\bf 0.254} & {\bf 0.245} & {\bf 0.273} & {\bf 0.273} & {\bf 0.256} & {\bf 0.27} & {\bf 0.273} & 0.231 \\ 
+  LM2 & 1 & {\bf 0.234} & {\bf 0.297}& {\bf 0.302} & {\bf 0.268} & {\bf 0.292} & {\bf 0.283} & {\bf 0.278} & {\bf 0.295} & {\bf 0.3} & 0.231 \\ 
+  LM2 & 2 & {\bf 0.27} & {\bf 0.297} & {\bf 0.292} & {\bf 0.26} & {\bf 0.263} & {\bf 0.3} & {\bf 0.278} & {\bf 0.295} & {\bf 0.302} & 0.238 \\ 
+  LM3 & 1 & {\bf 0.265} & {\bf 0.263} & {\bf 0.275} & {\bf 0.251} & {\bf 0.27} & {\bf 0.265} & {\bf 0.246} & {\bf 0.265} & {\bf 0.273} & 0.204 \\ 
+  LM3 & 2 & {\bf 0.238} & {\bf 0.229} & {\bf 0.248} & {\bf 0.241} & {\bf 0.265} & {\bf 0.282} & {\bf 0.217} & {\bf 0.255} & {\bf 0.265} &  0.207 \\ 
+  UM1 & 1 & {\bf 0.23} & {\bf 0.244} & {\bf 0.242} &{\bf  0.212} & {\bf 0.237} & {\bf 0.259} & {\bf 0.205} & {\bf 0.237} &{\bf  0.252} & 0.185 \\ 
+  UM1 & 2 & 0.244 & 0.247 & 0.249 & 0.257 & 0.272 & {\bf 0.289} & 0.235 & 0.262 & 0.272 & 0.279 \\ 
+  UM2 & 1 & 0.154 & 0.164 & {\bf 0.184} & {\bf 0.18} & {\bf 0.189} & {\bf 0.197} & 0.158 & {\bf 0.182} & {\bf 0.2} & 0.167 \\ 
+  UM2 & 2 & 0.219 & {\bf 0.235} & 0.224 & 0.213 & 0.219 & {\bf 0.23} & 0.197 & 0.195 & 0.202 & 0.226 \\ 
+  UM3 & 1 & {\bf 0.151} & {\bf 0.171} & {\bf 0.175} & {\bf 0.163} &{\bf  0.161} & {\bf 0.173} & 0.142 &{\bf  0.159} & {\bf 0.166} & 0.144 \\ 
+  UM3 & 2 & 0.163 & 0.178 & 0.175 & {\bf 0.19} & {\bf 0.19} & 0.173 & 0.159 & 0.173 & 0.18 & 0.188 \\ 
    \hline
 \end{tabular}
 \caption{Species Classification using shape and nearest neighbor classification (i.e. k = 1)}
@@ -1694,9 +1907,9 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 
 
 
-<<>>=
-   #tooth <- "LM1"
-#side <- 1
+<<echo = FALSE>>=
+# tooth <- "LM1"
+# side <- 1
 # library(ggplot2)
 # acc_res_list <- list()
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
@@ -1763,12 +1976,12 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 # #print(c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])))
 # 
 # # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(
-# #   accuracy  = c(mean(acc_imputed_k20_M20[1:20]),mean(acc_imputed_k20_M10[1:20]),mean(acc_imputed_k20_M5[1:20]),mean(acc_imputed_k10_M20[1:20]),mean(acc_imputed_k10_M10[1:20]),mean(acc_imputed_k10_M5[1:20]),mean(acc_imputed_k5_M20[1:20]),mean(acc_imputed_k5_M10[1:20]),mean(acc_imputed_k5_M5[1:20]),mean(acc_part_k20_M20[1:20])), 
+# #   accuracy  = c(mean(acc_imputed_k20_M20[1:20]),mean(acc_imputed_k20_M10[1:20]),mean(acc_imputed_k20_M5[1:20]),mean(acc_imputed_k10_M20[1:20]),mean(acc_imputed_k10_M10[1:20]),mean(acc_imputed_k10_M5[1:20]),mean(acc_imputed_k5_M20[1:20]),mean(acc_imputed_k5_M10[1:20]),mean(acc_imputed_k5_M5[1:20]),mean(acc_part_k20_M20[1:20])),
 # #   tooth_type = rep(paste0(tooth,"_",side),10),  k = c(rep(20,3),rep(10,3),rep(5,3),rep("No Imp",1)), M = c(rep(c(20,10,5),3),rep("No Imp",1)))
 # 
 # #knn = 1
 # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(
-#   accuracy  = c(mean(acc_imputed_k20_M20[1]),mean(acc_imputed_k20_M10[1]),mean(acc_imputed_k20_M5[1]),mean(acc_imputed_k10_M20[1]),mean(acc_imputed_k10_M10[1]),mean(acc_imputed_k10_M5[1]),mean(acc_imputed_k5_M20[1]),mean(acc_imputed_k5_M10[1]),mean(acc_imputed_k5_M5[1]),mean(acc_part_k20_M20[1])), 
+#   accuracy  = c(mean(acc_imputed_k20_M20[1]),mean(acc_imputed_k20_M10[1]),mean(acc_imputed_k20_M5[1]),mean(acc_imputed_k10_M20[1]),mean(acc_imputed_k10_M10[1]),mean(acc_imputed_k10_M5[1]),mean(acc_imputed_k5_M20[1]),mean(acc_imputed_k5_M10[1]),mean(acc_imputed_k5_M5[1]),mean(acc_part_k20_M20[1])),
 #   tooth_type = rep(paste0(tooth,"_",side),10),  k = c(rep(20,3),rep(10,3),rep(5,3),rep("No Imp",1)), M = c(rep(c(20,10,5),3),rep("No Imp",1)))
 # 
 # 
@@ -1778,7 +1991,7 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 # dat$k <- factor(dat$k, levels = c("20", "10", "5", "No Imp"))
 # dat$M <- factor(dat$M, levels = c("20", "10", "5", "No Imp"))
 # png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_knn1_species_unscaled.png"), res = 300, units = "in", w = 8, h =4)
-# ggplot(aes(x = tooth_type, y = accuracy, col = k, shape = M), data = dat) + geom_point()
+# ggplot(aes(x = tooth_type, y = accuracy, col = k, shape = M), data = dat) + geom_point() + theme_grey()
 # dev.off()
 
 
@@ -1793,7 +2006,127 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
   @
 
 
-<<>>=
+\begin{figure}
+\includegraphics[width = \textwidth]{fig/acc_by_tooth_knn1_species_unscaled.png}
+\caption{Accuracy of species classification unscaled}
+\label{Species:Unscaled:Acc}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics[width = \textwidth]{fig/acc_by_tooth_knn1_species_scaled.png}
+\caption{Accuracy of species classification scaled}
+\label{Species:Scaled:Acc}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_unscaled_LM2.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_unscaled_LM3.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_unscaled_UM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_unscaled_UM2.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_unscaled_UM3.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \label{Species:Unscaled:Acc}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_scaled_LM2.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_scaled_LM3.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_scaled_UM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_scaled_UM2.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/acc_by_tooth_by_knn_species_scaled_UM3.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Species Scaled Accuracy Results}
+    \label{Species:Scaled:Acc}
+\end{figure}
+
+
+
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_scaled_LM1.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_scaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Species Scaled Log Loss Results}
+    \label{Species:Scaled:LogLoss}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled - LM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- LM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_unscaled_LM1.png}
+% \caption{Accuracy of species classification unscaled- LM3}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- UM1}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- UM2}
+        \includegraphics[width = \textwidth]{fig/logloss_by_tooth_by_knn_species_unscaled_LM1.png}
+%\caption{Accuracy of species classification unscaled- UM3}
+    \end{minipage}
+    \caption{Species Unscaled Log Loss Results}
+    \label{Species:Unscaled:LogLoss}
+\end{figure}
+
+
+
+
+
+
+<<echo = FALSE>>=
 # library(ggplot2)
 # acc_res_list <- list()
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
@@ -1860,12 +2193,12 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 # #print(c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])))
 # 
 # # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(
-# #   accuracy  = c(mean(acc_imputed_k20_M20[1:20]),mean(acc_imputed_k20_M10[1:20]),mean(acc_imputed_k20_M5[1:20]),mean(acc_imputed_k10_M20[1:20]),mean(acc_imputed_k10_M10[1:20]),mean(acc_imputed_k10_M5[1:20]),mean(acc_imputed_k5_M20[1:20]),mean(acc_imputed_k5_M10[1:20]),mean(acc_imputed_k5_M5[1:20]),mean(acc_part_k20_M20[1:20])), 
+# #   accuracy  = c(mean(acc_imputed_k20_M20[1:20]),mean(acc_imputed_k20_M10[1:20]),mean(acc_imputed_k20_M5[1:20]),mean(acc_imputed_k10_M20[1:20]),mean(acc_imputed_k10_M10[1:20]),mean(acc_imputed_k10_M5[1:20]),mean(acc_imputed_k5_M20[1:20]),mean(acc_imputed_k5_M10[1:20]),mean(acc_imputed_k5_M5[1:20]),mean(acc_part_k20_M20[1:20])),
 # #   tooth_type = rep(paste0(tooth,"_",side),10),  k = c(rep(20,3),rep(10,3),rep(5,3),rep("No Imp",1)), M = c(rep(c(20,10,5),3),rep("No Imp",1)))
 # 
 # #knn = 1
 # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(
-#   accuracy  = c(mean(acc_imputed_k20_M20[1]),mean(acc_imputed_k20_M10[1]),mean(acc_imputed_k20_M5[1]),mean(acc_imputed_k10_M20[1]),mean(acc_imputed_k10_M10[1]),mean(acc_imputed_k10_M5[1]),mean(acc_imputed_k5_M20[1]),mean(acc_imputed_k5_M10[1]),mean(acc_imputed_k5_M5[1]),mean(acc_part_k20_M20[1])), 
+#   accuracy  = c(mean(acc_imputed_k20_M20[1]),mean(acc_imputed_k20_M10[1]),mean(acc_imputed_k20_M5[1]),mean(acc_imputed_k10_M20[1]),mean(acc_imputed_k10_M10[1]),mean(acc_imputed_k10_M5[1]),mean(acc_imputed_k5_M20[1]),mean(acc_imputed_k5_M10[1]),mean(acc_imputed_k5_M5[1]),mean(acc_part_k20_M20[1])),
 #   tooth_type = rep(paste0(tooth,"_",side),10),  k = c(rep(20,3),rep(10,3),rep(5,3),rep("No Imp",1)), M = c(rep(c(20,10,5),3),rep("No Imp",1)))
 # 
 # 
@@ -1875,114 +2208,118 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 # dat$k <- factor(dat$k, levels = c("20", "10", "5", "No Imp"))
 # dat$M <- factor(dat$M, levels = c("20", "10", "5", "No Imp"))
 # png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_knn1_species_scaled.png"), res = 300, units = "in", w = 8, h =4)
-# ggplot(aes(x = tooth_type, y = accuracy, col = k, shape = M), data = dat) + geom_point()
+# ggplot(aes(x = tooth_type, y = accuracy, col = k, shape = M), data = dat) + geom_point() + theme_grey()
 # dev.off()
   
   @
 
 
+
+
 <<echo = FALSE>>=
- # tooth <- "LM1"
+ # tooth <- "UM2"
  # side <- 1
  #    library(ggplot2)
+ # library(cowplot)
  #  acc_res_list <- list()
- #  for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
+ #  #for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
+ #  for (tooth in c("UM2")){
  #    for (side in 1:2){print(c(tooth, side))
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k5_M5 <- acc_part
  #  acc_imputed_k5_M5 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=10_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k5_M10 <- acc_part
  #  acc_imputed_k5_M10 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=20_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k5_M20 <- acc_part
  #  acc_imputed_k5_M20 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k10_M5 <- acc_part
  #  acc_imputed_k10_M5 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k10_M10 <- acc_part
  #  acc_imputed_k10_M10 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=20_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k10_M20 <- acc_part
  #  acc_imputed_k10_M20 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k20_M5 <- acc_part
  #  acc_imputed_k20_M5 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part_k20_M10 <- acc_part
  #  acc_imputed_k20_M10 <- acc_imputed[1:20]
  #  rm(acc_part)
  #  rm(acc_imputed)
- #  
+ # 
  #  load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species.RData"))
  #  acc_part <- acc_part[1:20]
  #  acc_imputed_k20_M20 <- acc_imputed[1:20]
- #  
+ # 
  #  dat <- data.frame(knn = rep(1:20,10), acc = c(acc_part,acc_imputed_k5_M5,acc_imputed_k5_M10,acc_imputed_k5_M20,acc_imputed_k10_M5,acc_imputed_k10_M10,acc_imputed_k10_M20,acc_imputed_k20_M5,acc_imputed_k20_M10,acc_imputed_k20_M20), k = c(rep("no imp", 20), rep(c(5,10,20),each = 60)), M = c(rep("no imp",20),rep(rep(c(5,10,20), each = 20),3)))
- #  
+ # 
  #  dat$k <- factor(dat$k, levels = c("20","10","5","no imp"))
  #  dat$M <- factor(dat$M, levels = c("20","10","5","no imp"))
- #  
+ # 
  #   # dat <- data.frame(knn = rep(1:20,10), acc = c(acc_part,acc_imputed_k5_M5,acc_imputed_k5_M10,acc_imputed_k5_M20,acc_imputed_k10_M5,acc_imputed_k10_M10,acc_imputed_k10_M20,acc_imputed_k20_M5,acc_imputed_k20_M10,acc_imputed_k20_M20), type = rep(c("no imp","k5 M5","k5 M10","k5 M20","k10 M5","k10 M10", "k10 M20","k20 M5","k20 M10", "k20 M20"),each = 20))
- #  
+ # 
  #  library(ggplot2)
  #  if (side == 1){
  #  g1 <- ggplot(aes(x = knn, y = acc, colour = k, shape = M), data = dat) + geom_point() + geom_line() + ggtitle(paste0("tooth=",tooth,", side=",side)) + ylim(0.1,.5) + theme(legend.position = "none")
  #  }
- #  
+ # 
  #  if (side == 2){
  #  g2 <- ggplot(aes(x = knn, y = acc, colour = k, shape = M), data = dat) + geom_point() + geom_line() + ggtitle(paste0("tooth=",tooth,", side=",side))  + ylim(0.1,.5)
  #  }
- #  
- #  
- #  
- #  
+ # 
+ # 
+ # 
+ # 
  #   # print(c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])))
- #   # 
+ #   #
  #   # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(accuracy  = c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])), tooth_type = rep(paste0(tooth,"_",side),4),  M_k = c("M20 l20", "M10 l10", "M5 l5", "No Imp"))
- #  
+ # 
  #    }
- #    
+ # 
  #   png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_by_knn_species_unscaled_",tooth,".png"), res = 300, units = "in", w = 8, h =4)
  #   library(gridExtra)
  # legend <- get_legend(g2)
  # g2 <- g2 + theme(legend.position="none")
  # grid.arrange(g1, g2, legend, ncol=3, widths=c(2.3, 2.3, 0.8))
  # dev.off()
- #    
- #    
+ # 
+ # 
  #    }
-  
-  
+ #  
+ #  
 
 @
 
 
 
 
-
+%Species Scaled
 <<echo = FALSE>>=
 # tooth <- "LM1"
 # side <- 1
@@ -2077,7 +2414,7 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 # 
 # 
 #   }
-
+# 
 
 
 
@@ -2088,8 +2425,8 @@ LM1 & 1 & 0.214 & 0.242 & 0.228 & 0.245 & 0.273 & 0.254 & 0.228 & 0.256 & 0.268 
 @
 
 
-Spedies unscaled log loss
-<<>>=
+%Species unscaled log loss
+<<echo = FALSE>>=
 # library(dplyr)
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
 # for (side in 1:2){
@@ -2180,8 +2517,8 @@ Spedies unscaled log loss
 
 
 
-Spedies scaled log loss
-<<>>=
+%Species scaled log loss
+<<echo = FALSE>>=
 # library(dplyr)
 # for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
 # for (side in 1:2){
@@ -2269,6 +2606,19 @@ Spedies scaled log loss
 # dev.off()
 # }
 @
+
+\section{Discussion and Future Work}
+This work develops a non-parametric, hot-deck type imputation procedure for closed shapes in two dimensions.  This method was evaluated in a simulation study using the classification of shapes of the occlusal surface of bovid teeth, which is a commonly performed analysis in biological anthropolgy for paleoenvironmental reconstruction.  While this particular manuscript focused on classification, the method is general enough that it can be applied to many other statistical shape analysis settings, and future work will do just that.  
+
+The main findings here are that these imputation procedures appear to be more beneficial when considering shape only as opposed to size and shape.  In many of the settings where size and shape were considered toghether, classification methods that did not perform imputation quite often outperformed using the imputation method that was developed here in terms for both accuracy and log loss for both classification at the Tribe and species levels.  However, when only size was considered, there were many settings where imputation improved the perfomance of the classification.  This was most notable when evaluating the classifications using log loss and trying to classify species. In that case, imputation almost uniformly outperformed no imputation in terms of log loss, and this was particularly notable when trying to impute side 1 (i.e. the right side of the tooth).  JULIET COMMENTS ON WHY?
+
+Future work on this line of research is bountiful.  Several possible directions to move in from here include developing a fully generalizable framework for handling missing data in closed planar curves.  Additionally, this method will be extended to other types of analysis besides the classification examples presented in this manuscript.  Finally, the development of parametric model framework for imputing the missing part of each shape will be developed extending the non-parametric, hot deck type approach considered here.  
+
+\bibliography{shapebib}
+\bibliographystyle{plainnat}
+
+This work is funded by NSF-1812124.
+\end{document}
 
 
 \section{Appendix}
