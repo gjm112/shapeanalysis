@@ -75,7 +75,7 @@ library(parallel)
     #partial_shape2 <- t(tooth_cutter(ptsTrainList[[tooth]][[d]])[[side]])
     
     #Which tooth it is
-    ggg <- 1
+    for (ggg in 1:length(tooth_type_list)){print(ggg)
     tooth <- tooth_type_list[[names(tooth_type_list)[ggg]]]
     #Load the actual partial tooth.
     partial_shape  <- read.csv(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/partial_teeth/bw_images_data/DSCN",names(tooth_type_list)[ggg],"bw.csv"), header = FALSE)
@@ -119,9 +119,12 @@ library(parallel)
       
       #I can't impute the partial shape with itself!
       #complete_shape_list[[d]]<-NULL
-      M <- 5
-      k <- 5
-      scale <- TRUE
+      # M <- 5
+      # k <- 5
+      # scale <- TRUE
+      for (M in c(5,10,20)){print(paste0("M = ",M))
+          for (k in c(5, 10, 20)){ print(paste0("k = ",M))
+            for (scale in 1:0){ print(paste0("scale = ",scale))
       library(parallel)
       start1 <- Sys.time()
       imputed_partial_shape <- impute_partial_shape(complete_shape_list,partial_shape, M = M, k = k, scale = scale)
@@ -225,7 +228,7 @@ library(parallel)
       dist_partial <- merge(dist_partial,ref_file,by.x = "DSCN",by.y = "Image.Name", all.x = TRUE)
       
       results <- list(dist = dist , dist_partial = dist_partial, imputed_partial_shape = imputed_partial_shape)
-      print(dist)
+      
       
       end_all <- Sys.time()
       end_all-start_all
@@ -347,7 +350,7 @@ library(parallel)
             
             
             
-            nam <- paste0(names(tooth_type_list)[ggg],"_M_",M,"_k_",k)
+            nam <- paste0(names(tooth_type_list)[ggg],"_M_",M,"_k_",k,"_scale_",scale)
 classifier_tribe[[nam]] <- list()
 classifier_species[[nam]] <- list()
 
@@ -381,190 +384,17 @@ classifier_species[[nam]]$imputed <- as.data.frame(classifier_species[[nam]]$imp
 
 names(classifier_species[[nam]]$partial_matching) <- names(classifier_species[[nam]]$imputed) <- names(unlist(knn_imputed_species(i_knn)))
             
-            
-            
-            
-###############################################################
-#Code from simulations
-###############################################################
-            
-            
-            imputed_match_df$true_pred_prob <- NA
-            for (i in 1:nrow(imputed_match_df)){
-              imputed_match_df$true_pred_prob[i] <- imputed_match_df[i,as.character(imputed_match_df$true[i])] 
-            }
-            
-            #Now for mean imputed shape
-            # knn_imputed_mean <- function(DSCN){
-            #   temp <- results_list[[DSCN]]$imputed_partial_shape$dist_mean
-            #   
-            #   temp$Tribe <- factor(temp$Tribe, levels = unique(sort(temp$Tribe)))
-            #   
-            #   
-            #   dat <- data.frame(t(data.frame(c(table(temp$Tribe[order(temp$dist)][1:knn])/knn))))
-            #   row.names(dat) <- NULL
-            #   dat$true <- results_list[[DSCN]]$truth$tribe[1]
-            #   return(dat)
-            #   
-            # }
-            # 
-            # imputed_mean_match <- lapply(ids, knn_imputed_mean)
-            # imputed_mean_match_df <- do.call(rbind,imputed_mean_match)
-            # 
-            # imputed_mean_match_df$true_pred_prob <- NA
-            # for (i in 1:nrow(imputed_mean_match_df)){
-            #   imputed_mean_match_df$true_pred_prob[i] <- imputed_mean_match_df[i,as.character(imputed_mean_match_df$true[i])] 
-            # }
-            
-            #table(imputed_match_df$true_pred_prob, part_match_df$true_pred_prob)
-            
-            #logloss_imputed_mean[knn] <- mean(-log(imputed_mean_match_df$true_pred_prob+(10^-12)))
-            logloss_imputed[knn] <- mean(-log(imputed_match_df$true_pred_prob+(10^-12)))
-            logloss_part[knn] <- mean(-log(part_match_df$true_pred_prob+(10^-12)))
-            
-            #Predict the class for imputed 
-            imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:7],1,which.max)]
-            reference <- factor(imputed_match_df$true,levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
-            pred <- factor(imputed_match_df$pred, levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
-            
-            library(caret)
-            acc_imputed[knn] <- confusionMatrix(pred,reference)$overall["Accuracy"]
-            
-            
-            #For partial matching 
-            part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:7],1,which.max)]
-            
-            reference <- factor(part_match_df$true,levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
-            
-            pred <- factor(part_match_df$pred, levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
-            
-            library(caret)
-            acc_part[knn] <- confusionMatrix(pred,reference)$overall["Accuracy"]
-            
-            print(acc_imputed)
-            print(acc_part)
-          }
-          
-          
-          if (!scaled){
-            save(list = c("logloss_imputed","logloss_part","imputed_match_df","part_match_df","acc_part","acc_imputed"), 
-                 file = paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"_summaries_species.RData"))
-          }
-          
-          if (scaled){
-            save(list = c("logloss_imputed","logloss_part","imputed_match_df","part_match_df","acc_part","acc_imputed"), 
-                 file = paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled_summaries_species.RData"))
-          }
-          
-          
-        }}
+
+print(classifier_tribe)
+print(classifier_species)
+save(classifier_tribe, file = "/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/classifier_tribe.RData")
+save(classifier_species, file = "/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/classifier_species.RData")
+
+
+            }}}
       
-      # apply(imputed_match_df[,1:20],2,sum)
-      # apply(part_match_df[,1:20],2,sum)
-      # table(imputed_match_df$true)
-      # 
-      # sum((apply(part_match_df[,1:20],2,sum) - table(imputed_match_df$true))^2)
-      # sum((apply(imputed_match_df[,1:20],2,sum) - table(imputed_match_df$true))^2)
-      # 
-      # fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
-      # library(ggplot2)
-      # ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
-      # 
-      # 
-      # #Predict the class
-      # imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
-      # table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
-      # 
-      # part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
-      # table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
-      # 
-      # plot(imputed_match_df$true_pred_prob,part_match_df$true_pred_prob, xlim = c(0,1), ylim = c(0,1))
-      # 
-      # #imputed_mean_match_df$pred <- names(imputed_mean_match_df[,1:7])[apply(imputed_mean_match_df[,1:7],1,which.max)]
-      # #table(factor(imputed_mean_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_mean_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
-      # 
-      # #ROC analysis 
-      # 
-      # for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
-      #   temp <- imputed_match_df
-      #   tribe <- q
-      #   temp$true <- as.character(temp$true)
-      #   temp$true[(temp$true) != tribe] <- 0
-      #   temp$true[(temp$true) == tribe] <- 1
-      #   
-      #   library(ROCR)
-      #   pred <- prediction(temp[[tribe]], as.numeric(temp$true))
-      #   perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
-      #   plot(perf, col="red", main = tribe)
-      #   
-      #   temp <- part_match_df
-      #   temp$true <- as.character(temp$true)
-      #   temp$true[(temp$true) != tribe] <- 0
-      #   temp$true[(temp$true) == tribe] <- 1
-      #   
-      #   library(ROCR)
-      #   pred <- prediction(temp[[tribe]], as.numeric(temp$true))
-      #   perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
-      #   plot(perf, col="blue", add = TRUE, lty = 3)
-      #   
-      # }
-      # 
-      # 
-      # library(geometry)
-      # geometry::polyarea(ptsTrainList[[1]][[2]][,1],ptsTrainList[[1]][[2]][,2])
-      
-      
-      
-      
-#       if (scale){outfile <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData")}
-#       if (!scale){outfile <- paste0("./results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")}
-#       save.image(outfile)
-#     }
-#     
-#   }
-# }
-# 
-# # end_all <- Sys.time()
-# # end_all-start_all
-# # outfile <- paste0("./results/results20190424_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData")
-# # save.image(outfile)
-# #table(as.character(dist_partial$tribe[order(dist_partial$dist)][1:10]))
-# 
-# 
-# # #take top 10 closest? 
-# # index <- order(dist)[1]
-# # dscn <- names(complete_shape_list)[index]
-# # subset(ref_file,ref %in% dscn)
-# # subset(ref_file,ref == "DSCN2879")
-# # 
-# # 
-# # 
-# # 
-# # 
-# # 
-# # 
-# # plot(t(test$imputed[[1]]),type="l", col = rgb(0,0,0,0), xlim = c(-0.4, 0.15), ylim = c(-0.2,0.2), lwd = 3)
-# # points(t(red$donor),col = "red", type = "l",lwd=1, lty = 3)
-# # set.seed(1234)
-# # for (i in 1:25){
-# #   u <- runif(3)
-# #   points(t(test$imputed[[i]]),type="l",col =  rgb(u[1],u[2],u[3],0.5), lwd = 3)
-# # }
-# # red <- complete_partial_shape(t(ptsTrainList[[1]][[1]]),t(ptsTrainList[[1]][[1]][11:42,]))
-# # 
-# # arr <- array(0, dim = c(2,199,25))
-# # for (i in 1:25){
-# #   arr[,,i] <- test$imputed[[i]]
-# # }
-# # 
-# # mn_shape <- apply(arr,c(1,2),mean)
-# # points(t(mn_shape), type = "l", col = rgb(0.1,0.2,0.7), lwd = 2)
-# # 
-# # imputed<-test
-# # out<-list(complete_shape_list,imputed)
-# # save(out,file = "/Users/gregorymatthews/Dropbox/shapeanalysisgit/data/example_data_for_sebastian.RData")
-# # 
-# # write.csv(do.call(rbind,complete_shape_list), file ="/Users/gregorymatthews/Dropbox/shapeanalysisgit/data/complete_shape_list_for_sebastian.csv" )
-# # write.csv(do.call(rbind,test$imputed), file ="/Users/gregorymatthews/Dropbox/shapeanalysisgit/data/completed_tooth_for_sebastian.csv" )
-# # 
-# # 
+
+    }
+            
+
+            
