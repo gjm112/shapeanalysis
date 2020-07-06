@@ -1,13 +1,28 @@
+# plot(t(partial_shape_closed_obs), xlim = c(-500,300))
+# points(t(partial_shape_closed_mis))
+# points(t(complete_shape_obs),col = "red")
+# points(t(complete_shape_mis),col = "blue")
+
 #source("/Users/gregorymatthews/Dropbox/shapeanalysisgit/R/calc_shape_dist_partial.R")
 ##################################################################
 #This function takes in ONE complete donors (i.e. completed shapes) and ONE partial shape.  
 #It then return the completed shape
 ##################################################################
 #complete_shape <- t(ptsTrainList[[1]][[2]])
-# partial_shape <- t(ptsTrainList[[1]][[1]][11:42,])
+#partial_shape <- t(ptsTrainList[[1]][[1]][11:42,])
+
+#write.csv(complete_shape, file = "/Users/gregorymatthews/Desktop/complete_shape_2983.csv")
+#write.csv(partial_shape, file = "/Users/gregorymatthews/Desktop/partial_shape_closed.csv")
+
 
  #complete_partial_shape(complete_shape,partial_shape)
- 
+
+# complete_shape <- complete_shape_list[["DSCN3144"]] 
+# complete_shape <- resamplecurve(complete_shape, 1000, mode = "C")
+# partial_shape <- resamplecurve(partial_shape, 1000)
+# plot(t(complete_shape))
+# plot(t(partial_shape))
+
 complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, scale = FALSE){
   
   #Dimension
@@ -42,6 +57,7 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, 
   #partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,newpt:dim(partial_shape_closed)[2]],N)
   
   partial_shape_closed_obs <- resamplecurve(partial_shape_closed[,1:(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1))],N)
+  
   partial_shape_closed_mis <- resamplecurve(partial_shape_closed[,(dim(partial_shape_closed)[2] - (dim(x0)[2] - 1)):dim(partial_shape_closed)[2]],N)
   
   #Find the centroid of the observed part
@@ -75,7 +91,8 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, 
     library(fdasrvf)
     mu <- resamplecurve(mu,N_complete_new)
     
-    newpt1 <- which(t < olddel1[N_partial])
+    #newpt1 <- which(t < olddel1[N_partial]) #olddel1 changed to olddel per suggestion of sebastian. Simulations were run with this line.
+    newpt1 <- which(t < olddel[N_partial])
     newpt1 <- newpt1[length(newpt1)]
     
     mu1 <- resamplecurve(mu[,1:newpt1],N) 
@@ -110,6 +127,8 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, 
   }
   
   
+  
+  
   donor <- cbind(complete_shape_obs,complete_shape_mis[,2:dim(complete_shape_mis)[2]])
   
   partial_shape_closed_new <- cbind(partial_shape_closed_obs,partial_shape_closed_mis[,2:dim(partial_shape_closed_mis)[2]])
@@ -131,7 +150,7 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, 
   
   n <- dim(b)[1]
   iter <- 1
-  eps <- 15
+  eps <- 15 #This controls the step size in the gradient descent algorith.
   
   while(iter < 500){
     
@@ -156,7 +175,8 @@ complete_partial_shape <- function(complete_shape, partial_shape, plot = FALSE, 
     
     iter=iter+1
     
-    if (plot == TRUE & iter%%100 == 0){
+    if (plot == TRUE & iter%%25 == 0){
+    #plot(t(partial_shape_closed_new), type = "l", xlim = c(-400,400))
     plot(t(partial_shape_closed_new), type = "l")
     points(t(donor), type = "l" , col= "red")
     }

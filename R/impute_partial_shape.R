@@ -10,7 +10,7 @@ impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M =
   # for (i in 1:length(complete_shape_list)){print(i)
   #   dist_vec[i] <- calc_shape_dist_partial(complete_shape_list[[i]],partial_shape)
   # }
-  
+  #set.seed(1234, kind = "L'Ecuyer-CMRG")
   dist_vec <- unlist(mclapply(complete_shape_list,calc_shape_dist_partial,partial_shape = partial_shape, scale = scale, mc.cores = 20))
 
   
@@ -37,7 +37,7 @@ impute_partial_shape <- function(complete_shape_list, partial_shape, k = 10, M =
   #I only need to impute the unique indices and then i'll repeat them when the data gets output
   imputed_partial_list <- list()
   for (q in unique(donor_indices)){print(q)
-    imp <- complete_partial_shape(complete_shape_list[[q]],partial_shape)
+    imp <- complete_partial_shape(complete_shape_list[[q]],partial_shape, scale = scale)
     imputed_partial_list[[q]] <- imp$partial_shape_imputed
   }
   
