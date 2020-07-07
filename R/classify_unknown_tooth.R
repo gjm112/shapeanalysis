@@ -140,9 +140,9 @@ library(parallel)
       # M <- 5
       # k <- 5
       # scale <- TRUE
-      for (M in c(5)){print(paste0("M = ",M))
-          for (k in c(5)){ print(paste0("k = ",M))
-            for (scale in TRUE){ print(paste0("scale = ",scale))
+      for (M in c(20)){print(paste0("M = ",M))
+          for (k in c(20)){ print(paste0("k = ",M))
+            for (scale in c(TRUE,FALSE)){ print(paste0("scale = ",scale))
       library(parallel)
       start1 <- Sys.time()
       imputed_partial_shape <- impute_partial_shape(complete_shape_list,partial_shape, M = M, k = k, scale = scale)

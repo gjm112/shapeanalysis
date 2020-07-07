@@ -2,28 +2,34 @@
 #Read in the reference file.
 library(googlesheets)
 library(dplyr)
-greg <- gs_ls()
-bovids <- gs_url("https://docs.google.com/spreadsheets/d/1KGkTVz5IVuBdtQie0QBdeHwyHVH41MjFdbpluFsDX6k/edit#gid=963640939")
-bovids.df <- bovids %>% gs_read(ws = 1)
-subset(bovids.df, `Tooth Type` == "LM1")
+# greg <- gs_ls()
+# bovids <- gs_url("https://docs.google.com/spreadsheets/d/1KGkTVz5IVuBdtQie0QBdeHwyHVH41MjFdbpluFsDX6k/edit#gid=963640939")
+# bovids.df <- bovids %>% gs_read(ws = 1)
+# subset(bovids.df, `Tooth Type` == "LM1")
 
-tooth <- "LM1"
-side <- 1
+tooth <- "UM2"
+side <- 2
 
-M <- 5
-k <- 5
+M <- 20
+k <- 20
 
-scaled <- TRUE
+scaled <- FALSE
 
-for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
-  for (side in 1:2){print(c(tooth,side))
+#for (tooth in c("LM1", "LM2", "LM3", "UM1", "UM2","UM3")){
+#   for (side in 1:2){print(c(tooth,side))
+
+ for (tooth in c("LM2")){
+   for (side in 2){print(c(tooth,side))
     
+    #M <- 20
     if (!scaled){load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,".RData"))}
     if (scaled){load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled.RData"))}
-    
+   #M <- 10
     
     logloss_imputed <- c() 
     logloss_part <- c()
+    acc_part <- c()
+    acc_imputed <- c()
     #logloss_imputed_mean <- c()
     for (knn in c(1:4,6:20,30,40,50,60,5)){print(knn)
       
@@ -179,72 +185,95 @@ for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
       logloss_imputed[knn] <- mean(-log(imputed_match_df$true_pred_prob+(10^-12)))
       logloss_part[knn] <- mean(-log(part_match_df$true_pred_prob+(10^-12)))
       
+      
+      #Predict the class for imputed 
+      imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:7],1,which.max)]
+      reference <- factor(imputed_match_df$true,levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
+      pred <- factor(imputed_match_df$pred, levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
+      
+      library(caret)
+      acc_imputed[knn] <- confusionMatrix(pred,reference)$overall["Accuracy"]
+      
+      
+      #For partial matching 
+      part_match_df$pred <- names(part_match_df[,1:20])[apply(part_match_df[,1:7],1,which.max)]
+      
+      reference <- factor(part_match_df$true,levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
+      
+      pred <- factor(part_match_df$pred, levels = c('arundinum','buselaphus','caffer','campestris','capreolus','dorcas','ellipsiprymnus','equinus','fulvorufulva','gazella','gnou','leche','marsupialis','niger','oreotragus','oryx','ourebi','scriptus','strepsiceros','taurinus'))
+      
+      library(caret)
+      acc_part[knn] <- confusionMatrix(pred,reference)$overall["Accuracy"]
+      
+      
     }
     
     
+    
+    
     if (!scaled){
-      save(list = c("logloss_imputed","logloss_part","imputed_match_df","part_match_df"), 
+      save(list = c("logloss_imputed","logloss_part","imputed_match_df","part_match_df","acc_imputed","acc_part"), 
            file = paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"_summaries_species_given_tribe.RData"))
     }
     
     if (scaled){
-      save(list = c("logloss_imputed","logloss_part","imputed_match_df","part_match_df"), 
+      save(list = c("logloss_imputed","logloss_part","imputed_match_df","part_match_df","acc_imputed","acc_part"), 
            file = paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=",k,"_M=",M,"_tooth=",tooth,"scaled_summaries_species_given_tribe.RData"))
     }
     
     
   }}
 
-apply(imputed_match_df[,1:20],2,sum)
-apply(part_match_df[,1:20],2,sum)
-table(imputed_match_df$true)
-
-sum((apply(part_match_df[,1:20],2,sum) - table(imputed_match_df$true))^2)
-sum((apply(imputed_match_df[,1:20],2,sum) - table(imputed_match_df$true))^2)
-
-fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
-library(ggplot2)
-ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
-
-
-#Predict the class
-imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
-table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
-
-part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
-table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
-
-plot(imputed_match_df$true_pred_prob,part_match_df$true_pred_prob, xlim = c(0,1), ylim = c(0,1))
-
-#imputed_mean_match_df$pred <- names(imputed_mean_match_df[,1:7])[apply(imputed_mean_match_df[,1:7],1,which.max)]
-#table(factor(imputed_mean_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_mean_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
-
-#ROC analysis 
-
-for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
-  temp <- imputed_match_df
-  tribe <- q
-  temp$true <- as.character(temp$true)
-  temp$true[(temp$true) != tribe] <- 0
-  temp$true[(temp$true) == tribe] <- 1
-  
-  library(ROCR)
-  pred <- prediction(temp[[tribe]], as.numeric(temp$true))
-  perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
-  plot(perf, col="red", main = tribe)
-  
-  temp <- part_match_df
-  temp$true <- as.character(temp$true)
-  temp$true[(temp$true) != tribe] <- 0
-  temp$true[(temp$true) == tribe] <- 1
-  
-  library(ROCR)
-  pred <- prediction(temp[[tribe]], as.numeric(temp$true))
-  perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
-  plot(perf, col="blue", add = TRUE, lty = 3)
-  
-}
-
-
-library(geometry)
-geometry::polyarea(ptsTrainList[[1]][[2]][,1],ptsTrainList[[1]][[2]][,2])
+# apply(imputed_match_df[,1:20],2,sum)
+# apply(part_match_df[,1:20],2,sum)
+# table(imputed_match_df$true)
+# 
+# sum((apply(part_match_df[,1:20],2,sum) - table(imputed_match_df$true))^2)
+# sum((apply(imputed_match_df[,1:20],2,sum) - table(imputed_match_df$true))^2)
+# 
+# fret <- data.frame(logloss = c(logloss_imputed,logloss_part), k = c(1:20,1:20), method = c(rep("knn w Imputation",20),rep("knn no imputation",20)))
+# library(ggplot2)
+# ggplot(aes(x = k, y = logloss, col = method), data = fret) +  geom_point() + geom_line()
+# 
+# 
+# #Predict the class
+# imputed_match_df$pred <- names(imputed_match_df[,1:20])[apply(imputed_match_df[,1:20],1,which.max)]
+# table(factor(imputed_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+# 
+# part_match_df$pred <- names(part_match_df[,1:7])[apply(part_match_df[,1:7],1,which.max)]
+# table(factor(part_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(part_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+# 
+# plot(imputed_match_df$true_pred_prob,part_match_df$true_pred_prob, xlim = c(0,1), ylim = c(0,1))
+# 
+# #imputed_mean_match_df$pred <- names(imputed_mean_match_df[,1:7])[apply(imputed_mean_match_df[,1:7],1,which.max)]
+# #table(factor(imputed_mean_match_df$true,levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )),factor(imputed_mean_match_df$pred, levels = c("Alcelaphini", "Antilopini", "Tragelaphini", "Neotragini","Bovini", "Reduncini", "Hippotragini" )))
+# 
+# #ROC analysis 
+# 
+# for (q in c("Alcelaphini","Antilopini","Bovini","Hippotragini","Neotragini","Reduncini","Tragelaphini")){
+#   temp <- imputed_match_df
+#   tribe <- q
+#   temp$true <- as.character(temp$true)
+#   temp$true[(temp$true) != tribe] <- 0
+#   temp$true[(temp$true) == tribe] <- 1
+#   
+#   library(ROCR)
+#   pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+#   perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+#   plot(perf, col="red", main = tribe)
+#   
+#   temp <- part_match_df
+#   temp$true <- as.character(temp$true)
+#   temp$true[(temp$true) != tribe] <- 0
+#   temp$true[(temp$true) == tribe] <- 1
+#   
+#   library(ROCR)
+#   pred <- prediction(temp[[tribe]], as.numeric(temp$true))
+#   perf <- performance(pred, measure = "tpr", x.measure = "fpr") 
+#   plot(perf, col="blue", add = TRUE, lty = 3)
+#   
+# }
+# 
+# 
+# library(geometry)
+# geometry::polyarea(ptsTrainList[[1]][[2]][,1],ptsTrainList[[1]][[2]][,2])
