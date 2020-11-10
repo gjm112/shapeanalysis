@@ -1108,3 +1108,199 @@ dat$M <- factor(dat$M, levels = c("20", "10", "5", "No Imp"))
 #png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_knn1_species_scaled.png"), res = 300, units = "in", w = 8, h =4)
 ggplot(aes(x = tooth_type, y = accuracy, col = k, shape = M), data = dat) + geom_point() + theme_grey()
 #dev.off()
+
+########################################################
+##Figure 11 - Species Unscaled accuracy results
+########################################################
+tooth <- "UM2"
+side <- 1
+library(ggplot2)
+library(cowplot)
+acc_res_list <- list()
+for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
+  #for (tooth in c("UM2")){
+  for (side in 1:2){print(c(tooth, side))
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k5_M5 <- acc_part
+    acc_imputed_k5_M5 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=10_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k5_M10 <- acc_part
+    acc_imputed_k5_M10 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=20_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k5_M20 <- acc_part
+    acc_imputed_k5_M20 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k10_M5 <- acc_part
+    acc_imputed_k10_M5 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k10_M10 <- acc_part
+    acc_imputed_k10_M10 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=20_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k10_M20 <- acc_part
+    acc_imputed_k10_M20 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k20_M5 <- acc_part
+    acc_imputed_k20_M5 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"_summaries_species.RData"))
+    acc_part_k20_M10 <- acc_part
+    acc_imputed_k20_M10 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"_summaries_species.RData"))
+    acc_part <- acc_part[1:20]
+    acc_imputed_k20_M20 <- acc_imputed[1:20]
+    
+    dat <- data.frame(knn = rep(1:20,10), acc = c(acc_part,acc_imputed_k5_M5,acc_imputed_k5_M10,acc_imputed_k5_M20,acc_imputed_k10_M5,acc_imputed_k10_M10,acc_imputed_k10_M20,acc_imputed_k20_M5,acc_imputed_k20_M10,acc_imputed_k20_M20), k = c(rep("no imp", 20), rep(c(5,10,20),each = 60)), M = c(rep("no imp",20),rep(rep(c(5,10,20), each = 20),3)))
+    
+    dat$k <- factor(dat$k, levels = c("20","10","5","no imp"))
+    dat$M <- factor(dat$M, levels = c("20","10","5","no imp"))
+    
+    # dat <- data.frame(knn = rep(1:20,10), acc = c(acc_part,acc_imputed_k5_M5,acc_imputed_k5_M10,acc_imputed_k5_M20,acc_imputed_k10_M5,acc_imputed_k10_M10,acc_imputed_k10_M20,acc_imputed_k20_M5,acc_imputed_k20_M10,acc_imputed_k20_M20), type = rep(c("no imp","k5 M5","k5 M10","k5 M20","k10 M5","k10 M10", "k10 M20","k20 M5","k20 M10", "k20 M20"),each = 20))
+    
+    library(ggplot2)
+    if (side == 1){
+      g1 <- ggplot(aes(x = knn, y = acc, colour = k, shape = M), data = dat) + geom_point() + geom_line() + ggtitle(paste0("tooth=",tooth,", side=",side)) + ylim(0.1,.5) + theme(legend.position = "none")
+    }
+    
+    if (side == 2){
+      g2 <- ggplot(aes(x = knn, y = acc, colour = k, shape = M), data = dat) + geom_point() + geom_line() + ggtitle(paste0("tooth=",tooth,", side=",side))  + ylim(0.1,.5)
+    }
+    
+    
+    
+    
+    # print(c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])))
+    #
+    # acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(accuracy  = c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])), tooth_type = rep(paste0(tooth,"_",side),4),  M_k = c("M20 l20", "M10 l10", "M5 l5", "No Imp"))
+    
+  }
+  
+  # png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_by_knn_species_unscaled_",tooth,".png"), res = 300, units = "in", w = 8, h =4)
+  library(gridExtra)
+  legend <- get_legend(g2)
+  g2 <- g2 + theme(legend.position="none")
+  grid.arrange(g1, g2, legend, ncol=3, widths=c(2.3, 2.3, 0.8))
+  #dev.off()
+  
+  
+}
+
+
+########################################################
+##Figure 12 - Species Scaled accuracy results
+########################################################
+tooth <- "LM1"
+side <- 1
+library(ggplot2)
+acc_res_list <- list()
+for (tooth in c("LM1","LM2","LM3","UM1","UM2","UM3")){
+  #for (tooth in c("UM2")){
+  for (side in 1:2){print(c(tooth, side))
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=5_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k5_M5 <- acc_part
+    acc_imputed_k5_M5 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=10_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k5_M10 <- acc_part
+    acc_imputed_k5_M10 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=5_M=20_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k5_M20 <- acc_part
+    acc_imputed_k5_M20 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=5_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k10_M5 <- acc_part
+    acc_imputed_k10_M5 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=10_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k10_M10 <- acc_part
+    acc_imputed_k10_M10 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=10_M=20_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k10_M20 <- acc_part
+    acc_imputed_k10_M20 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=5_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k20_M5 <- acc_part
+    acc_imputed_k20_M5 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=10_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part_k20_M10 <- acc_part
+    acc_imputed_k20_M10 <- acc_imputed[1:20]
+    rm(acc_part)
+    rm(acc_imputed)
+    
+    load(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/results/summaries/results20190610_side=",side,"_k=20_M=20_tooth=",tooth,"scaled_summaries_species.RData"))
+    acc_part <- acc_part[1:20]
+    acc_imputed_k20_M20 <- acc_imputed[1:20]
+    
+    dat <- data.frame(knn = rep(1:20,10), acc = c(acc_part,acc_imputed_k5_M5,acc_imputed_k5_M10,acc_imputed_k5_M20,acc_imputed_k10_M5,acc_imputed_k10_M10,acc_imputed_k10_M20,acc_imputed_k20_M5,acc_imputed_k20_M10,acc_imputed_k20_M20), k = c(rep("no imp", 20), rep(c(5,10,20),each = 60)), M = c(rep("no imp",20),rep(rep(c(5,10,20), each = 20),3)))
+    
+    dat$k <- factor(dat$k, levels = c("20","10","5","no imp"))
+    dat$M <- factor(dat$M, levels = c("20","10","5","no imp"))
+    
+    #dat <- data.frame(knn = rep(1:20,10), acc = c(acc_part,acc_imputed_k5_M5,acc_imputed_k5_M10,acc_imputed_k5_M20,acc_imputed_k10_M5,acc_imputed_k10_M10,acc_imputed_k10_M20,acc_imputed_k20_M5,acc_imputed_k20_M10,acc_imputed_k20_M20), type = rep(c("no imp","k5 M5","k5 M10","k5 M20","k10 M5","k10 M10", "k10 M20","k20 M5","k20 M10", "k20 M20"),each = 20))
+    
+    library(ggplot2)
+    if (side == 1){
+      g1 <- ggplot(aes(x = knn, y = acc, colour = k, shape = M), data = dat) + geom_point() + geom_line() + ggtitle(paste0("tooth=",tooth,", side=",side)) + ylim(0.05,.4) + theme(legend.position = "none")
+    }
+    
+    if (side == 2){
+      g2 <- ggplot(aes(x = knn, y = acc, colour = k, shape = M), data = dat) + geom_point() + geom_line() + ggtitle(paste0("tooth=",tooth,", side=",side))  + ylim(0.05,.4)
+    }
+    
+    
+    
+    
+    #print(c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])))
+    
+    #acc_res_list[[paste0(tooth,"_",side)]] <- data.frame(accuracy  = c(mean(acc_imputed_20[1:20]),mean(acc_imputed_10[1:20]),mean(acc_imputed_5[1:20]),mean(acc_part_5[1:20])), tooth_type = rep(paste0(tooth,"_",side),4),  M_k = c("M20 l20", "M10 l10", "M5 l5", "No Imp"))
+    
+  }
+  
+ # png(paste0("/Users/gregorymatthews/Dropbox/shapeanalysisgit/manuscript/fig/acc_by_tooth_by_knn_species_scaled_",tooth,".png"), res = 300, units = "in", w = 8, h =4)
+  library(gridExtra)
+  legend <- get_legend(g2)
+  g2 <- g2 + theme(legend.position="none")
+  grid.arrange(g1, g2, legend, ncol=3, widths=c(2.3, 2.3, 0.8))
+  #dev.off()
+  
+  
+}
